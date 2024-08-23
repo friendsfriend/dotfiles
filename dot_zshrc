@@ -99,7 +99,7 @@ export BAT_THEME=tokyonight_night
 # ---- Eza (better ls) -----
 
 alias ls="eza --icons=always"
-
+alias vim="nvim"
 # ---- TheFuck -----
 
 # thefuck alias

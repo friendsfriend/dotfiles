@@ -53,6 +53,7 @@ M.opts = {
     -- config
     "ssh_config",
     "gpg",
+    "java",
   },
 }
 

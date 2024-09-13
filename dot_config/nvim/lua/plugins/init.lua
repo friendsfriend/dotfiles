@@ -121,6 +121,34 @@ local plugins = {
     cmd = "Glow",
     ft = "markdown",
   },
+  {
+    "https://gitlab.com/schrieveslaach/sonarlint.nvim.git",
+    lazy = true,
+    -- clangd makes problem
+    ft = { "typescript", "javascript", "cpp", "python" },
+    -- ft = { "typescript", "javascript", "python" },
+    config = function()
+      require("sonarlint").setup {
+        server = {
+          cmd = {
+            vim.fn.expand "$MASON/bin/sonarlint-language-server",
+            "-stdio",
+            "-analyzers",
+            vim.fn.expand "$MASON/share/sonarlint-analyzers/sonarpython.jar",
+            vim.fn.expand "$MASON/share/sonarlint-analyzers/sonarcfamily.jar",
+            vim.fn.expand "$MASON/share/sonarlint-analyzers/sonarcjs.jar",
+          },
+        },
+        filetypes = {
+          "typescript",
+          "cpp", -- clangd makes problem
+          "python",
+          -- Requires nvim-jdtls, otherwise an error message will be printed
+          -- "java",
+        },
+      }
+    end,
+  },
 }
 
 return plugins

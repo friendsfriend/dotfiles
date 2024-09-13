@@ -48,7 +48,7 @@ end, { desc = "lsp: show code actions" })
 
 map("n", "<leader>lw", function()
   vim.lsp.buf.workspace_symbol()
-end)
+end, { desc = "show workspace symbol" })
 
 -- Center when going through search results
 map("n", "n", "nzzzv", {})

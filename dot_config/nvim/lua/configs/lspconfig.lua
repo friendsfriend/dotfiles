@@ -20,6 +20,8 @@ local servers = {
   "taplo",
   "rust_analyzer",
   "typst_lsp",
+  "jdtls",
+  "sonarlint",
 }
 
 -- Generic

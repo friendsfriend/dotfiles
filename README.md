@@ -3,10 +3,10 @@
 This repository is used to mangage my personal dotfiles across different devices.
 It contains:
 
-- config for zsh
+- [ZSH](./zsh.md)
 - nvim config based on nvchad
-- tmux config
-- wezterm config
+- [TMUX](./tmux.md)
+- [WEZTERM](./wezterm.md)
 
 ## Installation
 

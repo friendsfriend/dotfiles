@@ -34,7 +34,7 @@ map("n", "<leader>lu", function()
   vim.lsp.buf.references()
 end, { desc = "lsp: show references" })
 
-map("n", "K", function()
+map("n", "<leader>lh", function()
   vim.lsp.buf.hover()
 end, { desc = "lsp: show hover action" })
 

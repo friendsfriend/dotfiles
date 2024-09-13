@@ -1,5 +1,5 @@
 local options = require "nvchad.configs.nvimtree"
 
-options.git.ignore = false
+options.filters.dotfiles = true
 
 return options

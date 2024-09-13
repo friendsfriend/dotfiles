@@ -21,7 +21,6 @@ local servers = {
   "rust_analyzer",
   "typst_lsp",
   "jdtls",
-  "sonarlint",
 }
 
 -- Generic

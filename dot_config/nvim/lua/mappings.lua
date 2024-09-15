@@ -27,8 +27,8 @@ map("i", "<C>h", function()
 end, { desc = "lsp: show signature help" })
 
 map("n", "<leader>lr", function()
-  vim.lsp.buf.rename()
-end, { desc = "lsp: rename current variable / function" })
+  require "nvchad.lsp.renamer"()
+end, { desc = "lsp: rename" }, "NvRenamer")
 
 map("n", "<leader>lu", function()
   vim.lsp.buf.references()

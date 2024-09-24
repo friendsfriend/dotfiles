@@ -1,0 +1,63 @@
+set number                        " line numbers
+
+set hlsearch                      " highlight search occurrences
+set ignorecase                    " ignore case in search patterns
+set smartcase                     " no ignore case when pattern is uppercase
+set incsearch                     " show search results while typing
+set wrapscan                      " searches wrap around the end of the file
+
+set gdefault                      " substitute all occurrences in line per default
+set history=10000                 " keep x lines of command line history
+set scrolloff=5 sidescrolloff=10  " keep some lines before and after the cursor visible
+set clipboard=unnamedplus,unnamed,ideaput " integrate with system clipboard
+
+" Don't use Ex mode, use Q for formatting.
+map Q gq
+
+Plug 'machakann/vim-highlightedyank'
+" Commentary plugin
+Plug 'tpope/vim-commentary'
+set multiple-cursors
+set commentary
+set surround                      " emulate vim-surround plugin
+set ideajoin
+
+" add which-key plugin
+set which-key
+set notimeout "do not hide popup until finished
+
+" use relative numbers
+set relativenumber
+
+" set <leader> to <space>
+let mapleader = " "
+
+" edit ideavim config
+nnoremap <leader>vv :e ~/.ideavimrc<CR>
+nnoremap <leader>vr :source ~/.ideavimrc<CR>
+
+" change font size
+nmap + <Action>(EditorIncreaseFontSize)
+nmap - <Action>(EditorDecreaseFontSize)
+nmap <leader>= <Action>(EditorResetFontSize)
+
+" lsp remaps
+nmap <leader>ff <Action>(GotoFile)
+nmap <leader>lf <Action>(ReformatCode)
+nmap <leader>lo <Action>(OptimizeImports)
+nmap <leader>rg <Action>(Generate)
+nmap <leader>lr <Action>(RenameElement)
+nmap <leader>lu <Action>(ShowUsages)
+nmap <leader>ld <Action>(GotoDeclaration)
+nmap <leader>lev <Action>(IntroduceVariable)
+vmap <leader>lev <Action>(IntroduceVariable)
+nmap <leader>lem <Action>(ExtractMethod)
+vmap <leader>lem <Action>(ExtractMethod)
+vmap <leader>lt  <Action>(ShowDiscoveredTests)
+nmap <leader>lec <Action>(IntroduceConstant)
+vmap <leader>lec <Action>(IntroduceConstant)
+nmap <leader>gg  <Action>(LazyGit.Open)
+nmap <leader>mt  <Action>(ActivateTerminalToolWindow)
+
+" input mode remaps
+imap <C-p> <Action>(ParameterInfo)

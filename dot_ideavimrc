@@ -8,7 +8,7 @@ set wrapscan                      " searches wrap around the end of the file
 
 set gdefault                      " substitute all occurrences in line per default
 set history=10000                 " keep x lines of command line history
-set scrolloff=5 sidescrolloff=10  " keep some lines before and after the cursor visible
+set scrolloff=15 sidescrolloff=10  " keep some lines before and after the cursor visible
 set clipboard=unnamedplus,unnamed,ideaput " integrate with system clipboard
 
 " Don't use Ex mode, use Q for formatting.
@@ -35,6 +35,9 @@ let mapleader = " "
 " edit ideavim config
 nnoremap <leader>vv :e ~/.ideavimrc<CR>
 nnoremap <leader>vr :source ~/.ideavimrc<CR>
+
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
 
 " change font size
 nmap + <Action>(EditorIncreaseFontSize)

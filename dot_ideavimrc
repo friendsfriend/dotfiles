@@ -44,14 +44,25 @@ nmap + <Action>(EditorIncreaseFontSize)
 nmap - <Action>(EditorDecreaseFontSize)
 nmap <leader>= <Action>(EditorResetFontSize)
 
-" lsp remaps
+" find remaps
 nmap <leader>ff <Action>(GotoFile)
+nmap <leader>fw <Action>(TextSearchAction)
+nmap <leader>fc <Action>(GotoClass)
+
+" lsp remaps
+nmap <leader>ll <Action>(RefactoringMenu)
+vmap <leader>ll <Action>(RefactoringMenu)
 nmap <leader>lf <Action>(ReformatCode)
 nmap <leader>lo <Action>(OptimizeImports)
 nmap <leader>rg <Action>(Generate)
 nmap <leader>lr <Action>(RenameElement)
+vmap <leader>lr <Action>(RenameElement)
 nmap <leader>lu <Action>(ShowUsages)
+vmap <leader>lu <Action>(ShowUsages)
 nmap <leader>ld <Action>(GotoDeclaration)
+vmap <leader>ld <Action>(GotoDeclaration)
+nmap <leader>lh <Action>(QuickJavaDoc)
+vmap <leader>lh <Action>(QuickJavaDoc)
 nmap <leader>lev <Action>(IntroduceVariable)
 vmap <leader>lev <Action>(IntroduceVariable)
 nmap <leader>lem <Action>(ExtractMethod)
@@ -59,8 +70,11 @@ vmap <leader>lem <Action>(ExtractMethod)
 vmap <leader>lt  <Action>(ShowDiscoveredTests)
 nmap <leader>lec <Action>(IntroduceConstant)
 vmap <leader>lec <Action>(IntroduceConstant)
+nmap <leader>e   <Action>(SelectInProjectView)
+vmap <leader>e   <Action>(SelectInProjectView)
+
+" experimental git integration lazygit
 nmap <leader>gg  <Action>(LazyGit.Open)
-nmap <leader>mt  <Action>(ActivateTerminalToolWindow)
 
 " input mode remaps
 imap <C-p> <Action>(ParameterInfo)

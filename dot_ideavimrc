@@ -74,6 +74,8 @@ vmap <leader>lec <Action>(IntroduceConstant)
 nmap <leader>e   <Action>(SelectInProjectView)
 vmap <leader>e   <Action>(SelectInProjectView)
 
+nmap <leader>m  <Action>(HideAllWindows)
+
 " experimental git integration lazygit
 nmap <leader>gg  <Action>(LazyGit.Open)
 

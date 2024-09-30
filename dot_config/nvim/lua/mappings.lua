@@ -21,34 +21,103 @@ map("n", "<leader>gsy", "<cmd> GoTagAdd yaml <CR>", { desc = "Go Add YAML struct
 -- Glow
 map("n", "<leader>gl", "<cmd>Glow<CR>", { desc = "Markdown Preview" })
 
--- LSP
+-- LSP ------------------------------------
+
+-- INSERT: Show Signature Help
 map("i", "<C>h", function()
   vim.lsp.buf.signature_help()
 end, { desc = "lsp: show signature help" })
 
+-- NORMAL: Rename element
 map("n", "<leader>lr", function()
   require "nvchad.lsp.renamer"()
 end, { desc = "lsp: rename" }, "NvRenamer")
 
-map("n", "<leader>lu", function()
-  vim.lsp.buf.references()
-end, { desc = "lsp: show references" })
+-- NORMAL & VISUAL: Show usages
+map("n", "<leader>lu", "<cmd>Trouble lsp_references toggle focus=true<cr>", { desc = "trouble: show references" })
+map("v", "<leader>lu", "<cmd>Trouble lsp_references toggle focus=true<cr>", { desc = "trouble: show references" })
 
+-- NORMAL & VISUAL: Show hover action
 map("n", "<leader>lh", function()
   vim.lsp.buf.hover()
 end, { desc = "lsp: show hover action" })
+map("v", "<leader>lh", function()
+  vim.lsp.buf.hover()
+end, { desc = "lsp: show hover action" })
 
+-- NORMAL & VISUAL: Show implementations
+map("n", "<leader>li", "<cmd>Trouble lsp_implementations toggle focus=true<cr>", { desc = "lsp: show implementations" })
+map("v", "<leader>li", "<cmd>Trouble lsp_implementations toggle focus=true<cr>", { desc = "lsp: show implementations" })
+
+-- NORMAL & VISUAL: Go to definition
 map("n", "<leader>ld", function()
   vim.lsp.buf.definition()
 end, { desc = "lsp: go to definition" })
+map("v", "<leader>ld", function()
+  vim.lsp.buf.definition()
+end, { desc = "lsp: go to definition" })
 
+-- NORMAL & VISUAL: Show code actions
 map("n", "<leader>la", function()
   vim.lsp.buf.code_action()
 end, { desc = "lsp: show code actions" })
+map("v", "<leader>la", function()
+  vim.lsp.buf.code_action()
+end, { desc = "lsp: show code actions" })
 
+-- NORMAL & VISUAL: Show workspace symbol
 map("n", "<leader>lw", function()
   vim.lsp.buf.workspace_symbol()
-end, { desc = "show workspace symbol" })
+end, { desc = "lsp: show workspace symbol" })
+map("v", "<leader>lw", function()
+  vim.lsp.buf.workspace_symbol()
+end, { desc = "lsp: show workspace symbol" })
+
+-- NORMAL & VISUAL: Go to next error
+map("n", "<leader>le", function()
+  vim.diagnostic.goto_next()
+end, { desc = "lsp: go to next error" })
+map("v", "<leader>le", function()
+  vim.diagnostic.goto_next()
+end, { desc = "lsp: go to next error" })
+
+-- NORMAL & VISUAL: Go to previous error
+map("n", "<leader>lE", function()
+  vim.diagnostic.goto_next()
+end, { desc = "lsp:go to previous error" })
+map("v", "<leader>lE", function()
+  vim.diagnostic.goto_next()
+end, { desc = "lsp: go to previous error" })
+
+-- NORMAL & VISUAL: Error and Warn lists
+map(
+  "n",
+  "<leader>lte",
+  "<cmd>Trouble diagnostics toggle focus=true filter={severity=vim.diagnostic.severity.ERROR}<cr>",
+  { desc = "trouble: toggle trouble diagnostics" }
+)
+map(
+  "v",
+  "<leader>lte",
+  "<cmd>Trouble diagnostics toggle focus=true filter={severity=vim.diagnostic.severity.ERROR}<cr>",
+  { desc = "trouble: toggle trouble diagnostics" }
+)
+map(
+  "n",
+  "<leader>ltw",
+  "<cmd>Trouble diagnostics toggle focus=true filter={severity=vim.diagnostic.severity.WARN}<cr>",
+  { desc = "trouble: toggle trouble diagnostics" }
+)
+map(
+  "v",
+  "<leader>ltw",
+  "<cmd>Trouble diagnostics toggle focus=true filter={severity=vim.diagnostic.severity.WARN}<cr>",
+  { desc = "trouble: toggle trouble diagnostics" }
+)
+
+-- END LSP -----------------------------------
+
+-- TROUBLE -----------------------------------
 
 -- Center when going through search results
 map("n", "n", "nzzzv", {})

@@ -20,7 +20,7 @@ local servers = {
   "taplo",
   "rust_analyzer",
   "typst_lsp",
-  "jdtls",
+  "ts_ls",
 }
 
 -- Generic
@@ -31,18 +31,6 @@ for _, lsp in ipairs(servers) do
     capabilities = capabilities,
   }
 end
-
--- TypeScript
-lspconfig.ts_ls.setup {
-  on_attach = on_attach,
-  on_init = on_init,
-  capabilities = capabilities,
-  init_options = {
-    preferences = {
-      disableSuggestions = true,
-    },
-  },
-}
 
 -- HTML
 lspconfig.html.setup {

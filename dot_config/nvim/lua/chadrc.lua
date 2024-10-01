@@ -4,8 +4,12 @@ local M = {}
 M.ui = {
   theme = "nightowl",
   statusline = {
-    theme = "minimal",
-    separator_style = "round",
+    theme = "default",
+    separator_style = "arrow",
+  },
+  tabufline = {
+    --  more opts
+    order = { "treeOffset", "buffers", "tabs" },
   },
 }
 

@@ -115,9 +115,25 @@ map(
   { desc = "trouble: toggle trouble diagnostics" }
 )
 
--- END LSP -----------------------------------
+-- END LSP ------------------------------------
 
--- TROUBLE -----------------------------------
+-- TERMINAL -----------------------------------
+-- Open floating terminal
+map({ "n", "t" }, "<C-t>", function()
+  require("nvchad.term").toggle {
+    pos = "float",
+    id = "floatTerm",
+    float_opts = {
+      relative = "editor",
+      border = "rounded",
+      style = "minimal",
+      row = 0.2,
+      col = 0.1,
+      width = 0.8,
+      height = 0.6,
+    },
+  }
+end, { desc = "terminal toggle floating term" })
 
 -- Center when going through search results
 map("n", "n", "nzzzv", {})

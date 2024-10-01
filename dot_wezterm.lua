@@ -6,7 +6,7 @@ local config = wezterm.config_builder()
 -- This is where you actually apply your config choices
 
 config.font = wezterm.font("MesloLGS Nerd Font Mono")
-config.font_size = 19
+config.font_size = 16
 
 config.enable_tab_bar = false
 
@@ -28,5 +28,11 @@ config.colors = {
 	brights = { "#214969", "#E52E2E", "#44FFB1", "#FFE073", "#A277FF", "#a277ff", "#24EAF7", "#24EAF7" },
 }
 
+config.window_padding = {
+	left = 2,
+	right = 2,
+	top = 20,
+	bottom = 0,
+}
 -- and finally, return the configuration to wezterm
 return config

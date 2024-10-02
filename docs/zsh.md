@@ -1,5 +1,9 @@
 # ZSH
 
+The .zshrc acts as a baseline that works on multiple maschines.
+For customization regarding your local maschine please edit the .zshrc.local file.
+It is automatically sourced at the end of the .zshrc file.
+
 The zsh configuration requires the following tools installed:
 
 - powerlevel10k

@@ -7,6 +7,7 @@ It contains:
 - [NVIM](docs/nvim.md)
 - [TMUX](docs/tmux.md)
 - [WEZTERM](docs/wezterm.md)
+- [POWERLEVEL10K](docs/powerlevel10k.md)
 
 ## Installation
 

@@ -58,7 +58,7 @@ source ~/fzf-git.sh/fzf-git.sh
 HISTFILE=$HOME/.zhistory
 SAVEHIST=1000
 HISTSIZE=999
-setopt share_history 
+setopt share_history
 setopt hist_expire_dups_first
 setopt hist_ignore_dups
 setopt hist_verify
@@ -93,3 +93,7 @@ alias -g -- --help="--help 2>&1 | bat --language=help --style=plain"
 # ---- Shell Integrations ----
 eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
+
+if [ -f ~/.zshrc.local ]; then
+    source ~/.zshrc.local
+fi

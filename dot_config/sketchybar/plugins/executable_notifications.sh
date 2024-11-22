@@ -1,14 +1,16 @@
 #!/bin/sh
 
-TRANSPARENT="0x00000000"
+TRANSPARENT="0x44000000"
 TRANSPARENT_RED="0x88ed8796"
-TRANSPARENT_YELLOW="0x88ee49f"
+TRANSPARENT_YELLOW="0x88fee49f"
+
+
+NOTIFICATION_STATUS_COLOR=$TRANSPARENT
 
 STATUS_LABEL=$(lsappinfo info -only StatusLabel "Microsoft Outlook")
 ICON=":mail:"
 if [[ $STATUS_LABEL =~ \"label\"=\"([^\"]*)\" ]]; then
     LABEL="${BASH_REMATCH[1]}"
-NOTIFICATION_STATUS_COLOR=$TRANSPARENT
 
     if [[ $LABEL == "•" ]]; then
           NOTIFICATION_STATUS_COLOR=$TRANSPARENT_YELLOW
@@ -55,23 +57,13 @@ sketchybar --set mattermost icon=$ICON label="${LABEL}"
 
 
 
-if [[ $NOTIFICATION_STATUS_COLOR != $TRANSPARENT ]]; then
-    sketchybar --bar color=$NOTIFICATION_STATUS_COLOR  \
+sketchybar --bar color=$NOTIFICATION_STATUS_COLOR  \
                  height=37        \
                  blur_radius=30   \
                  position=top     \
                  sticky=off       \
                  padding_left=10  \
                  padding_right=10 
-else
-    sketchybar --bar color=$TRANSPARENT \ 
-                 height=37        \
-                 blur_radius=30   \
-                 position=top     \
-                 sticky=off       \
-                 padding_left=10  \
-                 padding_right=10 
-fi
 
 
 

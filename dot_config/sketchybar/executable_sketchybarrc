@@ -35,8 +35,7 @@ sketchybar --default updates=when_shown                                \
                      label.color=$WHITE                \
                      background.corner_radius=5            \
                      background.height=24                  \
-                     background.border_width=2             \
-                     background.border_color=$WHITE \
+                     background.color=0x44001f30          \
                      padding_left=5                        \
                      padding_right=5                       \
                      label.padding_left=4                  \
@@ -59,8 +58,10 @@ source $ITEM_DIR/cpu.sh
 sketchybar --add bracket system_info volume battery cpu \
            --set system_info  \
              background.corner_radius=4  \
+             background.color=0x00000000  \
 
 source $ITEM_DIR/notifications.sh
+source $ITEM_DIR/next_meeting.sh
 
 ##### Finalizing Setup #####
 # The below command is only needed at the end of the initial configuration to

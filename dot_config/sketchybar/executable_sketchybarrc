@@ -45,23 +45,20 @@ sketchybar --default updates=when_shown                                \
 
 # -- Left Side Items --
 source $ITEM_DIR/front_app.sh
-
-# -- Right Side Of Notch Items --
+source $ITEM_DIR/calendar_with_meetings.sh
 source $ITEM_DIR/media.sh
 
 # -- Right Side Items --
-source $ITEM_DIR/calendar.sh
-source $ITEM_DIR/volume.sh
+# source $ITEM_DIR/volume.sh
 source $ITEM_DIR/battery.sh
 source $ITEM_DIR/cpu.sh
 
-sketchybar --add bracket system_info volume battery cpu \
+sketchybar --add bracket system_info volume cpu \
            --set system_info  \
              background.corner_radius=4  \
              background.color=0x00000000  \
 
 source $ITEM_DIR/notifications.sh
-source $ITEM_DIR/next_meeting.sh
 
 ##### Finalizing Setup #####
 # The below command is only needed at the end of the initial configuration to

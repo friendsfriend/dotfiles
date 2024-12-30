@@ -1,3 +1,6 @@
+# Custom Theme
+theme=coolnight
+
 # Shell Configuration
 shell-integration = zsh
 

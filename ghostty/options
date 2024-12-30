@@ -1,0 +1,43 @@
+# Shell Configuration
+shell-integration = zsh
+
+# Updates
+auto-update = check
+
+# Disable Close Popup
+confirm-close-surface = false
+
+# Fully quit app
+quit-after-last-window-closed = true
+
+# Quick Terminal
+quick-terminal-position = center
+quick-terminal-animation-duration = 0
+quick-terminal-autohide = true
+
+# Session Management
+window-save-state = always
+
+# --------------------------------
+# Window style 
+# --------------------------------
+macos-titlebar-style = hidden
+window-decoration = true
+window-padding-x = 10
+window-padding-y = 10
+window-padding-balance = true
+
+# --------------------------------
+# Font 
+# --------------------------------
+font-family = MesloLGL Nerd Font Mono
+font-size = 16
+
+# --------------------------------
+# Icon style
+# --------------------------------
+macos-icon = custom-style
+macos-icon-frame = chrome
+macos-icon-ghost-color = #ffffff
+macos-icon-screen-color = #000000
+

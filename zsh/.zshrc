@@ -91,6 +91,6 @@ alias -g -- --help="--help 2>&1 | bat --language=help --style=plain"
 eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
 
-if [ -f ~/.zshrc.local ]; then
-    source ~/.zshrc.local
+if [ -f ~/.zshrc_local ]; then
+    source ~/.zshrc_local
 fi

@@ -45,3 +45,4 @@ stow_folder $HOME/.config/raycast/ raycast
 stow_folder $HOME/.config/aerospace/ aerospace	
 stow_folder $HOME/.config/sketchybar/ sketchybar	
 stow_folder $HOME/ p10k	
+stow_folder $HOME/ ideavim	

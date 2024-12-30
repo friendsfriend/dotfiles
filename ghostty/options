@@ -34,13 +34,4 @@ window-padding-balance = true
 # Font 
 # --------------------------------
 font-family = MesloLGL Nerd Font Mono
-font-size = 16
-
-# --------------------------------
-# Icon style
-# --------------------------------
-macos-icon = custom-style
-macos-icon-frame = chrome
-macos-icon-ghost-color = #ffffff
-macos-icon-screen-color = #000000
-
+font-size = 18

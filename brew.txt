@@ -10,3 +10,15 @@ sketchybar
 aerospace
 fd
 thefuck
+jq
+ical-buddy
+git
+docker
+docker-compose
+wget
+python
+lazygit
+go
+cairo
+btop
+presenterm

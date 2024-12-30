@@ -78,6 +78,7 @@ alias cd..="cd .."
 eval $(thefuck --alias)
 eval $(thefuck --alias fk)
 alias cd="z"
+alias top="btop"
 
 # Highlight man pages
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"

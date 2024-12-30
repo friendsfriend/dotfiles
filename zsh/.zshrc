@@ -80,6 +80,8 @@ eval $(thefuck --alias fk)
 alias cd="z"
 alias top="btop"
 
+export EDITOR=nvim
+
 # Highlight man pages
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export MANROFFOPT="-c"
@@ -95,3 +97,14 @@ eval "$(zoxide init zsh)"
 if [ -f ~/.zshrc_local ]; then
     source ~/.zshrc_local
 fi
+
+# makes yazi open files with the default app configured by the OS
+# Also adds y as an alias to open yazi
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}

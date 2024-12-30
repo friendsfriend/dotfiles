@@ -22,3 +22,4 @@ go
 cairo
 btop
 presenterm
+yazi

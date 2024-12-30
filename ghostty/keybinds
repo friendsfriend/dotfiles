@@ -27,3 +27,5 @@ keybind = super+b>l=goto_split:right
 # ------------------------------------
 
 keybind = super+b>t=toggle_quick_terminal
+keybind = super+b>z=toggle_split_zoom
+keybind = super+b>i=inspector:toggle

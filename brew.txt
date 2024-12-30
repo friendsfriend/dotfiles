@@ -1,0 +1,12 @@
+stow
+nvim
+ghostty
+bat
+eza
+zoxide
+fzf
+node
+sketchybar
+aerospace
+fd
+thefuck

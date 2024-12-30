@@ -11,10 +11,10 @@ auto-update = check
 confirm-close-surface = false
 
 # Fully quit app
-quit-after-last-window-closed = true
+quit-after-last-window-closed = false
 
 # Quick Terminal
-quick-terminal-position = center
+quick-terminal-position = bottom
 quick-terminal-animation-duration = 0
 quick-terminal-autohide = true
 

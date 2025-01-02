@@ -175,10 +175,10 @@ run = "move-node-to-workspace M"
 
 [workspace-to-monitor-force-assignment]
 M =  ['secondary', 'main']        
-T =  ['main', 'secondary']       
-P =  ['main', 'secondary']       
-1 =  ['main', 'secondary']       
-B =  ['main', 'secondary']       
+T =  ['main']       
+P =  ['main']       
+1 =  ['main']       
+B =  ['main']       
 O =  ['secondary', 'main']       
 
 

@@ -96,13 +96,16 @@ outer.right =      0
 
 alt-f = "macos-native-fullscreen"
 
+alt-right = 'focus right'
+alt-left = 'focus left'
+
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
-alt-1 = ['workspace 1','exec-and-forget osascript ~/.config/aerospace/launch_app_if_not_started.scpt "Microsoft Teams"']
-alt-b = ['workspace B','exec-and-forget osascript ~/.config/aerospace/launch_app_if_not_started.scpt "Google Chrome"']
-alt-m = ['workspace M','exec-and-forget osascript ~/.config/aerospace/launch_app_if_not_started.scpt "Mattermost"']
-alt-p = ['workspace P','exec-and-forget osascript ~/.config/aerospace/launch_app_if_not_started.scpt "Intellij IDEA Ultimate"']
-alt-t = ['workspace T','exec-and-forget osascript ~/.config/aerospace/launch_app_if_not_started.scpt "Ghostty"']
-alt-o = ['workspace O','exec-and-forget osascript ~/.config/aerospace/launch_app_if_not_started.scpt "Microsoft Outlook"']
+alt-1 = ['workspace 1', 'layout accordion','exec-and-forget osascript ~/.config/aerospace/launch_app_if_not_started.scpt "Microsoft Teams"']
+alt-b = ['workspace B', 'layout tiling', 'exec-and-forget osascript ~/.config/aerospace/launch_app_if_not_started.scpt "Google Chrome"']
+alt-m = ['workspace M', 'layout tiling', 'exec-and-forget osascript ~/.config/aerospace/launch_app_if_not_started.scpt "Mattermost"']
+alt-p = ['workspace P', 'layout tiling', 'exec-and-forget osascript ~/.config/aerospace/launch_app_if_not_started.scpt "Intellij IDEA Ultimate"']
+alt-t = ['workspace T', 'layout tiling', 'exec-and-forget osascript ~/.config/aerospace/launch_app_if_not_started.scpt "Ghostty"']
+alt-o = ['workspace O', 'layout tiling', 'exec-and-forget osascript ~/.config/aerospace/launch_app_if_not_started.scpt "Microsoft Outlook"']
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 alt-shift-1 = 'move-node-to-workspace 1'
@@ -113,7 +116,7 @@ alt-shift-t = 'move-node-to-workspace T'
 alt-shift-o = 'move-node-to-workspace O'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
-alt-tab = 'move-workspace-to-monitor --wrap-around next'
+alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#mode
 alt-shift-semicolon = 'mode service'
@@ -163,7 +166,7 @@ run = "move-node-to-workspace P"
 
 [[on-window-detected]]
 if.app-id = 'com.microsoft.teams2'
-run = "move-node-to-workspace 1"
+run = ["move-node-to-workspace 1"]
 
 [[on-window-detected]]
 if.app-id = 'com.microsoft.Outlook'

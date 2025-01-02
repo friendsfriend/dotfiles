@@ -18,3 +18,4 @@ btop
 presenterm
 yazi
 powerlevel10k
+mdcat

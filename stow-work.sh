@@ -25,7 +25,6 @@ stow_folder() {
 stow_folder $HOME/ zsh
 stow_folder $HOME/.config/nvim/ nvim	
 stow_folder $HOME/.config/ghostty/ ghostty	
-stow_folder $HOME/.config/raycast/ raycast	
 stow_folder $HOME/.config/aerospace/ aerospace	
 stow_folder $HOME/.config/sketchybar/ sketchybar	
 stow_folder $HOME/ p10k	

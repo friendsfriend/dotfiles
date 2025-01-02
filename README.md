@@ -21,14 +21,20 @@ dependencies.sh:
 - Link the config files to the proper locations with GNU stow. This will create a virtual link between the actual config repository and the git repository so that your config is always in sync with the git repository.
 
 ```bash
-./dependencies.sh
-./stow.sh
+# For professional use
+./dependencies-work.sh
+./stow-work.sh
+
+# For all other use cases
+./dependencies-minimal.sh
+./stow-minimal.sh
 ```
 
 If you do any changes to your dotfiles remember to run the stow script again.
 
 ```bash
-./stow
+./stow-work.sh
+./stow-minimal.sh
 ```
 
 You are set to go now.

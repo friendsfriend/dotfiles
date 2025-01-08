@@ -49,7 +49,6 @@ source $ITEM_DIR/calendar_with_meetings.sh
 source $ITEM_DIR/media.sh
 
 # -- Right Side Items --
-# source $ITEM_DIR/volume.sh
 source $ITEM_DIR/battery.sh
 source $ITEM_DIR/cpu.sh
 

@@ -7,7 +7,7 @@ source "$CONFIG_DIR/colors.sh" # Loads all defined colors
 ITEM_DIR="$CONFIG_DIR/items"
 PLUGIN_DIR="$CONFIG_DIR/plugins"
 
-FONT="SF Pro" # Needs to have Regular, Bold, Semibold, Heavy and Black variants
+FONT="MesloLGL Nerd Font Mono" # Needs to have Regular, Bold, Semibold, Heavy and Black variants
 
 ##### Bar Appearance #####
 # Configuring the general appearance of the bar, these are only some of the
@@ -29,9 +29,9 @@ sketchybar --bar height=37        \
 # https://felixkratz.github.io/SketchyBar/config/items
 
 sketchybar --default updates=when_shown                                \
-                     icon.font="$FONT:Bold:14.0"                      \
+                     icon.font="$FONT:Bold:17.0"                      \
                      icon.color=$WHITE                 \
-                     label.font="$FONT:Semibold:13.0"  \
+                     label.font="$FONT:Bold:16.0"  \
                      label.color=$WHITE                \
                      background.corner_radius=5            \
                      background.height=24                  \

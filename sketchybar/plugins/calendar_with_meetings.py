@@ -49,8 +49,11 @@ def get_events():
 
 def plugin_undraw():
   now = datetime.datetime.now().strftime('%d.%m.%Y %H:%M')
+
+  print(now)
+
   args = [
-      f'--set calendar_with_meetings label={now}',
+      f'--set calendar_with_meetings label="{now}"',
       f'--set calendar_with_meetings background.color={"0x44000000"}'
   ]
   os.system('sketchybar -m ' + ' '.join(args))

@@ -29,12 +29,12 @@ sketchybar --bar height=37        \
 # https://felixkratz.github.io/SketchyBar/config/items
 
 sketchybar --default updates=when_shown                                \
-                     icon.font="$FONT:Bold:17.0"                      \
+                     icon.font="$FONT:Mono:15.0"                      \
                      icon.color=$WHITE                 \
-                     label.font="$FONT:Bold:16.0"  \
+                     label.font="$FONT:Mono:15.0"  \
                      label.color=$WHITE                \
                      background.corner_radius=5            \
-                     background.height=24                  \
+                     background.height=26                  \
                      background.color=0x44001f30          \
                      padding_left=5                        \
                      padding_right=5                       \
@@ -51,12 +51,6 @@ source $ITEM_DIR/media.sh
 # -- Right Side Items --
 source $ITEM_DIR/battery.sh
 source $ITEM_DIR/cpu.sh
-
-sketchybar --add bracket system_info volume cpu \
-           --set system_info  \
-             background.corner_radius=4  \
-             background.color=0x00000000  \
-
 source $ITEM_DIR/notifications.sh
 
 ##### Finalizing Setup #####

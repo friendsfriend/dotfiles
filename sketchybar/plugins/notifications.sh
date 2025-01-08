@@ -7,7 +7,6 @@ TRANSPARENT_YELLOW="0x88fee49f"
 NOTIFICATION_STATUS_COLOR=$TRANSPARENT
 
 STATUS_LABEL=$(lsappinfo info -only StatusLabel "Microsoft Outlook")
-ICON=":mail:"
 if [[ $STATUS_LABEL =~ \"label\"=\"([^\"]*)\" ]]; then
     LABEL="${BASH_REMATCH[1]}"
 
@@ -18,11 +17,10 @@ if [[ $STATUS_LABEL =~ \"label\"=\"([^\"]*)\" ]]; then
     fi
 fi
 
-sketchybar --set outlook icon=$ICON label="${LABEL}" 
+sketchybar --set outlook label="${LABEL}" 
 
 
 STATUS_LABEL=$(lsappinfo info -only StatusLabel "Microsoft Teams")
-ICON=":microsoft_teams:"
 if [[ $STATUS_LABEL =~ \"label\"=\"([^\"]*)\" ]]; then
     LABEL="${BASH_REMATCH[1]}"
 
@@ -35,11 +33,10 @@ if [[ $STATUS_LABEL =~ \"label\"=\"([^\"]*)\" ]]; then
     fi
 fi
 
-sketchybar --set teams icon=$ICON label="${LABEL}" 
+sketchybar --set teams label="${LABEL}" 
 
 
 STATUS_LABEL=$(lsappinfo info -only StatusLabel "Mattermost")
-ICON=":mattermost:"
 if [[ $STATUS_LABEL =~ \"label\"=\"([^\"]*)\" ]]; then
     LABEL="${BASH_REMATCH[1]}"
 
@@ -52,7 +49,7 @@ if [[ $STATUS_LABEL =~ \"label\"=\"([^\"]*)\" ]]; then
     fi
 fi
 
-sketchybar --set mattermost icon=$ICON label="${LABEL}" 
+sketchybar --set mattermost label="${LABEL}" 
 
 sketchybar --bar color=$NOTIFICATION_STATUS_COLOR  \
                  height=37        \

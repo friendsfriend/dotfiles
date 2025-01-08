@@ -100,12 +100,12 @@ alt-right = 'focus right'
 alt-left = 'focus left'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
-alt-1 = ['workspace 1', 'layout accordion','exec-and-forget osascript ~/.config/aerospace/launch_app_if_not_started.scpt "Microsoft Teams"']
-alt-b = ['workspace B', 'layout tiling', 'exec-and-forget osascript ~/.config/aerospace/launch_app_if_not_started.scpt "Google Chrome"']
-alt-m = ['workspace M', 'layout tiling', 'exec-and-forget osascript ~/.config/aerospace/launch_app_if_not_started.scpt "Mattermost"']
-alt-p = ['workspace P', 'layout tiling', 'exec-and-forget osascript ~/.config/aerospace/launch_app_if_not_started.scpt "Intellij IDEA Ultimate"']
-alt-t = ['workspace T', 'layout tiling', 'exec-and-forget osascript ~/.config/aerospace/launch_app_if_not_started.scpt "Ghostty"']
-alt-o = ['workspace O', 'layout tiling', 'exec-and-forget osascript ~/.config/aerospace/launch_app_if_not_started.scpt "Microsoft Outlook"']
+alt-1 = ['workspace 1', 'layout accordion','exec-and-forget open "/Applications/Microsoft Teams.app"']
+alt-b = ['workspace B', 'layout tiling', 'exec-and-forget open "/Applications/Google Chrome.app"']
+alt-m = ['workspace M', 'layout tiling', 'exec-and-forget open "/Applications/Mattermost.app"']
+alt-p = ['workspace P', 'layout tiling', 'exec-and-forget open "~/Applications/Intellij IDEA Ultimate.app"']
+alt-t = ['workspace T', 'layout tiling', 'exec-and-forget open "/Applications/Ghostty.app"']
+alt-o = ['workspace O', 'layout tiling', 'exec-and-forget open "/Applications/Microsoft Outlook.app"']
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 alt-shift-1 = 'move-node-to-workspace 1'
@@ -152,9 +152,9 @@ alt-shift-j = ['join-with down', 'mode main']
 alt-shift-k = ['join-with up', 'mode main']
 alt-shift-l = ['join-with right', 'mode main']
 
-[[on-window-detected]]
-if.app-id = 'com.mitchellh.ghostty'
-run = "move-node-to-workspace T"
+# [[on-window-detected]]
+# if.app-id = 'com.mitchellh.ghostty'
+# run = "move-node-to-workspace T"
 
 [[on-window-detected]]
 if.app-id = 'com.google.Chrome'

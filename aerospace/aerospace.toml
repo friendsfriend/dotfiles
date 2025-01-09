@@ -170,6 +170,7 @@ run = ["move-node-to-workspace 1"]
 
 [[on-window-detected]]
 if.app-id = 'com.microsoft.Outlook'
+if.window-title-regex-substring = 'Posteingang'
 run = "move-node-to-workspace O"
 
 [[on-window-detected]]

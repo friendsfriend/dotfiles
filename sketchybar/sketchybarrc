@@ -46,7 +46,6 @@ sketchybar --default updates=when_shown                                \
 # -- Left Side Items --
 source $ITEM_DIR/front_app.sh
 source $ITEM_DIR/calendar_with_meetings.sh
-source $ITEM_DIR/media.sh
 
 # -- Right Side Items --
 source $ITEM_DIR/battery.sh

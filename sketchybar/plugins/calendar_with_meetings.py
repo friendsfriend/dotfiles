@@ -63,7 +63,7 @@ def plugin_draw(firstEvent, popup_items):
     bg_color = determineBgColor(firstEvent)
 
     args = [
-        f'--set calendar_with_meetings label="{now + ' | ' + firstEvent.human_str}"',
+        f'--set calendar_with_meetings label="{now + " " + firstEvent.human_str}"',
         f'--set calendar_with_meetings background.color={bg_color}'
         '--set calendar_with_meetings drawing=on',
     ]

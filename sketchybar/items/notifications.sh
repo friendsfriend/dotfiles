@@ -7,7 +7,6 @@ sketchybar --add item outlook right \
                  icon.font="sketchybar-app-font:Mono:15.0" \
                  click_script="open -a 'Microsoft Outlook'"\
                  icon=":mail:"\
-                 background.border_width=0 \
            --subscribe outlook system_woke
 
 sketchybar --add item teams right \
@@ -15,7 +14,6 @@ sketchybar --add item teams right \
                  icon.font="sketchybar-app-font:Mono:15.0" \
                  click_script="open -a 'Microsoft Teams'"\
                  icon=":microsoft_teams:"\
-                 background.border_width=0 \
            --subscribe teams system_woke
 
 sketchybar --add item mattermost right \
@@ -23,5 +21,4 @@ sketchybar --add item mattermost right \
                  icon.font="sketchybar-app-font:Mono:15.0" \
                  click_script="open -a 'Mattermost'"\
                  icon=":mattermost:"\
-                 background.border_width=0 \
            --subscribe mattermost system_woke

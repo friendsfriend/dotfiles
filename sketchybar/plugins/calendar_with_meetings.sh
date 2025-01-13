@@ -27,13 +27,19 @@ while IFS= read -r EVENT; do
   END="$(cut -d'-' -f2 <<<"$DATETIME" | xargs)"
 
   if [[ "$N" == 0 ]]; then
-    CURRENT="$(date +'%H:%M')"
-    if [[ ("$CURRENT" == "$START" || "$CURRENT" > "$START") && "$CURRENT" < "$END" ]]; then
+    CURRENT_SECONDS="$(date +"%s")"
+    START_SECONDS="$(date -j -f "%H:%M" "$START" +"%s")"
+    END_SECONDS="$(date -j -f "%H:%M" "$END" +"%s")"
+
+    if [[ "$((CURRENT_SECONDS - START_SECONDS))" -ge 0 && "$((END_SECONDS - CURRENT_SECONDS))" -gt 0 ]]; then
       BG_COLOR="$TRANSPARENT_PURPLE"
       LABEL="${NOW} | to ${END} - ${TITLE}"
+    elif [[ "$((START_SECONDS - CURRENT_SECONDS))" -le 300 ]]; then
+      BG_COLOR="$TRANSPARENT_RED"
+      LABEL="${NOW} | from ${START} - ${TITLE}"
     else
       BG_COLOR="$TRANSPARENT"
-      LABEL="${NOW} | from ${END} - ${TITLE}"
+      LABEL="${NOW} | from ${START} - ${TITLE}"
     fi
 
     sketchybar --set "$NAME" \

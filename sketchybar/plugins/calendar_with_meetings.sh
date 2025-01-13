@@ -1,11 +1,9 @@
 #!/bin/bash
 
+source "$CONFIG_DIR/colors.sh" # Loads all defined colors
+
 EVENTS="$(icalBuddy -n -nc -b '' -iep 'title,datetime' -po 'title,datetime' -ps '/|/' -ea eventsToday)"
 NOW="$(date +"%d.%m.%Y %H:%M")"
-
-TRANSPARENT="0x44000000"
-TRANSPARENT_PURPLE="0x884f42b5"
-TRANSPARENT_RED="0x88ed8796"  
 
 if [[ -z "$EVENTS" ]]; then
   sketchybar --set "$NAME" label="$NOW"

@@ -2,10 +2,6 @@
 
 export WHITE=0xffffffff
 
-export BAR_COLOR=0xff001f30
-export ITEM_BG_COLOR=0xff003547
-export ACCENT_COLOR=0xff003547
-
 export TRANSPARENT="0x44001f30"
 export TRANSPARENT_RED="0x88ed8796"
 export TRANSPARENT_YELLOW="0x88fee49f"

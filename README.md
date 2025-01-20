@@ -37,6 +37,12 @@ If you do any changes to your dotfiles remember to run the stow script again.
 ./stow-minimal.sh
 ```
 
+If you want to use sketchybar with the zscaler plugin you have to run the following command
+
+```bash
+sudo ./sketchybar/resources/setup-zscaler.sh
+```
+
 You are set to go now.
 If you want to change your config or update the repository you can just edit them in your local repository and manage it with git.
 

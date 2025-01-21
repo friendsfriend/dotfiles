@@ -103,7 +103,7 @@ alt-left = 'focus left'
 alt-1 = ['workspace 1', 'layout accordion','exec-and-forget open "/Applications/Microsoft Teams.app"']
 alt-b = ['workspace B', 'layout tiling', 'exec-and-forget open "/Applications/Google Chrome.app"']
 alt-m = ['workspace M', 'layout tiling', 'exec-and-forget open "/Applications/Mattermost.app"']
-alt-p = ['workspace P', 'layout floating', 'exec-and-forget open "~/Applications/Intellij IDEA Ultimate.app"']
+alt-p = ['workspace P', 'layout accordion', 'exec-and-forget open "~/Applications/Intellij IDEA Ultimate.app"']
 alt-t = ['workspace T', 'layout tiling', 'exec-and-forget open "/Applications/Ghostty.app"']
 alt-o = ['workspace O', 'layout tiling', 'exec-and-forget open "/Applications/Microsoft Outlook.app"']
 

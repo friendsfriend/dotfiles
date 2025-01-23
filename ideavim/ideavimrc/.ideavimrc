@@ -1,0 +1,42 @@
+set number                        " line numbers
+
+set hlsearch                      " highlight search occurrences
+set ignorecase                    " ignore case in search patterns
+set smartcase                     " no ignore case when pattern is uppercase
+set incsearch                     " show search results while typing
+set wrapscan                      " searches wrap around the end of the file
+
+set gdefault                      " substitute all occurrences in line per default
+set history=10000                 " keep x lines of command line history
+set scrolloff=15 sidescrolloff=10  " keep some lines before and after the cursor visible
+set clipboard=unnamedplus,unnamed,ideaput " integrate with system clipboard
+
+" Don't use Ex mode, use Q for formatting.
+map Q gq
+
+set NERDTree
+Plug 'machakann/vim-highlightedyank'
+" Commentary plugin
+Plug 'tpope/vim-commentary'
+set multiple-cursors
+set commentary
+set surround                      " emulate vim-surround plugin
+set ideajoin
+
+" use relative numbers
+set relativenumber
+
+" set <leader> to <space>
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+
+" change font size
+nmap + <Action>(EditorIncreaseFontSize)
+nmap - <Action>(EditorDecreaseFontSize)
+nmap <leader>= <Action>(EditorResetFontSize)
+
+" input mode remaps
+imap <C-p> <Action>(ParameterInfo)
+
+nnoremap <Space> :action LeaderAction<cr>
+vnoremap <Space> :action LeaderAction<cr>

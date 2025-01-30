@@ -2,16 +2,16 @@
 
 source "$CONFIG_DIR/colors.sh" # Loads all defined colors
 
-NOTIFICATION_STATUS_COLOR=$TRANSPARENT
+NOTIFICATION_STATUS_COLOR=$BAR_COLOR
 
 STATUS_LABEL=$(lsappinfo info -only StatusLabel "Microsoft Outlook")
 if [[ $STATUS_LABEL =~ \"label\"=\"([^\"]*)\" ]]; then
     LABEL="${BASH_REMATCH[1]}"
 
     if [[ $LABEL == "•" ]]; then
-          NOTIFICATION_STATUS_COLOR=$TRANSPARENT_YELLOW
+          NOTIFICATION_STATUS_COLOR=$ALERT_YELLOW
     elif [[ $LABEL =~ ^[0-9]+$ ]]; then
-        NOTIFICATION_STATUS_COLOR=$TRANSPARENT_RED
+        NOTIFICATION_STATUS_COLOR=$ALERT_RED
     fi
 fi
 
@@ -23,11 +23,11 @@ if [[ $STATUS_LABEL =~ \"label\"=\"([^\"]*)\" ]]; then
     LABEL="${BASH_REMATCH[1]}"
 
    if [[ $LABEL == "•" ]]; then
-        if [[ $NOTIFICATION_STATUS_COLOR != $TRANSPARENT_RED ]]; then
-          NOTIFICATION_STATUS_COLOR=$TRANSPARENT_YELLOW
+        if [[ $NOTIFICATION_STATUS_COLOR != $ALERT_RED ]]; then
+          NOTIFICATION_STATUS_COLOR=$ALERT_YELLOW
         fi
     elif [[ $LABEL =~ ^[0-9]+$ ]]; then
-        NOTIFICATION_STATUS_COLOR=$TRANSPARENT_RED
+        NOTIFICATION_STATUS_COLOR=$ALERT_RED
     fi
 fi
 
@@ -39,11 +39,11 @@ if [[ $STATUS_LABEL =~ \"label\"=\"([^\"]*)\" ]]; then
     LABEL="${BASH_REMATCH[1]}"
 
     if [[ $LABEL == "•" ]]; then
-        if [[ $NOTIFICATION_STATUS_COLOR != $TRANSPARENT_RED ]]; then
-          NOTIFICATION_STATUS_COLOR=$TRANSPARENT_YELLOW
+        if [[ $NOTIFICATION_STATUS_COLOR != $ALERT_RED ]]; then
+          NOTIFICATION_STATUS_COLOR=$ALERT_YELLOW
         fi
     elif [[ $LABEL =~ ^[0-9]+$ ]]; then
-        NOTIFICATION_STATUS_COLOR=$TRANSPARENT_RED
+        NOTIFICATION_STATUS_COLOR=$ALERT_RED
     fi
 fi
 

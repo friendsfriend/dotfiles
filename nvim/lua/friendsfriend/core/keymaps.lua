@@ -32,3 +32,4 @@ keymap.set("n", "<leader>di", function()
 end, { desc = "[D]ebug: [I]nfo" })
 keymap.set("n", "<leader>df", "<cmd>Telescope dap fqq:rames<cr>", { desc = "[D]ebug: [F]rames" })
 keymap.set("n", "<leader>dC", "<cmd>Telescope dap commands<cr>", { desc = "[D]ebug: [C]ommands" })
+

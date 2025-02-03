@@ -6,7 +6,7 @@ EVENTS="$(icalBuddy -n -nc -b '' -iep 'title,datetime' -po 'title,datetime' -ps 
 NOW="$(date +"%d.%m.%Y %H:%M")"
 
 if [[ -z "$EVENTS" ]]; then
-  sketchybar --set "$NAME" label="$NOW"
+  sketchybar --set "$NAME" label="$NOW" background.color="$ITEM_BACKGROUND"
   exit 0
 fi
 
@@ -33,7 +33,10 @@ while IFS= read -r EVENT; do
       BG_COLOR="$ALERT_PURPLE"
       LABEL="${NOW} | to ${END} - ${TITLE}"
     elif [[ "$((START_SECONDS - CURRENT_SECONDS))" -le 300 ]]; then
-      BG_COLOR="$ALERT_RED"
+      BG_COLOR="$ITEM_BACKGROUND"
+      sketchybar --animate sin 60 \
+        --bar color = "$ALERT_PURPLE" \
+              color = "$BAR_COLOR"
       LABEL="${NOW} | from ${START} - ${TITLE}"
     else
       BG_COLOR="$ITEM_BACKGROUND"

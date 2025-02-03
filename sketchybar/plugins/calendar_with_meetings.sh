@@ -30,13 +30,13 @@ while IFS= read -r EVENT; do
     END_SECONDS="$(date -j -f "%H:%M" "$END" +"%s")"
 
     if [[ "$((CURRENT_SECONDS - START_SECONDS))" -ge 0 && "$((END_SECONDS - CURRENT_SECONDS))" -gt 0 ]]; then
-      BG_COLOR="$TRANSPARENT_PURPLE"
+      BG_COLOR="$ALERT_PURPLE"
       LABEL="${NOW} | to ${END} - ${TITLE}"
     elif [[ "$((START_SECONDS - CURRENT_SECONDS))" -le 300 ]]; then
-      BG_COLOR="$TRANSPARENT_RED"
+      BG_COLOR="$ALERT_RED"
       LABEL="${NOW} | from ${START} - ${TITLE}"
     else
-      BG_COLOR="$TRANSPARENT"
+      BG_COLOR="$ITEM_BACKGROUND"
       LABEL="${NOW} | from ${START} - ${TITLE}"
     fi
 

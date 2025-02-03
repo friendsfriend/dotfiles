@@ -1,5 +1,5 @@
 # Custom Theme
-theme = nord
+theme = tokyonight-storm
 
 # Shell Configuration
 shell-integration = zsh

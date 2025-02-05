@@ -41,8 +41,8 @@ default_properties=(
   background.height=26
   background.border_color="$ITEM_BACKGROUND_BORDER_COLOR"
   background.border_width=1
-  padding_left=5
-  padding_right=5
+  padding_left=3
+  padding_right=3
   label.padding_left=4
   label.padding_right=10
   icon.padding_left=10
@@ -51,6 +51,7 @@ default_properties=(
 sketchybar --default "${default_properties[@]}"
 
 # -- Left Side Items --
+source $ITEM_DIR/apple.sh
 source $ITEM_DIR/front_app.sh
 source $ITEM_DIR/calendar_with_meetings.sh
 
@@ -58,6 +59,7 @@ source $ITEM_DIR/calendar_with_meetings.sh
 source $ITEM_DIR/battery.sh
 source $ITEM_DIR/cpu.sh
 source $ITEM_DIR/zscaler.sh
+source $ITEM_DIR/packages.sh
 source $ITEM_DIR/notifications.sh
 
 ##### Finalizing Setup #####

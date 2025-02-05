@@ -35,8 +35,8 @@ while IFS= read -r EVENT; do
     elif [[ "$((START_SECONDS - CURRENT_SECONDS))" -le 300 ]]; then
       BG_COLOR="$ITEM_BACKGROUND"
       sketchybar --animate sin 60 \
-        --bar color = "$ALERT_PURPLE" \
-              color = "$BAR_COLOR"
+        --bar color="$ALERT_PURPLE" \
+              color="$BAR_COLOR"
       LABEL="${NOW} | from ${START} - ${TITLE}"
     else
       BG_COLOR="$ITEM_BACKGROUND"

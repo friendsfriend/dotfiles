@@ -49,15 +49,11 @@ fi
 
 sketchybar --set mattermost label="${LABEL}" 
 
-sketchybar --animate sin 60 \
+if [[ "$NOTIFICATION_STATUS_COLOR" != "$BAR_COLOR" ]]; then
+  sketchybar --animate sin 60 \
            --bar color=$NOTIFICATION_STATUS_COLOR  \
-                 color=$BAR_COLOR  \
-                 height=37        \
-                 blur_radius=30   \
-                 position=top     \
-                 sticky=off       \
-                 padding_left=10  \
-                 padding_right=10 
+                 color=$BAR_COLOR
+fi
 
 
 

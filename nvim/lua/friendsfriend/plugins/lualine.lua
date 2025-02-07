@@ -24,7 +24,7 @@ return {
 					{ "filetype" },
 				},
 			},
-			extensions = { "nvim-tree", "trouble", "mason", "lazy" },
+			extensions = { "nvim-tree", "mason", "lazy" },
 		})
 	end,
 }

@@ -5,6 +5,33 @@ return {
 		lazy = false,
 		---@type snacks.Config
 		opts = {
+			quickfile = {
+				enabled = true,
+				exclude = { "latex" },
+			},
+			words = {
+				enabled = true,
+				debounce = 200, -- time in ms to wait before updating
+				notify_jump = false, -- show a notification when jumping
+				notify_end = false, -- show a notification when reaching the end
+				foldopen = true, -- open folds after jumping
+				jumplist = true, -- set jump point before jumping
+				modes = { "n", "i", "c" }, -- modes to show references
+			},
+			statuscolumn = {
+				enabled = true,
+				left = { "mark", "sign" }, -- priority of signs on the left (high to low)
+				right = { "fold", "git" }, -- priority of signs on the right (high to low)
+				folds = {
+					open = false, -- show open fold icons
+					git_hl = false, -- use Git Signs hl for fold icons
+				},
+				git = {
+					-- patterns to match Git signs
+					patterns = { "GitSign" },
+				},
+				refresh = 50, -- refresh at most every 50ms},
+			},
 			rename = { enabled = true },
 			picker = {
 				enabled = true,
@@ -92,6 +119,86 @@ return {
 		},
 		keys = {
 			{
+				"<leader><space>",
+				function()
+					Snacks.picker.smart()
+				end,
+				desc = "Smart Find Files",
+			},
+			{
+				"<leader>fS",
+				function()
+					Snacks.picker.search_history()
+				end,
+				desc = "Search History",
+			},
+			{
+				"<leader>fc",
+				function()
+					Snacks.picker.command_history()
+				end,
+				desc = "Command History",
+			},
+			{
+				"<leader>fe",
+				function()
+					Snacks.picker.diagnostics()
+				end,
+				desc = "Diagnostics",
+			},
+			{
+				"<leader>ld",
+				function()
+					Snacks.picker.lsp_definitions()
+				end,
+				desc = "Goto Definition",
+			},
+			{
+				"<leader>lD",
+				function()
+					Snacks.picker.lsp_declarations()
+				end,
+				desc = "Goto Declaration",
+			},
+			{
+				"<leader>lu",
+				function()
+					Snacks.picker.lsp_references()
+				end,
+				nowait = true,
+				desc = "References",
+			},
+			{
+				"<leader>lI",
+				function()
+					Snacks.picker.lsp_implementations()
+				end,
+				desc = "Goto Implementation",
+			},
+			{
+				"<leader>lT",
+				function()
+					Snacks.picker.lsp_type_definitions()
+				end,
+				desc = "Goto T[y]pe Definition",
+			},
+			{
+				"<leader>wn",
+				function()
+					Snacks.words.jump(vim.v.count1)
+				end,
+				desc = "Next Reference",
+				mode = { "n", "t" },
+			},
+			{
+				"<leader>wp",
+				function()
+					Snacks.words.jump(-vim.v.count1)
+				end,
+				desc = "Prev Reference",
+				mode = { "n", "t" },
+			},
+			{
 				"<leader>gg",
 				function()
 					require("snacks").lazygit()
@@ -104,6 +211,13 @@ return {
 					require("snacks").lazygit.log()
 				end,
 				desc = "Git Logs",
+			},
+			{
+				"<leader>gs",
+				function()
+					Snacks.picker.git_status()
+				end,
+				desc = "Git Diff (Hunks)",
 			},
 			{
 				"<leader>rr",

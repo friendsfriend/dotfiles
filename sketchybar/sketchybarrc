@@ -16,34 +16,42 @@ FONT="MesloLGL Nerd Font Mono" # Needs to have Regular, Bold, Semibold, Heavy an
 # If you are looking for other colors, see the color picker:
 # https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
 
-sketchybar --bar height=37        \
-                 blur_radius=30   \
-                 position=top     \
-                 sticky=off       \
-                 padding_left=10  \
-                 padding_right=10 
+
+bar_properties=(
+  color="$BAR_COLOR"
+  height=37
+  blur_radius=30
+  position=top
+  sticky=off
+  padding_left=10
+  padding_right=10
+)
+sketchybar --bar "${bar_properties[@]}"
+
 
 ##### Changing Defaults #####
-# We now change some default values that are applied to all further items
-# For a full list of all available item properties see:
-# https://felixkratz.github.io/SketchyBar/config/items
 
-sketchybar --default updates=when_shown                                \
-                     icon.font="$FONT:Mono:15.0"                      \
-                     icon.color=$WHITE                 \
-                     label.font="$FONT:Mono:14.0"  \
-                     label.color=$WHITE                \
-                     background.corner_radius=5            \
-                     background.height=26                  \
-                     background.color="$TRANSPARENT"          \
-                     padding_left=5                        \
-                     padding_right=5                       \
-                     label.padding_left=4                  \
-                     label.padding_right=10                \
-                     icon.padding_left=10                  \
-                     icon.padding_right=4
+default_properties=(
+  icon.font="${FONT}:Mono:15.0"
+  icon.color="$FONT_COLOR"
+  label.font="${FONT}:Mono:14.0"
+  label.color="$FONT_COLOR"
+  background.color="$ITEM_BACKGROUND"
+  background.corner_radius=5
+  background.height=26
+  background.border_color="$ITEM_BACKGROUND_BORDER_COLOR"
+  background.border_width=1
+  padding_left=3
+  padding_right=3
+  label.padding_left=4
+  label.padding_right=10
+  icon.padding_left=10
+  icon.padding_right=4
+)
+sketchybar --default "${default_properties[@]}"
 
 # -- Left Side Items --
+source $ITEM_DIR/apple.sh
 source $ITEM_DIR/front_app.sh
 source $ITEM_DIR/calendar_with_meetings.sh
 
@@ -51,6 +59,7 @@ source $ITEM_DIR/calendar_with_meetings.sh
 source $ITEM_DIR/battery.sh
 source $ITEM_DIR/cpu.sh
 source $ITEM_DIR/zscaler.sh
+source $ITEM_DIR/packages.sh
 source $ITEM_DIR/notifications.sh
 
 ##### Finalizing Setup #####

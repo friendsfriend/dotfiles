@@ -1,8 +1,10 @@
 #!/bin/bash
 
 export WHITE=0xffffffff
-
-export TRANSPARENT="0x44001f30"
-export TRANSPARENT_RED="0x88ed8796"
-export TRANSPARENT_YELLOW="0x88fee49f"
-export TRANSPARENT_PURPLE="0x884f42b5"
+export BAR_COLOR="0xff7f849c"
+export FONT_COLOR="0xffcdd6f4"
+export ITEM_BACKGROUND="0xff1e1e2e"
+export ITEM_BACKGROUND_BORDER_COLOR="0x66cdd6f4"
+export ALERT_RED="0xfff38ba8"
+export ALERT_YELLOW="0xfffab387"
+export ALERT_PURPLE="0xff4f42b5"

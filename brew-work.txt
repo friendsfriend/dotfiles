@@ -26,3 +26,4 @@ yazi
 powerlevel10k
 mdcat
 font-meslo-lg-nerd-font
+scooter

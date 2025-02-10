@@ -14,9 +14,4 @@ return {
 		},
 		keys = require("friendsfriend.keymap.snacks-core"),
 	},
-	{
-		"folke/todo-comments.nvim",
-		event = { "BufReadPre", "BufNewFile" },
-		keys = require("friendsfriend.keymap.snacks-todo-comments"),
-	},
 }

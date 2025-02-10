@@ -19,6 +19,9 @@ require("lazy").setup({ { import = "friendsfriend.plugins" }, { import = "friend
 	change_detection = {
 		notify = false,
 	},
+	performance = {
+		rtp = {
+			profile = true,
+		},
+	},
 })
-
-require("lazy").setup("friendsfriend.plugins")

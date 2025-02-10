@@ -1,7 +1,4 @@
 return {
-	-- Comments
-	{ "echasnovski/mini.comment", version = false },
-	-- Surround
 	{
 		"echasnovski/mini.surround",
 		event = { "BufReadPre", "BufNewFile" },
@@ -11,7 +8,7 @@ return {
 			custom_surroundings = nil,
 
 			-- Duration (in ms) of highlight when calling `MiniSurround.highlight()`
-			highlight_duration = 300,
+			highlight_duration = 500,
 
 			-- Module mappings. Use `''` (empty string) to disable one.
 			-- INFO:
@@ -40,21 +37,5 @@ return {
 			-- see `:h MiniSurround.config`.
 			search_method = "cover",
 		},
-	},
-	-- Split & join
-	{
-		"echasnovski/mini.splitjoin",
-		config = function()
-			local miniSplitJoin = require("mini.splitjoin")
-			miniSplitJoin.setup({
-				mappings = { toggle = "" }, -- Disable default mapping
-			})
-			vim.keymap.set({ "n", "x" }, "sj", function()
-				miniSplitJoin.join()
-			end, { desc = "Join arguments" })
-			vim.keymap.set({ "n", "x" }, "sk", function()
-				miniSplitJoin.split()
-			end, { desc = "Split arguments" })
-		end,
 	},
 }

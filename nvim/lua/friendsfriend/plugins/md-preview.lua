@@ -21,7 +21,5 @@ return {
 			},
 		})
 	end,
-	keys = {
-		{ "<leader>mm", "<cmd>MPToggle<cr>", desc = "Toggles Markdown preview" },
-	},
+	keys = require("friendsfriend.keymap.md-preview"),
 }

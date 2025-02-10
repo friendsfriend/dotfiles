@@ -70,11 +70,9 @@ return {
 		mason_lspconfig.setup_handlers({
 			-- default handler for installed servers
 			function(server_name)
-				if server_name ~= "jdtls" then
-					lspconfig[server_name].setup({
-						capabilities = capabilities,
-					})
-				end
+				lspconfig[server_name].setup({
+					capabilities = capabilities,
+				})
 			end,
 			["lua_ls"] = function()
 				-- configure lua server (with special settings)

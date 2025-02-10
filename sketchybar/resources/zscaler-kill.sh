@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 OP="$1"
 

@@ -6,16 +6,17 @@ return {
 
 		conform.setup({
 			formatters_by_ft = {
-				javascript = { "prettier" },
-				typescript = { "prettier" },
-				javascriptreact = { "prettier" },
-				typescriptreact = { "prettier" },
-				css = { "prettier" },
-				html = { "prettier" },
+				javascript = { "biomejs" },
+				typescript = { "biomejs" },
+				javascriptreact = { "biomejs" },
+				typescriptreact = { "biomejs" },
 				json = { "prettier" },
 				yaml = { "prettier" },
 				lua = { "stylua" },
 				go = { "goimports", "gofmt" },
+				bash = { "shfmt", "spellcheck" },
+				zsh = { "shfmt", "spellcheck" },
+				sh = { "shfmt", "spellcheck" },
 			},
 			format_on_save = {
 				lsp_fallback = true,

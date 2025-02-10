@@ -23,7 +23,7 @@ if [[ $STATUS_LABEL =~ \"label\"=\"([^\"]*)\" ]]; then
     LABEL="${BASH_REMATCH[1]}"
 
    if [[ $LABEL == "•" ]]; then
-        if [[ $NOTIFICATION_STATUS_COLOR != $ALERT_RED ]]; then
+        if [[ $NOTIFICATION_STATUS_COLOR != "$ALERT_RED" ]]; then
           NOTIFICATION_STATUS_COLOR=$ALERT_YELLOW
         fi
     elif [[ $LABEL =~ ^[0-9]+$ ]]; then
@@ -39,7 +39,7 @@ if [[ $STATUS_LABEL =~ \"label\"=\"([^\"]*)\" ]]; then
     LABEL="${BASH_REMATCH[1]}"
 
     if [[ $LABEL == "•" ]]; then
-        if [[ $NOTIFICATION_STATUS_COLOR != $ALERT_RED ]]; then
+        if [[ $NOTIFICATION_STATUS_COLOR != "$ALERT_RED" ]]; then
           NOTIFICATION_STATUS_COLOR=$ALERT_YELLOW
         fi
     elif [[ $LABEL =~ ^[0-9]+$ ]]; then
@@ -51,8 +51,8 @@ sketchybar --set mattermost label="${LABEL}"
 
 if [[ "$NOTIFICATION_STATUS_COLOR" != "$BAR_COLOR" ]]; then
   sketchybar --animate sin 60 \
-           --bar color=$NOTIFICATION_STATUS_COLOR  \
-                 color=$BAR_COLOR
+           --bar color="$NOTIFICATION_STATUS_COLOR"  \
+                 color="$BAR_COLOR"
 fi
 
 

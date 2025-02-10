@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd "$(dirname "$0")"
+cd "$(dirname "$0")" || exit
 cp zscaler /etc/sudoers.d/zscaler
 chmod 0600 /etc/sudoers.d/zscaler
 mkdir -p /opt/scripts

@@ -42,9 +42,9 @@ zstyle ":fzf-tab:*" fzf-min-height 50
 
 # --- setup fzf theme ---
 fg="#CBE0F0"
-bg="#011628"
-bg_highlight="#143652"
-purple="#B388FF"
+bg_highlight="#7f849c"
+bg="#1e1e2e"
+purple="#4f42b5"
 blue="#06BCE4"
 cyan="#2CF9ED"
 

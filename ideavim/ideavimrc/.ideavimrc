@@ -1,4 +1,8 @@
+" -----------------------------------------------------------
+" Options
+" -----------------------------------------------------------
 set number                        " line numbers
+set leader = " "
 
 set hlsearch                      " highlight search occurrences
 set ignorecase                    " ignore case in search patterns
@@ -11,32 +15,89 @@ set history=10000                 " keep x lines of command line history
 set scrolloff=15 sidescrolloff=10  " keep some lines before and after the cursor visible
 set clipboard=unnamedplus,unnamed,ideaput " integrate with system clipboard
 
-" Don't use Ex mode, use Q for formatting.
-map Q gq
-
-set NERDTree
-Plug 'machakann/vim-highlightedyank'
-" Commentary plugin
-Plug 'tpope/vim-commentary'
-set multiple-cursors
-set commentary
-set surround                      " emulate vim-surround plugin
-set ideajoin
-
 " use relative numbers
 set relativenumber
 
-" set <leader> to <space>
+" -----------------------------------------------------------
+" Plugins
+" -----------------------------------------------------------
+
+" Adds vim keymap to project view.
+set NERDTree
+
+" Shows yanked values in green background
+Plug 'machakann/vim-highlightedyank'
+
+" Allows smooth finding of occurrences.
+" C-f does a foreward search for the given term.
+" C-S-f does a backwards search though for the given term.
+Plug 'easymotion/vim-easymotion'
+map <C-f> <Plug>(easymotion-f)
+map <C-S-f> <Plug>(easymotion-s)
+
+" Allows surrounding selections with strings
+" cs: To change the surroundings.
+" ds: To delete the surroundings.
+" ys: To add surroundings.
+" S: To surround the currently selected text.
+Plug 'tpope/vim-surround'
+
+" Allows commenting.
+" gcc: Comment current line.
+" gc + motion: Comment using the motion.
+" gc: Comment selected text.
+Plug 'tpope/vim-commentary'
+
+" Allows selecting text and swapping it somewhere else.
+" cx + motion: Select the first block to swap or select the second, and perform the swap.
+" cxx : Similar to cx but for the current line.
+" X: Similar to cx but for the select text.
+" cxc: Cancel pending exchange.
+Plug 'tommcdo/vim-exchange'
+
+" Allows selecting statements in the same intendation level. 
+" ii: Indent level
+" ai: Indent level plus one line above
+" aI: Indent level plus one line above and below
+Plug 'michaeljsmith/vim-indent-object'
+
+" Allows selecting parameters.
+" aa: All parameters
+" ia: One parameter
+Plug 'vim-scripts/argtextobj.vim'
+let g:argtextobj_pairs="[:],(:),<:>"
+
+" Allows selecting the whole file
+" ae: Whole file
+Plug 'kana/vim-textobj-entire'
+
+" Highlights characters when using Find motions
+set quickscope
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+let g:qs_accepted_chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+
+" Adds new commands for easier selection
+" aq: Around any quotes.
+" iq: Inside any quotes.
+" ab: Around any parentheses, curly braces, and square brackets.
+" ib: Inside any parentheses, curly braces, and square brackets.
+set mini-ai
+
+" -----------------------------------------------------------
+" Custom Keymap
+" -----------------------------------------------------------
+
+" Don't use Ex mode, use Q for formatting.
+map Q gq
+
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
-
-" change font size
-nmap + <Action>(EditorIncreaseFontSize)
-nmap - <Action>(EditorDecreaseFontSize)
-nmap <leader>= <Action>(EditorResetFontSize)
 
 " input mode remaps
 imap <C-p> <Action>(ParameterInfo)
 
+" -----------------------------------------------------------
+" Ataman
+" -----------------------------------------------------------
 nnoremap <Space> :action LeaderAction<cr>
 vnoremap <Space> :action LeaderAction<cr>

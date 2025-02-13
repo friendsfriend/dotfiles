@@ -5,7 +5,7 @@ sketchybar --add event aerospace_workspace_change
 source "$CONFIG_DIR/colors.sh" # Loads all defined colors
 
 ITEM_DIR="$CONFIG_DIR/items"
-PLUGIN_DIR="$CONFIG_DIR/plugins"
+export PLUGIN_DIR="$CONFIG_DIR/plugins"
 
 FONT="MesloLGL Nerd Font Mono" # Needs to have Regular, Bold, Semibold, Heavy and Black variants
 
@@ -53,6 +53,8 @@ sketchybar --default "${default_properties[@]}"
 # -- Left Side Items --
 source $ITEM_DIR/apple.sh
 source $ITEM_DIR/front_app.sh
+
+# -- Center Items (Only on main screen)
 source $ITEM_DIR/calendar_with_meetings.sh
 
 # -- Right Side Items --

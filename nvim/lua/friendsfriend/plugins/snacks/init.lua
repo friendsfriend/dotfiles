@@ -11,6 +11,7 @@ return {
 			picker = require("friendsfriend.plugins.snacks.picker"),
 			dashboard = require("friendsfriend.plugins.snacks.dashboard"),
 			lazygit = require("friendsfriend.plugins.snacks.lazygit"),
+			image = require("friendsfriend.plugins.snacks.image"),
 		},
 		keys = require("friendsfriend.keymap.snacks-core"),
 	},

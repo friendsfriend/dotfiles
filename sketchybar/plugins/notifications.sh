@@ -12,6 +12,8 @@ if [[ $STATUS_LABEL =~ \"label\"=\"([^\"]*)\" ]]; then
           NOTIFICATION_STATUS_COLOR=$ALERT_YELLOW
     elif [[ $LABEL =~ ^[0-9]+$ ]]; then
         NOTIFICATION_STATUS_COLOR=$ALERT_RED
+    else
+        LABEL=" "
     fi
 fi
 
@@ -28,6 +30,8 @@ if [[ $STATUS_LABEL =~ \"label\"=\"([^\"]*)\" ]]; then
         fi
     elif [[ $LABEL =~ ^[0-9]+$ ]]; then
         NOTIFICATION_STATUS_COLOR=$ALERT_RED
+    else
+        LABEL=" "
     fi
 fi
 
@@ -44,6 +48,8 @@ if [[ $STATUS_LABEL =~ \"label\"=\"([^\"]*)\" ]]; then
         fi
     elif [[ $LABEL =~ ^[0-9]+$ ]]; then
         NOTIFICATION_STATUS_COLOR=$ALERT_RED
+    else
+        LABEL=" "
     fi
 fi
 

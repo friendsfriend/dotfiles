@@ -23,6 +23,30 @@ return {
 					height = math.floor(vim.o.lines * 0.8),
 				},
 			})
+
+			local Terminal = require("toggleterm.terminal").Terminal
+
+			local scooter = Terminal:new({
+				hidden = true,
+				direction = "float",
+			})
+
+			vim.keymap.set("n", "<leader>srr", function()
+				scooter.cmd = "scooter"
+				scooter:toggle()
+			end, {
+				noremap = true,
+				silent = true,
+				desc = "Scooter for workspace",
+			})
+			vim.keymap.set("n", "<leader>srf", function()
+				scooter.cmd = "scooter " .. vim.api.nvim_buf_get_name(0)
+				scooter:toggle()
+			end, {
+				noremap = true,
+				silent = true,
+				desc = "Scooter for file",
+			})
 		end,
 	},
 }

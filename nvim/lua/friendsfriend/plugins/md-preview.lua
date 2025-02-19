@@ -1,5 +1,8 @@
 return {
 	"topazape/md-preview.nvim",
+	dependencies = {
+		"akinsho/toggleterm.nvim",
+	},
 	ft = { "md", "markdown", "mkd", "mkdn", "mdwn", "mdown", "mdtxt", "mdtext", "rmd", "wiki" },
 	config = function()
 		require("md-preview").setup({

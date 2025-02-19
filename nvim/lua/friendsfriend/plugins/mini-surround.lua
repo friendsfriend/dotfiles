@@ -10,17 +10,13 @@ return {
 			-- Duration (in ms) of highlight when calling `MiniSurround.highlight()`
 			highlight_duration = 500,
 
-			-- Module mappings. Use `''` (empty string) to disable one.
-			-- INFO:
-			-- saiw surround with no whitespace
-			-- saw surround with whitespace
 			mappings = {
-				add = "sa", -- Add surrounding in Normal and Visual modes
+				add = "ys", -- Add surrounding in Normal and Visual modes
 				delete = "ds", -- Delete surrounding
 				find = "sf", -- Find surrounding (to the right)
 				find_left = "sF", -- Find surrounding (to the left)
-				highlight = "sh", -- Highlight surrounding
-				replace = "sr", -- Replace surrounding
+				highlight = "vs", -- Highlight surrounding
+				replace = "cs", -- Replace surrounding
 			},
 
 			-- Number of lines within which surrounding is searched

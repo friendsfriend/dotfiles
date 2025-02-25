@@ -22,18 +22,14 @@ set relativenumber
 " Plugins
 " -----------------------------------------------------------
 
+" Vim Flash
+map f <Action>(flash.search)
+
 " Adds vim keymap to project view.
 set NERDTree
 
 " Shows yanked values in green background
 Plug 'machakann/vim-highlightedyank'
-
-" Allows smooth finding of occurrences.
-" C-f does a foreward search for the given term.
-" C-S-f does a backwards search though for the given term.
-Plug 'easymotion/vim-easymotion'
-map <C-f> <Plug>(easymotion-f)
-map <C-S-f> <Plug>(easymotion-s)
 
 " Allows surrounding selections with strings
 " cs: To change the surroundings.

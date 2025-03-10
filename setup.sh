@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Clone the repository if it doesn't exist
 if [[ ! -d "$HOME/dotfiles" ]]; then

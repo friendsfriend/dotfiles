@@ -5,18 +5,17 @@ The goal is to have a synchronisable state across multiple maschines.
 
 ## Installation
 
-Clone this repository to a location of your liking
-
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/friendsfriend/dotfiles/main/setup.sh)"
 ```
 
-This script runs the installation scripts. This will do the following things:
+This script clones the repository and runs the included setup scripts. This will do the following things:
 
 - Ask you which type of setup you want (minimal / work)
 - Install brew if not installed
 - Install all dependencies that are stated in brew.txt
   stow.sh:
+- Install the Github cli and the copilot extension if wanted
 - Link the config files to the proper locations with GNU stow. This will create a virtual link between the actual config repository and the git repository so that your config is always in sync with the git repository.
 
 If add additional files to the dotfiles repo remember to run the stow script again.

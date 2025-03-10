@@ -19,5 +19,5 @@ export DOTFILES_ENV="$setup_type"
 
 ./dependencies.sh
 ./setup-copilot.sh
-./stow-work.sh
+./stow.sh
 

@@ -8,33 +8,21 @@ The goal is to have a synchronisable state across multiple maschines.
 Clone this repository to a location of your liking
 
 ```bash
-git clone https://github.com/friendsfriend/dotfiles.git
+bash <(curl -s https://raw.githubusercontent.com/yourusername/dotfiles/main/setup.sh)
 ```
 
-Now run the installation scripts. This will do the following things:
+This script runs the installation scripts. This will do the following things:
 
-dependencies.sh:
-
+- Ask you which type of setup you want (minimal / work)
 - Install brew if not installed
 - Install all dependencies that are stated in brew.txt
   stow.sh:
 - Link the config files to the proper locations with GNU stow. This will create a virtual link between the actual config repository and the git repository so that your config is always in sync with the git repository.
 
-```bash
-# For professional use
-./dependencies-work.sh
-./stow-work.sh
-
-# For all other use cases
-./dependencies-minimal.sh
-./stow-minimal.sh
-```
-
-If you do any changes to your dotfiles remember to run the stow script again.
+If add additional files to the dotfiles repo remember to run the stow script again.
 
 ```bash
-./stow-work.sh
-./stow-minimal.sh
+./stow.sh
 ```
 
 If you want to use sketchybar with the zscaler plugin you have to run the following command

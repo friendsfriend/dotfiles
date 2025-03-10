@@ -17,7 +17,7 @@ read -r -p "Do you want the minimal or work setup? (minimal/work): " setup_type
 export DOTFILES_ENV="$setup_type"
 
 
-./dependencies-work.sh
+./dependencies.sh
 ./setup-copilot.sh
 ./stow-work.sh
 

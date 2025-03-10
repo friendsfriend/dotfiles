@@ -8,7 +8,7 @@ The goal is to have a synchronisable state across multiple maschines.
 Clone this repository to a location of your liking
 
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/yourusername/dotfiles/main/setup.sh)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/friendsfriend/dotfiles/main/setup.sh)"
 ```
 
 This script runs the installation scripts. This will do the following things:

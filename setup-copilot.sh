@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 is_copilot_installed() {
   gh extension list | grep -q "github/gh-copilot"

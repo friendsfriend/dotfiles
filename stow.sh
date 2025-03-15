@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 stow_folder() {
     local target="$1"

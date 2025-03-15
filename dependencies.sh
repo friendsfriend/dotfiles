@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 install_brew() {
   which -s brew

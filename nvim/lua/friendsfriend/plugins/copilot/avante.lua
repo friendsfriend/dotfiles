@@ -9,14 +9,29 @@ return {
 			provider = "copilot",
 			mappings = {
 				--- @class AvanteConflictMappings
+				ask = "<leader>ca",
+				edit = "<leader>ce",
+				refresh = "<leader>cr",
+				focus = "<leader>cf",
+				toggle = {
+					default = "<leader>cc",
+					debug = "<leader>cd",
+					hint = "<leader>ch",
+					suggestion = "<leader>cs",
+					repomap = "<leader>cR",
+				},
+				files = {
+					add_current = "<leader>ca", -- Add current buffer to selected files
+				},
+				select_model = "<leader>c?", -- Select model command
 				diff = {
-					ours = "<Leader>do",
-					theirs = "<Leader>dt",
-					all_theirs = "<Leader>da",
-					both = "<Leader>db",
-					cursor = "<Leader>dd",
-					next = "<Leader>dn",
-					prev = "<Leader>dp",
+					ours = "o",
+					theirs = "t",
+					all_theirs = "a",
+					both = "b",
+					cursor = "c",
+					next = "<Leader>cn",
+					prev = "<Leader>cp",
 				},
 				suggestion = {
 					accept = "<TAB>",
@@ -25,22 +40,22 @@ return {
 					dismiss = "<C-x>",
 				},
 				jump = {
-					next = "<Leader>cn",
-					prev = "<Leader>cp",
+					next = "n",
+					prev = "p",
 				},
 				submit = {
 					normal = "<CR>",
 					insert = "<C-s>",
 				},
 				sidebar = {
-					apply_all = "<Leader>caa",
-					apply_cursor = "<Leader>cao",
-					retry_user_request = "<Leader>cur",
-					edit_user_request = "<Leader>cue",
+					apply_all = "A",
+					apply_cursor = "a",
+					retry_user_request = "r",
+					edit_user_request = "e",
 					switch_windows = "<Tab>",
 					reverse_switch_windows = "<S-Tab>",
 					remove_file = "d",
-					add_file = "<Leader>cf",
+					add_file = "@",
 					close = { "<Esc>", "q" },
 					close_from_input = nil, -- e.g., { normal = "<Esc>", insert = "<C-d>" }
 				},

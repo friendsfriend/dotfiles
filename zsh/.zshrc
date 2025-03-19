@@ -41,16 +41,12 @@ zstyle ":fzf-tab:complete:*:*" fzf-preview 'bat --color=always $realpath 2>/dev/
 zstyle ":fzf-tab:*" fzf-min-height 50
 
 # --- setup fzf theme ---
-fg="#CBE0F0"
-bg_highlight="#7f849c"
-bg="#1e1e2e"
-purple="#4f42b5"
-blue="#06BCE4"
-cyan="#2CF9ED"
-
-export FZF_DEFAULT_OPTS="--color=fg:${fg},bg:${bg},hl:${purple},fg+:${fg},bg+:${bg_highlight},hl+:${purple},info:${blue},prompt:${cyan},pointer:${cyan},marker:${cyan},spinner:${cyan},header:${cyan}"
-
-source ~/fzf-git.sh/fzf-git.sh
+export FZF_DEFAULT_OPTS=" \
+--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+--color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
+--color=selected-bg:#45475a \
+--color=border:#313244,label:#cdd6f4"
 
 # history setup
 HISTFILE=$HOME/.zhistory
@@ -66,9 +62,9 @@ bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
 
 # ----- Bat (better cat) -----
-export BAT_THEME=tokyonight_night
-# ---- Alias -----------------
+export BAT_THEME="Catppuccin Mocha"
 
+# ---- Alias -----------------
 alias ls="eza -1a --icons=always --color=always"
 alias vim="nvim"
 alias cat="bat"

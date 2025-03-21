@@ -73,7 +73,7 @@ return {
 					CodeCompanion,
 				},
 			},
-			extensions = { "nvim-tree", "mason", "lazy" },
+			extensions = { "mason", "lazy" },
 		})
 	end,
 }

@@ -30,4 +30,7 @@ return {
 	{"<leader>gg", function() require("snacks").lazygit() end, desc = "[G]it: UI",},
 	{"<leader>gl", function() require("snacks").lazygit.log() end, desc = "[G]it: [L]ogs",},
 	{"<leader>gs", function() require("snacks").picker.git_status() end, desc = "[G]it: [S]tatus",},
+
+  -- explorer 
+	{"<leader>ee", function() require("snacks").explorer.reveal() end, desc = "[E]xplorer",},
 }

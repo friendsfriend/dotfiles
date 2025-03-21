@@ -13,6 +13,7 @@ return {
 			lazygit = require("friendsfriend.plugins.snacks.lazygit"),
 			image = require("friendsfriend.plugins.snacks.image"),
 			input = require("friendsfriend.plugins.snacks.input"),
+			explorer = require("friendsfriend.plugins.snacks.explorer"),
 		},
 		keys = require("friendsfriend.keymap.snacks-core"),
 	},

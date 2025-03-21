@@ -6,6 +6,16 @@ return {
 		preset = "telescope", -- defaults to this layout unless overidden
 		cycle = false,
 	},
+	sources = {
+		explorer = {
+			auto_close = true,
+			-- your explorer picker configuration comes here
+			-- or leave it empty to use the default settings
+			layout = {
+				preset = "select",
+			},
+		},
+	},
 	layouts = {
 		select = {
 			preview = false,
@@ -13,7 +23,7 @@ return {
 				backdrop = false,
 				width = 0.6,
 				min_width = 80,
-				height = 0.4,
+				height = 0.9,
 				min_height = 10,
 				box = "vertical",
 				border = "rounded",

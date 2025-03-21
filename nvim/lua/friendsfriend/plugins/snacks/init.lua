@@ -12,6 +12,7 @@ return {
 			dashboard = require("friendsfriend.plugins.snacks.dashboard"),
 			lazygit = require("friendsfriend.plugins.snacks.lazygit"),
 			image = require("friendsfriend.plugins.snacks.image"),
+			input = require("friendsfriend.plugins.snacks.input"),
 		},
 		keys = require("friendsfriend.keymap.snacks-core"),
 	},

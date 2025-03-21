@@ -6,19 +6,15 @@
     },
     "git": {
       "command": "uvx",
-      "args": ["mcp-server-git", "--repository", "/home/fabi/dotfiles"]
+      "args": [
+        "mcp-server-git",
+        "--repository",
+        "/Users/fabiankellner/dotfiles/"
+      ]
     },
     "sequential-thinking": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
-    },
-    "time": {
-      "command": "uvx",
-      "args": ["mcp-server-time"]
-    },
-    "github": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-github"]
     }
   }
 }

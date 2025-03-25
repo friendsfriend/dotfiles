@@ -73,6 +73,7 @@ export BAT_THEME="Catppuccin Mocha"
 # ---- Alias -----------------
 alias ls="eza -1a --icons=always --color=always"
 alias vim="nvim"
+alias v="nvim"
 alias cat="bat"
 alias find="fd"
 alias rm="rm -i"

@@ -6,41 +6,24 @@ return {
 		opts = {
 			-- other config
 			-- The system_prompt type supports both a string and a function that returns a string. Using a function here allows dynamically updating the prompt with mcphub
-			system_prompt = function()
-				local hub = require("mcphub").get_hub_instance()
-				if hub == nil then
-					return nil
-				else
-					return hub:get_active_servers_prompt()
-				end
-			end,
-			custom_tools = function()
-				return {
-					require("mcphub.extensions.avante").mcp_tool(),
-				}
-			end,
+			-- system_prompt = function()
+			-- 	local hub = require("mcphub").get_hub_instance()
+			-- 	if hub == nil then
+			-- 		return nil
+			-- 	else
+			-- 		return hub:get_active_servers_prompt()
+			-- 	end
+			-- end,
+			-- custom_tools = function()
+			-- 	return {
+			-- 		require("mcphub.extensions.avante").mcp_tool(),
+			-- 	}
+			-- end,
 			-- add any opts here
 			-- for example
 			provider = "copilot",
 			disabled_tools = {
-				"rag_search",
 				"python",
-				"git_diff",
-				"git_commit",
-				"list_files",
-				"search_files",
-				"search_keyword",
-				"read_file_toplevel_symbols",
-				"read_file",
-				"write_file",
-				"rename_file",
-				"delete_file",
-				"create_dir",
-				"rename_dir",
-				"delete_dir",
-				"bash",
-				"web_search",
-				"fetch",
 			},
 			mappings = {
 				--- @class AvanteConflictMappings

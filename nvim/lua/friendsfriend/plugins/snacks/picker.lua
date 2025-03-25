@@ -8,9 +8,9 @@ return {
 	},
 	sources = {
 		explorer = {
-			auto_close = true,
 			-- your explorer picker configuration comes here
 			-- or leave it empty to use the default settings
+			jump = { close = true },
 			layout = {
 				preset = "select",
 			},

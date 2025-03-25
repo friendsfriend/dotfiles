@@ -17,6 +17,11 @@ return {
 	{"<leader>fS", function() require("snacks").picker.search_history() end, desc = "[F]ind: [S]earch History",},
 	{"<leader>fc", function() require("snacks").picker.command_history() end, desc = "[F]ind: [C]ommands",},
 	{"<leader>fe", function() require("snacks").picker.diagnostics() end, desc = "[F]ind: [E]rrors and Warnings",},
+	{"<leader>fb", function() require("snacks").picker.buffers() end, desc = "[F]ind: Buffers",},
+	{"<leader>fC", function() require("snacks").picker.cliphist() end, desc = "[F]ind: Clipboard History",},
+	{"<leader>fm", function() require("snacks").picker.man() end, desc = "[F]ind: [M]an page",},
+	{"<leader>fu", function() require("snacks").picker.undo() end, desc = "[F]ind: [U]ndo History",},
+	{"<leader>fp", function() require("snacks").picker.zoxide() end, desc = "[F]ind: [Projects]",},
 
   -- lsp
 	{"<leader>ld", function() require("snacks").picker.lsp_definitions() end, desc = "[L]sp [D]efinition",},
@@ -28,7 +33,7 @@ return {
 	-- Git Stuff
 	{"<leader>gb", function() require("snacks").picker.git_branches({ layout = "select" }) end, desc = "[G]it: [B]ranches",},
 	{"<leader>gg", function() require("snacks").lazygit() end, desc = "[G]it: UI",},
-	{"<leader>gl", function() require("snacks").lazygit.log() end, desc = "[G]it: [L]ogs",},
+	{"<leader>gl", function() require("snacks").lazygit.log() end, desc = "[G]it: [L]ogs (Lazygit)",},
 	{"<leader>gs", function() require("snacks").picker.git_status() end, desc = "[G]it: [S]tatus",},
 
   -- explorer 

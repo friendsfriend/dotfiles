@@ -4,23 +4,6 @@ return {
 		event = "VeryLazy",
 		version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
 		opts = {
-			-- other config
-			-- The system_prompt type supports both a string and a function that returns a string. Using a function here allows dynamically updating the prompt with mcphub
-			-- system_prompt = function()
-			-- 	local hub = require("mcphub").get_hub_instance()
-			-- 	if hub == nil then
-			-- 		return nil
-			-- 	else
-			-- 		return hub:get_active_servers_prompt()
-			-- 	end
-			-- end,
-			-- custom_tools = function()
-			-- 	return {
-			-- 		require("mcphub.extensions.avante").mcp_tool(),
-			-- 	}
-			-- end,
-			-- add any opts here
-			-- for example
 			provider = "copilot",
 			disabled_tools = {
 				"python",

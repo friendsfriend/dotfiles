@@ -14,6 +14,7 @@ return {
 			layout = {
 				preset = "select",
 			},
+			hidden = true,
 		},
 	},
 	layouts = {

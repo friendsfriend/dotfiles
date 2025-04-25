@@ -13,7 +13,6 @@ return {
 			quickfile = require("friendsfriend.plugins.snacks.quickfile"),
 			rename = require("friendsfriend.plugins.snacks.rename"),
 			statuscolumn = require("friendsfriend.plugins.snacks.statuscolumn"),
-			scroll = require("friendsfriend.plugins.snacks.scroll"),
 			toggle = require("friendsfriend.plugins.snacks.toggle"),
 			words = require("friendsfriend.plugins.snacks.words"),
 		},

@@ -37,7 +37,7 @@ enable-normalization-opposite-orientation-for-nested-containers = true
 accordion-padding = 30
 
 # Possible values: tiles|accordion
-default-root-container-layout = 'tiles'
+default-root-container-layout = 'accordion'
 
 # Possible values: horizontal|vertical|auto
 # 'auto' means: wide monitor (anything wider than high) gets horizontal orientation,
@@ -101,11 +101,13 @@ alt-left = 'focus left'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
 alt-1 = ['workspace 1', 'layout accordion','exec-and-forget open "/Applications/Microsoft Teams.app"']
-alt-b = ['workspace B', 'layout tiling', 'exec-and-forget open "/Applications/Firefox.app"']
-alt-m = ['workspace M', 'layout tiling', 'exec-and-forget open "/Applications/Mattermost.app"']
+alt-b = ['workspace B', 'layout accordion', 'exec-and-forget open "/Applications/Firefox.app"']
+alt-m = ['workspace M', 'layout accordion', 'exec-and-forget open "/Applications/Mattermost.app"']
 alt-p = ['workspace P', 'layout accordion', 'exec-and-forget open "~/Applications/Intellij IDEA Ultimate.app"']
-alt-t = ['workspace T', 'layout tiling', 'exec-and-forget open "/Applications/Ghostty.app"']
-alt-o = ['workspace O', 'layout tiling', 'exec-and-forget open "/Applications/Microsoft Outlook.app"']
+alt-t = ['workspace T', 'layout accordion', 'exec-and-forget open "/Applications/Ghostty.app"']
+alt-o = ['workspace O', 'layout accordion', 'exec-and-forget open "/Applications/Microsoft Outlook.app"']
+alt-2 = ['workspace 2', 'layout accordion']
+alt-3 = ['workspace 3', 'layout accordion']
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 alt-shift-1 = 'move-node-to-workspace 1'
@@ -114,9 +116,8 @@ alt-shift-m = 'move-node-to-workspace M'
 alt-shift-p = 'move-node-to-workspace P'
 alt-shift-t = 'move-node-to-workspace T'
 alt-shift-o = 'move-node-to-workspace O'
-
-# See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
-alt-shift-n = 'move-workspace-to-monitor --wrap-around next'
+alt-shift-2 = 'move-node-to-workspace 2'
+alt-shift-3 = 'move-node-to-workspace 3'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#mode
 alt-shift-semicolon = 'mode service'
@@ -184,5 +185,7 @@ P =  ['main']
 1 =  ['main']       
 B =  ['main']       
 O =  ['secondary', 'main']       
+2 =  ['main']       
+3 =  ['secondary','main']       
 
 

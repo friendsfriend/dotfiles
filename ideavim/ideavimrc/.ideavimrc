@@ -95,5 +95,8 @@ imap <C-p> <Action>(ParameterInfo)
 " -----------------------------------------------------------
 " Ataman
 " -----------------------------------------------------------
-nnoremap <Space> :action LeaderAction<cr>
-vnoremap <Space> :action LeaderAction<cr>
+nnoremap <HOME> :action LeaderAction<cr>
+vnoremap <HOME> :action LeaderAction<cr>
+
+nnoremap <SPACE> :action LeaderAction<cr>
+vnoremap <SPACE> :action LeaderAction<cr>

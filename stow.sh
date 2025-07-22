@@ -29,7 +29,7 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/.config/nvim/ nvim
         stow_folder "$HOME"/.config/ghostty/ ghostty
         stow_folder "$HOME"/ p10k
-        stow_folder "$HOME"/ mcpservers
+        stow_folder "$HOME"/.config/opencode/ opencode
         ;;
     work)
         stow_folder "$HOME"/ zsh
@@ -38,7 +38,7 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/.config/aerospace/ aerospace
         stow_folder "$HOME"/.config/sketchybar/ sketchybar
         stow_folder "$HOME"/ p10k
-        stow_folder "$HOME"/ mcpservers
+        stow_folder "$HOME"/.config/opencode/ opencode
         cd ideavim || exit
         stow_folder "$HOME"/ ideavimrc
         stow_folder "$HOME"/ ataman

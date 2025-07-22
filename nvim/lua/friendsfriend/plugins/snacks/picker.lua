@@ -10,10 +10,8 @@ return {
 		explorer = {
 			-- your explorer picker configuration comes here
 			-- or leave it empty to use the default settings
+			layout = "select",
 			jump = { close = true },
-			layout = {
-				preset = "select",
-			},
 			hidden = true,
 		},
 	},

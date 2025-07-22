@@ -28,6 +28,7 @@ return {
 				"tsx",
 				"yaml",
 				"html",
+				"kotlin",
 				"css",
 				"markdown",
 				"markdown_inline",

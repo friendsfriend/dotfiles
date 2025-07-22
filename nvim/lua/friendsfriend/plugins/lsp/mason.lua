@@ -4,6 +4,7 @@ local servers = {
 	"html",
 	"cssls",
 	"tailwindcss",
+	"kotlin_lsp",
 	"lua_ls",
 	"pyright",
 	"gopls",

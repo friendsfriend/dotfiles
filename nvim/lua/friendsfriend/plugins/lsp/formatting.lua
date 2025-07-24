@@ -1,3 +1,4 @@
+-- Setup automatic formatting for languages
 return {
 	"stevearc/conform.nvim",
 	event = { "BufReadPre", "BufNewFile" },

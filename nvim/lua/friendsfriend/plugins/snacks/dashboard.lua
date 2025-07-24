@@ -1,3 +1,4 @@
+-- adds a dashboard when starting nvim
 return {
 	enabled = true,
 	sections = {

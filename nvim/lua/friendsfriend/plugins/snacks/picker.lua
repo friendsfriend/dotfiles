@@ -1,3 +1,4 @@
+-- Telescope replacement for Fuzzy finding, selecting things and the explorer
 return {
 	enabled = true,
 	layout = {

@@ -1,3 +1,4 @@
+-- Allows surrounding text with quotes etc and also change / delete surrounding elements
 return {
 	{
 		"echasnovski/mini.surround",

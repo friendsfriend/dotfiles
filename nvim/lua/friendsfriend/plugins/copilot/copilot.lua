@@ -1,3 +1,4 @@
+-- Copilot base for other plugins
 return {
 	{
 		"zbirenbaum/copilot.lua",

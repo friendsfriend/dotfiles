@@ -1,3 +1,5 @@
+-- Treesitter parses the contents of files structurally into a tree
+-- It is used by lsps and other plugins for highlighting and analysis
 return {
 	"nvim-treesitter/nvim-treesitter",
 	event = { "BufReadPre", "BufNewFile" },

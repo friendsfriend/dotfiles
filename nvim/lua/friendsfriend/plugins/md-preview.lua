@@ -1,3 +1,4 @@
+-- Adds a markdown preview shortcut
 return {
 	"topazape/md-preview.nvim",
 	dependencies = {

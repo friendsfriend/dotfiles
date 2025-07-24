@@ -1,3 +1,4 @@
+-- Introduces a status line on the bottom with useful information
 return {
 	"nvim-lualine/lualine.nvim",
 	dependencies = {

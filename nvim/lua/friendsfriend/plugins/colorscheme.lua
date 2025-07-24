@@ -1,3 +1,4 @@
+-- Sets the colorscheme to catppuccin-mocha
 return {
 	{
 		"catppuccin/nvim",

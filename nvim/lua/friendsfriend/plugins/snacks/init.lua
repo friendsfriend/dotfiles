@@ -1,3 +1,4 @@
+-- core for all the plugins in this folder
 return {
 	{
 		"folke/snacks.nvim",
@@ -14,7 +15,6 @@ return {
 			rename = require("friendsfriend.plugins.snacks.rename"),
 			statuscolumn = require("friendsfriend.plugins.snacks.statuscolumn"),
 			toggle = require("friendsfriend.plugins.snacks.toggle"),
-			words = require("friendsfriend.plugins.snacks.words"),
 		},
 		keys = require("friendsfriend.keymap.snacks-core"),
 	},

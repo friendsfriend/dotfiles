@@ -1,3 +1,4 @@
+-- Adds a status sign for files in lualine
 return {
 	enabled = true,
 	left = { "mark", "sign" }, -- priority of signs on the left (high to low)

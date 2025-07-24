@@ -1,3 +1,4 @@
+-- claude code for all providers and opensource
 return {
 	{
 		"NickvanDyke/opencode.nvim",

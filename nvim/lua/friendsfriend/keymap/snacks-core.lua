@@ -1,8 +1,4 @@
 return {
-  -- Words
-	{"<leader>wn", function() require("snacks").words.jump(vim.v.count1) end, desc = "[W]ord: [N]ext Reference", mode = { "n", "t" },},
-	{"<leader>wp", function() require("snacks").words.jump(-vim.v.count1) end, desc = "[W]ord: [P]revious Reference", mode = { "n", "t" },},
-
   -- Rename
 	{"<leader>rr", function() require("snacks").rename.rename_file() end, desc = "[R]ename: Current File",},
 

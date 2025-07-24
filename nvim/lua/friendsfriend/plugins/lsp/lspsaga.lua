@@ -1,3 +1,4 @@
+-- Nicer user experience for lsp features
 return {
 	{
 		"nvimdev/lspsaga.nvim",

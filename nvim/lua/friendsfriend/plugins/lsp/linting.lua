@@ -1,3 +1,4 @@
+-- Configures automatic linting for certain languages
 return {
 	"mfussenegger/nvim-lint",
 	event = { "BufReadPre", "BufNewFile" },

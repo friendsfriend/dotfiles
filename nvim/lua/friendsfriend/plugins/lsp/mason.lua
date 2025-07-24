@@ -1,3 +1,4 @@
+-- Package manager for lsp servers
 local servers = {
 	"bashls",
 	"ts_ls",

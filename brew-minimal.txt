@@ -23,5 +23,5 @@ font-meslo-lg-nerd-font
 scooter
 go
 gh
-sst/tap/opencode 
+sst/tap/opencode
 tmux

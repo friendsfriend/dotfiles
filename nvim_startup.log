@@ -1,0 +1,387 @@
+--- Startup times for process: Primary (or UI client) ---
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.000  000.000: --- NVIM STARTING ---
+000.139  000.139: event init
+000.390  000.251: early init
+001.658  001.268: locale set
+001.784  000.127: init first window
+005.231  003.446: inits 1
+005.253  000.022: window checked
+005.265  000.012: parsing arguments
+005.774  000.032  000.032: require('vim.shared')
+005.829  000.018  000.018: require('vim.inspect')
+005.851  000.018  000.018: require('vim._options')
+005.852  000.076  000.040: require('vim._editor')
+005.853  000.156  000.047: require('vim._init_packages')
+005.854  000.433: init lua interpreter
+008.254  002.399: expanding arguments
+008.273  000.020: inits 2
+008.486  000.213: init highlight
+008.569  000.083: clear screen
+008.703  000.017  000.017: require('vim.keymap')
+009.915  000.250  000.250: sourcing nvim_exec2()
+010.148  001.577  001.310: require('vim._defaults')
+010.149  000.003: init default mappings & autocommands
+016.894  000.044  000.044: sourcing /opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime/ftplugin.vim
+020.324  000.023  000.023: sourcing /opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime/indent.vim
+021.591  000.003  000.003: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+021.750  000.390  000.387: require('friendsfriend.core.options')
+022.011  000.260  000.260: require('friendsfriend.keymap.core')
+022.012  001.411  000.761: require('friendsfriend.core')
+027.960  005.245  005.245: require('lazy')
+028.014  000.008  000.008: require('ffi')
+028.049  000.021  000.021: require('vim.fs')
+033.131  005.081  005.081: require('vim.uri')
+033.139  005.124  000.022: require('vim.loader')
+037.034  003.831  003.831: require('lazy.stats')
+040.000  002.906  002.906: require('lazy.core.util')
+043.147  003.146  003.146: require('lazy.core.config')
+049.057  002.987  002.987: require('lazy.core.handler')
+057.979  002.843  002.843: require('lazy.pkg')
+057.983  005.900  003.057: require('lazy.core.meta')
+057.989  008.930  003.030: require('lazy.core.plugin')
+057.995  014.847  002.930: require('lazy.core.loader')
+071.189  003.112  003.112: require('lazy.async')
+077.359  003.130  003.130: require('lazy.manage.process')
+079.106  001.744  001.744: require('lazy.terminal')
+079.110  007.919  003.045: require('lazy.manage.task')
+079.112  014.002  002.971: require('lazy.manage.runner')
+079.114  016.922  002.920: require('lazy.manage')
+079.117  020.981  004.059: require('lazy.view.commands')
+082.190  003.058  003.058: require('lazy.core.fragments')
+098.022  002.960  002.960: require('friendsfriend.keymap.md-preview')
+119.254  003.623  003.623: require('friendsfriend.plugins.snacks.dashboard')
+122.160  002.904  002.904: require('friendsfriend.plugins.snacks.explorer')
+125.134  002.972  002.972: require('friendsfriend.plugins.snacks.image')
+128.107  002.971  002.971: require('friendsfriend.plugins.snacks.input')
+131.122  003.014  003.014: require('friendsfriend.plugins.snacks.lazygit')
+134.235  003.111  003.111: require('friendsfriend.plugins.snacks.picker')
+137.120  002.884  002.884: require('friendsfriend.plugins.snacks.quickfile')
+140.031  002.909  002.909: require('friendsfriend.plugins.snacks.rename')
+141.923  001.890  001.890: require('friendsfriend.plugins.snacks.statuscolumn')
+145.179  003.255  003.255: require('friendsfriend.plugins.snacks.toggle')
+148.517  003.336  003.336: require('friendsfriend.keymap.snacks-core')
+193.707  004.650  004.650: require('lazy.core.handler.cmd')
+197.744  004.026  004.026: require('lazy.core.handler.event')
+201.810  004.059  004.059: require('lazy.core.handler.keys')
+205.581  003.762  003.762: require('lazy.core.handler.ft')
+206.923  000.037  000.037: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+207.032  000.006  000.006: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+221.912  000.650  000.650: sourcing nvim_exec2() called at /opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime/filetype.lua:0
+221.920  004.724  004.074: sourcing /opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime/filetype.lua
+221.944  010.577  005.853: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+222.856  000.008  000.008: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+222.950  000.003  000.003: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+235.936  005.927  005.927: require('catppuccin')
+243.790  004.249  004.249: require('catppuccin.lib.hashing')
+250.391  020.426  010.250: sourcing /Users/fabiankellner/.local/share/nvim/lazy/catppuccin/colors/catppuccin-mocha.vim
+250.425  027.467  007.041: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+266.125  006.408  006.408: require('snacks')
+266.135  010.411  004.003: sourcing /Users/fabiankellner/.local/share/nvim/lazy/snacks.nvim/plugin/snacks.lua
+266.157  013.709  003.298: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+266.191  000.017  000.017: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+266.226  000.003  000.003: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+267.022  000.008  000.008: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+267.047  000.003  000.003: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+268.804  000.008  000.008: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+268.825  000.002  000.002: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+278.934  004.013  004.013: sourcing /Users/fabiankellner/.local/share/nvim/lazy/mason-tool-installer.nvim/plugin/mason-tool-installer.lua
+278.961  008.761  004.748: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+278.983  000.007  000.007: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+279.025  000.003  000.003: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+279.092  000.003  000.003: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+279.114  000.002  000.002: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+293.571  003.902  003.902: require('mason-core.path')
+305.462  004.014  004.014: require('mason-core.functional.data')
+309.460  003.991  003.991: require('mason-core.functional.function')
+313.754  004.282  004.282: require('mason-core.functional.list')
+317.768  004.002  004.002: require('mason-core.functional.relation')
+320.160  002.385  002.385: require('mason-core.functional.logic')
+324.399  004.230  004.230: require('mason-core.functional.number')
+327.302  002.894  002.894: require('mason-core.functional.string')
+331.197  003.877  003.877: require('mason-core.functional.table')
+335.476  004.182  004.182: require('mason-core.functional.type')
+335.497  038.006  004.149: require('mason-core.functional')
+335.645  042.069  004.062: require('mason-core.platform')
+340.179  004.528  004.528: require('mason.settings')
+340.196  054.581  004.082: require('mason-core.installer.InstallLocation')
+351.753  003.466  003.466: require('mason-core.log')
+351.762  007.370  003.904: require('mason-core.EventEmitter')
+355.373  003.608  003.608: require('mason-registry.sources')
+355.386  015.186  004.208: require('mason-registry')
+355.390  076.174  006.408: require('mason')
+363.196  003.879  003.879: require('mason-lspconfig.settings')
+363.203  007.810  003.931: require('mason-lspconfig')
+370.278  003.838  003.838: require('mason.version')
+370.326  007.120  003.282: require('mason-tool-installer')
+376.028  004.820  004.820: require('mason.api.command')
+378.494  002.429  002.429: require('mason-core.async')
+386.460  004.030  004.030: require('mason-core.async.control')
+390.387  003.919  003.919: require('mason-core.result')
+396.435  002.115  002.115: require('mason-core.async.uv')
+396.454  006.061  003.946: require('mason-core.fs')
+396.507  018.009  003.999: require('mason-registry.installer')
+408.295  002.621  002.621: require('mason-core.optional')
+419.181  002.722  002.722: require('mason-core.process')
+423.584  004.393  004.393: require('mason-core.spawn')
+423.597  011.063  003.947: require('mason-core.installer.managers.powershell')
+423.608  014.832  003.769: require('mason-core.fetch')
+426.132  002.518  002.518: require('mason-core.providers')
+440.726  004.580  004.580: require('mason-core.purl')
+440.755  007.232  002.652: require('mason-core.package.AbstractPackage')
+455.755  002.950  002.950: require('mason-core.installer.compiler.expr')
+455.783  007.125  004.175: require('mason-core.installer.compiler.link')
+473.197  002.809  002.809: require('mason-core.installer.context.InstallContextCwd')
+475.924  002.716  002.716: require('mason-core.installer.context.InstallContextFs')
+479.671  003.740  003.740: require('mason-core.installer.context.InstallContextSpawn')
+483.689  004.006  004.006: require('mason-core.receipt')
+483.745  017.204  003.933: require('mason-core.installer.context')
+483.751  020.983  003.780: require('mason-core.installer')
+483.791  025.368  004.385: require('mason-core.installer.managers.std')
+483.797  028.009  002.641: require('mason-core.installer.compiler.schemas')
+487.678  003.876  003.876: require('mason-core.installer.compiler.util')
+487.708  042.841  003.831: require('mason-core.installer.compiler')
+492.102  004.388  004.388: require('mason-core.installer.linker')
+492.120  051.361  004.132: require('mason-core.installer.InstallRunner')
+495.213  003.085  003.085: require('mason-core.installer.UninstallRunner')
+495.239  065.775  004.097: require('mason-core.package')
+495.249  069.110  003.336: require('mason-registry.sources.util')
+495.285  093.799  004.718: require('mason-registry.sources.github')
+516.426  000.025  000.025: require('vim.F')
+525.048  004.071  004.071: require('mason-lspconfig.mappings')
+525.060  008.616  004.544: require('mason-lspconfig.features.automatic_enable')
+563.680  004.710  004.710: require('vim.lsp.log')
+569.297  005.611  005.611: require('vim.lsp.protocol')
+574.440  005.139  005.139: require('vim.lsp.util')
+584.547  004.973  004.973: require('vim.lsp.sync')
+584.555  010.111  005.138: require('vim.lsp._changetracking')
+593.478  004.698  004.698: require('vim.lsp._transport')
+593.530  008.973  004.276: require('vim.lsp.rpc')
+593.611  039.662  005.117: require('vim.lsp')
+664.559  005.975  005.975: require('mason-lspconfig.notify')
+664.576  014.358  008.383: require('mason-lspconfig.api.command')
+671.055  000.061  000.061: sourcing /Users/fabiankellner/.local/share/nvim/lazy/nvim-web-devicons/plugin/nvim-web-devicons.vim
+671.064  005.341  005.280: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+671.069  000.002  000.002: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+671.078  000.001  000.001: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+671.356  000.001  000.001: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+671.361  000.001  000.001: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+671.380  000.001  000.001: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+671.385  000.001  000.001: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+677.749  006.362  006.362: require('wilder')
+683.484  005.734  005.734: require('wilder.shim')
+697.267  000.042  000.042: sourcing /Users/fabiankellner/.local/share/nvim/lazy/wilder.nvim/autoload/wilder/lua.vim
+711.738  000.453  000.453: sourcing /Users/fabiankellner/.local/share/nvim/lazy/wilder.nvim/autoload/wilder.vim
+715.885  000.044  000.044: sourcing /Users/fabiankellner/.local/share/nvim/lazy/wilder.nvim/autoload/wilder/setup.vim
+721.241  000.070  000.070: sourcing /Users/fabiankellner/.local/share/nvim/lazy/wilder.nvim/autoload/wilder/options.vim
+728.351  000.157  000.157: sourcing /Users/fabiankellner/.local/share/nvim/lazy/wilder.nvim/autoload/wilder/highlighter.vim
+734.211  000.128  000.128: sourcing /Users/fabiankellner/.local/share/nvim/lazy/wilder.nvim/autoload/wilder/highlight.vim
+742.811  000.167  000.167: sourcing /Users/fabiankellner/.local/share/nvim/lazy/wilder.nvim/autoload/wilder/renderer/popupmenu_border_theme.vim
+749.203  000.093  000.093: sourcing /Users/fabiankellner/.local/share/nvim/lazy/wilder.nvim/autoload/wilder/renderer/component/popupmenu_error_message.vim
+753.945  000.049  000.049: sourcing /Users/fabiankellner/.local/share/nvim/lazy/wilder.nvim/autoload/wilder/renderer/component/popupmenu_scrollbar.vim
+760.711  000.434  000.434: sourcing /Users/fabiankellner/.local/share/nvim/lazy/wilder.nvim/autoload/wilder/renderer/popupmenu.vim
+767.027  000.140  000.140: sourcing /Users/fabiankellner/.local/share/nvim/lazy/wilder.nvim/autoload/wilder/render.vim
+772.921  000.057  000.057: sourcing /Users/fabiankellner/.local/share/nvim/lazy/wilder.nvim/autoload/wilder/cache.vim
+780.361  000.195  000.195: sourcing /Users/fabiankellner/.local/share/nvim/lazy/wilder.nvim/autoload/wilder/renderer/nvim_api.vim
+781.061  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+781.076  000.002  000.002: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+801.997  003.868  003.868: require('nvim-ts-autotag._log')
+806.332  004.330  004.330: require('nvim-ts-autotag.config.init')
+835.732  003.255  003.255: require('vim.treesitter.language')
+840.309  004.572  004.572: require('vim.func')
+845.350  005.027  005.027: require('vim.func._memoize')
+845.542  016.914  004.061: require('vim.treesitter.query')
+849.447  003.902  003.902: require('vim.treesitter._range')
+849.480  025.628  004.812: require('vim.treesitter.languagetree')
+849.493  029.065  003.437: require('vim.treesitter')
+849.500  033.086  004.021: require('nvim-ts-autotag.utils')
+849.506  038.016  004.930: require('nvim-ts-autotag.config.ft')
+849.517  043.181  005.166: require('nvim-ts-autotag.config.plugin')
+849.530  055.363  003.984: require('nvim-ts-autotag.internal')
+849.533  058.698  003.335: require('nvim-ts-autotag')
+864.525  004.730  004.730: require('nvim-treesitter.utils')
+872.272  007.739  007.739: require('nvim-treesitter.parsers')
+892.064  004.121  004.121: require('nvim-treesitter.compat')
+901.965  005.922  005.922: require('nvim-treesitter.ts_utils')
+901.980  009.912  003.989: require('nvim-treesitter.tsrange')
+906.951  004.968  004.968: require('nvim-treesitter.caching')
+906.996  024.196  005.195: require('nvim-treesitter.query')
+907.056  029.088  004.892: require('nvim-treesitter.configs')
+907.078  034.796  005.708: require('nvim-treesitter.info')
+911.709  004.628  004.628: require('nvim-treesitter.shell_command_selectors')
+911.831  057.532  005.639: require('nvim-treesitter.install')
+916.440  004.605  004.605: require('nvim-treesitter.statusline')
+922.351  005.905  005.905: require('nvim-treesitter.query_predicates')
+922.360  072.824  004.782: require('nvim-treesitter')
+922.370  135.604  004.082: sourcing /Users/fabiankellner/.local/share/nvim/lazy/nvim-ts-autotag/plugin/nvim-ts-autotag.lua
+922.412  139.216  003.611: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+922.455  000.015  000.015: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+922.528  000.003  000.003: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+936.230  004.665  004.665: require('vim.iter')
+938.228  010.018  005.353: sourcing /Users/fabiankellner/.local/share/nvim/lazy/nvim-treesitter/plugin/nvim-treesitter.lua
+938.272  014.700  004.682: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+938.381  000.010  000.010: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+938.451  000.007  000.007: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+952.500  005.987  005.987: require('nvim-treesitter.indent')
+959.683  007.061  007.061: require('nvim-treesitter.highlight')
+971.857  005.766  005.766: require('nvim-treesitter.locals')
+971.868  011.876  006.110: require('nvim-treesitter.incremental_selection')
+983.649  005.252  005.252: sourcing /Users/fabiankellner/.local/share/nvim/lazy/lspsaga.nvim/plugin/lspsaga.lua
+983.681  011.079  005.827: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+983.710  000.012  000.012: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+983.755  000.003  000.003: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+989.707  005.943  005.943: require('lspsaga')
+999.635  004.881  004.881: require('lspsaga.lspkind')
+999.649  009.626  004.746: require('lspsaga.highlight')
+1007.620  007.240  007.240: require('vim.diagnostic')
+1020.637  006.696  006.696: require('vim.version')
+1035.190  008.207  008.207: require('lspsaga.util')
+1035.277  027.579  012.677: require('lspsaga.codeaction.lightbulb')
+1044.600  008.255  008.255: require('lspsaga.symbol.head')
+1044.834  000.008  000.008: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1044.853  000.003  000.003: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1057.355  005.526  005.526: require('lualine_require')
+1077.974  033.114  027.588: require('lualine')
+1082.834  004.855  004.855: require('lazy.status')
+1094.712  011.875  011.875: require('lualine.component')
+1095.179  000.022  000.022: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1112.466  005.126  005.126: require('catppuccin.utils.lualine')
+1116.910  004.441  004.441: require('catppuccin.palettes')
+1120.475  003.556  003.556: require('catppuccin.palettes.mocha')
+1128.903  000.034  000.034: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1129.060  000.013  000.013: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1129.074  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1129.148  000.013  000.013: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1129.164  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1129.282  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1129.302  000.006  000.006: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1129.315  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1129.331  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1129.344  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1129.358  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1129.367  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1129.383  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1129.398  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1129.409  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1129.422  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1129.431  000.003  000.003: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1129.472  000.031  000.031: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1151.372  005.142  005.142: require('lualine.utils.mode')
+1167.540  000.108  000.108: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1167.592  000.023  000.023: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1174.458  000.033  000.033: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1174.486  000.007  000.007: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1174.504  000.006  000.006: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1174.520  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1174.535  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1174.550  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1174.568  000.007  000.007: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1174.589  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1174.602  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1174.617  000.006  000.006: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1174.632  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1174.646  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1174.660  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1174.674  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1174.695  000.007  000.007: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1174.709  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1174.726  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1174.739  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1174.797  000.019  000.019: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1174.819  000.007  000.007: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1174.835  000.006  000.006: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1182.342  000.054  000.054: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1182.361  000.006  000.006: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1182.373  000.006  000.006: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1182.389  000.012  000.012: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.057  000.038  000.038: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.081  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.097  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.117  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.131  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.144  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.160  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.183  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.201  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.212  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.225  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.237  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.249  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.261  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.277  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.287  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.331  000.013  000.013: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.346  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.479  000.010  000.010: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.492  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.504  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.623  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.634  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.644  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.655  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.667  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.681  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1198.696  000.004  000.004: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1211.289  000.025  000.025: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1211.317  000.007  000.007: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1211.339  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1211.358  000.006  000.006: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1211.375  000.006  000.006: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1211.395  000.006  000.006: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1211.410  000.005  000.005: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1227.514  000.059  000.059: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1227.666  000.039  000.039: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1227.734  000.058  000.058: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1227.773  000.025  000.025: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1227.795  000.010  000.010: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1236.244  003.842  003.842: sourcing /opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime/plugin/editorconfig.lua
+1236.278  007.110  003.268: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1242.937  000.543  000.543: sourcing /opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime/plugin/gzip.vim
+1242.992  006.536  005.992: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1250.532  003.550  003.550: sourcing /opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime/plugin/man.lua
+1250.570  007.546  003.997: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1264.430  000.481  000.481: sourcing /opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime/pack/dist/opt/matchit/plugin/matchit.vim
+1264.538  010.925  010.444: sourcing /opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime/plugin/matchit.vim
+1264.561  013.969  003.044: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1271.096  000.471  000.471: sourcing /opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime/plugin/matchparen.vim
+1271.156  006.562  006.091: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1282.153  000.442  000.442: sourcing /opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime/pack/dist/opt/netrw/plugin/netrwPlugin.vim
+1282.213  008.438  007.996: sourcing /opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime/plugin/netrwPlugin.vim
+1282.228  011.037  002.599: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1287.688  002.332  002.332: sourcing /opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime/plugin/osc52.lua
+1287.706  005.460  003.128: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1291.373  000.199  000.199: sourcing /opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime/plugin/rplugin.vim
+1291.391  003.671  003.472: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1294.273  000.104  000.104: sourcing /opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime/plugin/shada.vim
+1294.302  002.898  002.793: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1296.237  000.037  000.037: sourcing /opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime/plugin/spellfile.vim
+1296.256  001.939  001.902: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1298.825  000.128  000.128: sourcing /opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime/plugin/tarPlugin.vim
+1298.844  002.578  002.451: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1304.305  003.435  003.435: sourcing /opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime/plugin/tohtml.lua
+1304.320  005.466  002.031: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1306.496  000.064  000.064: sourcing /opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime/plugin/tutor.vim
+1306.528  002.200  002.136: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1309.297  000.139  000.139: sourcing /opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime/plugin/zipPlugin.vim
+1309.315  002.771  002.632: sourcing nvim_exec2() called at /Users/fabiankellner/.config/nvim/init.lua:0
+1309.708  1287.694  425.868: require('friendsfriend.lazy')
+1309.710  1289.144  000.039: sourcing /Users/fabiankellner/.config/nvim/init.lua
+1309.734  010.373: sourcing vimrc file(s)
+1310.609  000.086  000.086: sourcing /opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime/filetype.lua
+1319.619  000.086  000.086: sourcing /opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime/syntax/synload.vim
+1319.734  003.413  003.327: sourcing /opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime/syntax/syntax.vim
+1319.757  006.524: inits 3
+1328.076  008.319: reading ShaDa
+1330.354  002.067  002.067: require('vim.filetype')
+1335.412  004.641  004.641: require('vim.filetype.detect')
+1339.336  003.586  003.586: require('snacks.explorer')
+1339.546  001.176: reading stdin
+1339.568  000.022: opening buffers
+1339.650  000.082: BufEnter autocommands
+1339.653  000.003: editing files in windows
+1339.692  000.038: --- NVIM STARTED ---
+

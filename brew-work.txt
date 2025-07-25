@@ -28,3 +28,4 @@ mdcat
 font-meslo-lg-nerd-font
 scooter
 sst/tap/opencode 
+tmux

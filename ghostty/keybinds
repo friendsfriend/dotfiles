@@ -3,29 +3,6 @@
 # ------------------------------------
 
 # (ctrl b for tmux -> cmb b for ghostty)
-keybind = super+b>r=reload_config
-keybind = super+b>x=close_surface
 keybind = global:super+g=new_window
 
-
-# splitting
-# | current does not work
-keybind = super+b>right=new_split:right
-keybind = super+b>left=new_split:left
-keybind = super+b>down=new_split:down
-keybind = super+b>up=new_split:up
-keybind = super+b>e=equalize_splits
-
-# split nav
-keybind = super+b>h=goto_split:left
-keybind = super+b>j=goto_split:bottom
-keybind = super+b>k=goto_split:top
-keybind = super+b>l=goto_split:right
-
-# ------------------------------------
-# additional keybinds
-# ------------------------------------
-
 keybind = global:super+t=toggle_quick_terminal
-keybind = super+b>z=toggle_split_zoom
-keybind = super+b>i=inspector:toggle

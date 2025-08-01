@@ -46,6 +46,15 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/ ataman
         cd .. || exit
         ;;
+    arch)
+        stow_folder "$HOME"/ zsh
+        stow_folder "$HOME"/.config/nvim/ nvim
+        stow_folder "$HOME"/.config/ghostty/ ghostty
+        stow_folder "$HOME"/ p10k
+        stow_folder "$HOME"/.config/opencode/ opencode
+        stow_folder "$HOME"/ tmux
+        stow_folder "$HOME"/.config/hypr/ hyprland
+	;;
     *)
         echo "Invalid DOTFILES_ENV value. Please set it to 'minimal' or 'work'."
         exit 1

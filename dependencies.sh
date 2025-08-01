@@ -11,6 +11,13 @@ install_brew() {
   fi
 }
 
+install_packages_arch() {
+  local package_file=$1
+  while IFS='' read -r line || [[ -n "$line" ]]; do
+  yay -Sy "$line" --noconfirm
+  done < "$package_file"
+}
+
 install_packages() {
   local package_file=$1
   while IFS='' read -r line || [[ -n "$line" ]]; do
@@ -28,8 +35,11 @@ case "$DOTFILES_ENV" in
     install_brew
     install_packages "./brew-work.txt"
     ;;
+  arch)
+    install_packages_arch "./arch.txt"
+    ;;
   *)
-    echo "Invalid DOTFILES_ENV value. Please set it to 'minimal' or 'work'."
+    echo "Invalid DOTFILES_ENV value. Please set it to 'minimal', 'work' or 'arch'."
     exit 1
     ;;
 esac

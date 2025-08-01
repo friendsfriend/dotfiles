@@ -12,7 +12,7 @@ else
 fi
 
 # Prompt the user to choose the setup type
-read -r -p "Do you want the minimal or work setup? (minimal/work): " setup_type
+read -r -p "Do you want the minimal, work or arch setup? (minimal/work/arch): " setup_type
 
 # Set the DOTFILES_ENV environment variable
 export DOTFILES_ENV="$setup_type"

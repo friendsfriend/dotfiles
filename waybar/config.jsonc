@@ -1,17 +1,10 @@
 {
-  "output": "DP-4",
   "layer": "top",
   "position": "top",
-  "height": 40,
-  "width": 2560,
+  "height": 37,
   "spacing": 1,
   "modules-left": [
-    "hyprland/workspaces",
-    "tray",
-    "mpris"
-  ],
-  "modules-center": [
-    "hyprland/window"
+    "hyprland/workspaces"
   ],
   "modules-right": [
     "temperature",
@@ -23,31 +16,24 @@
   "hyprland/workspaces": {
     "format": "{name}: {icon}",
     "format-icons": {
+      "1": "",
+      "2": "",
+      "3": "",
+      "4": "",
       "active": "",
       "default": ""
-    }
-  },
-  "mpris": {
-    "interval": 15,
-    "format": "{player_icon} {dynamic}",
-    "format-paused": "{status_icon} <i>{dynamic}</i>",
-    "dynamic-order": [
-      "artist",
-      "title"
-    ],
-    "player-icons": {
-      "default": "▶",
-      "firefox": "▶",
-      "tidal-hifi": "🎵",
-      "cmus": "🎵"
     },
-    "status-icons": {
-      "paused": "⏸"
+    "persistent-workspaces": {
+      "DP-4": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "DP-3": [
+        1
+      ]
     }
-  },
-  "tray": {
-    "icon-size": 13,
-    "spacing": 10
   },
   "clock": {
     "interval": 60,

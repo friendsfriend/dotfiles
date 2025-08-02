@@ -53,8 +53,6 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/ p10k
         stow_folder "$HOME"/.config/opencode/ opencode
         stow_folder "$HOME"/ tmux
-        stow_folder "$HOME"/.config/hypr/ hyprland
-        stow_folder "$HOME"/.config/waybar/ waybar
 	;;
     *)
         echo "Invalid DOTFILES_ENV value. Please set it to 'minimal' or 'work'."

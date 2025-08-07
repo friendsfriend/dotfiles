@@ -37,6 +37,7 @@ case "$DOTFILES_ENV" in
     ;;
   arch)
     install_packages_arch "./arch.txt"
+    ./install-hyde.sh
     ;;
   *)
     echo "Invalid DOTFILES_ENV value. Please set it to 'minimal', 'work' or 'arch'."

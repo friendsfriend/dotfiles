@@ -24,3 +24,4 @@ scooter
 go
 github-cli
 tmux
+hyprland

@@ -31,6 +31,7 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/ p10k
         stow_folder "$HOME"/.config/opencode/ opencode
         stow_folder "$HOME"/ tmux
+        stow_folder "$HOME"/.config/btop/ btop
         ;;
     work)
         stow_folder "$HOME"/ zsh
@@ -41,6 +42,7 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/ p10k
         stow_folder "$HOME"/.config/opencode/ opencode
         stow_folder "$HOME"/ tmux
+        stow_folder "$HOME"/.config/btop/ btop
         cd ideavim || exit
         stow_folder "$HOME"/ ideavimrc
         stow_folder "$HOME"/ ataman
@@ -53,6 +55,7 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/ p10k
         stow_folder "$HOME"/.config/opencode/ opencode
         stow_folder "$HOME"/ tmux
+        stow_folder "$HOME"/.config/btop/ btop
 	;;
     *)
         echo "Invalid DOTFILES_ENV value. Please set it to 'minimal' or 'work'."

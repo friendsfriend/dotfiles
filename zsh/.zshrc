@@ -84,7 +84,9 @@ alias cd="z"
 alias top="btop"
 
 export EDITOR=nvim
+export TERM=ghostty
 
+export TERM=ghostty
 # Highlight man pages
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export MANROFFOPT="-c"

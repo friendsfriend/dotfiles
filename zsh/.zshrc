@@ -111,3 +111,8 @@ function y() {
 	fi
 	rm -f -- "$tmp"
 }
+
+# Ctrl+X Ctrl+E -> Edit current command in editor
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey "^E" edit-command-line

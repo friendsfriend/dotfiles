@@ -18,7 +18,7 @@ stow_folder() {
     local source="$2"
 
     # Check if both parameters are provided
-    if [[ -z "$target" || -z "$source" ]]; then
+      if [[ -z "$target" || -z "$source" ]]; then
         echo "Usage: stow_with_target_check <target> <source>"
         return 1
     fi

@@ -1,17 +1,4 @@
-pacman -S --needed git base-devel
-git clone --depth 1 https://github.com/HyDE-Project/HyDE ~/HyDE
-cd ~/HyDE/Scripts
-./install.sh
-
-rm -rf ~/.config/hypr/userprefs.conf
-rm -rf ~/.config/hypr/monitors.conf
-rm -rf ~/.config/hypr/keybindings.conf
-rm -rf ~/.config/hypr/windowrules.conf
-rm -rf ~/.config/hyde/config.toml
-
-stow_folder "$HOME"/.config/hypr/ /hyprland/hyde/hypr/
-stow_folder "$HOME"/.config/hyde/ /hyprland/hyde/hyde/
-
+#!/bin/bash
 
 stow_folder() {
     local target="$1"
@@ -34,3 +21,19 @@ stow_folder() {
     stow -t "$target" "$source"
 }
 
+pacman -S --needed git base-devel
+git clone --depth 1 https://github.com/HyDE-Project/HyDE ~/HyDE
+cd ~/HyDE/Scripts || exit
+./install.sh
+
+rm -rf ~/.config/hypr/userprefs.conf
+rm -rf ~/.config/hypr/monitors.conf
+rm -rf ~/.config/hypr/keybindings.conf
+rm -rf ~/.config/hypr/windowrules.conf
+rm -rf ~/.config/hyde/config.toml
+
+stow_folder "$HOME"/.config/hypr/ /hyprland/hyde/hypr/
+stow_folder "$HOME"/.config/hyde/ /hyprland/hyde/hyde/
+
+rm -rf ~/.zshrc
+rm -rf ~/.zshenv

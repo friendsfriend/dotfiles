@@ -11,17 +11,18 @@ The goal is to have a synchronisable state across multiple maschines.
 
 This script clones the repository and runs the included setup scripts. This will do the following things:
 
-- Ask you which type of setup you want (minimal / work / omarchy)
-- Install brew if not installed
-- Install all dependencies that are stated in brew.txt
-  stow.sh:
-- Install the Github cli and the copilot extension if wanted
-- Link the config files to the proper locations with GNU stow. This will create a virtual link between the actual config repository and the git repository so that your config is always in sync with the git repository.
+* Ask you which type of setup you want (minimal / work / omarchy)
+* Install Dependencies
+    * MacOS: Installs brew if not yet installed and uses it to install all packages from minimal.txt or work.txt
+    * Omarchy: Installs all packages via pacman
+* (Omarchy only) Removes unwanted preinstalled stuff and configs
+* Link the config files to the proper locations with GNU stow. This will create a virtual link between the actual config repository and the git repository so that your config is always in sync with the git repository.
+* (Optional) Install the Github cli and the copilot extension if wanted
 
 If add additional files to the dotfiles repo remember to run the stow script again.
 
 ```bash
-./stow.sh
+./scripts/stow.sh
 ```
 
 If you want to use sketchybar with the zscaler plugin you have to run the following command

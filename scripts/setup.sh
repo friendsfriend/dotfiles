@@ -22,19 +22,19 @@ echo "You selected the following configuration: $DOTFILES_ENV"
 case "$DOTFILES_ENV" in
   minimal)
     ~/dotfiles/scripts/dependencies.sh
-    ~/dotfiles/scripts/setup-copilot.sh
     ~/dotfiles/scripts/stow.sh
+    ~/dotfiles/scripts/setup-copilot.sh
     ;;
   work)
     ~/dotfiles/scripts/dependencies.sh
-    ~/dotfiles/scripts/setup-copilot.sh
     ~/dotfiles/scripts/stow.sh
+    ~/dotfiles/scripts/setup-copilot.sh
     ;;
   omarchy)
     ~/dotfiles/scripts/dependencies.sh
     ~/dotfiles/scripts/setup-omarchy.sh
-    ~/dotfiles/scripts/setup-copilot.sh
     ~/dotfiles/scripts/stow.sh
+    ~/dotfiles/scripts/setup-copilot.sh
     ;;
   *)
     echo "Invalid DOTFILES_ENV value. Please set it to 'minimal', 'work' or 'omarchy'."

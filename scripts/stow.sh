@@ -18,8 +18,11 @@ stow_folder() {
     fi
 
     # Run the stow command
-    echo "Running stow command..."
+    echo "Creating symlink for $3 from $source to $target"
+    
+    cd ~/dotfiles || exit
     stow -t "$target" "$source"
+    cd ~/dotfiles/scripts || exit
 }
 
 # Stow links the folders in the repository to the specified config locations so that the system finds them
@@ -48,7 +51,8 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/ ataman
         cd .. || exit
         ;;
-    arch)
+    omarchy)
+        stow_folder "$HOME"/.config/hypr/ hyprland
         stow_folder "$HOME"/ zsh
         stow_folder "$HOME"/.config/nvim/ nvim
         stow_folder "$HOME"/.config/ghostty/ ghostty
@@ -56,10 +60,10 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/.config/opencode/ opencode
         stow_folder "$HOME"/ tmux
         stow_folder "$HOME"/.config/btop/ btop
+        hyprctl reload
 	;;
     *)
-        echo "Invalid DOTFILES_ENV value. Please set it to 'minimal' or 'work'."
+        echo "Invalid DOTFILES_ENV value. Please set it to 'minimal', 'work' or 'omarchy'."
         exit 1
         ;;
-esac
-
+  esac

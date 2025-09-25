@@ -6,12 +6,12 @@ The goal is to have a synchronisable state across multiple maschines.
 ## Installation
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/friendsfriend/dotfiles/main/setup.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/friendsfriend/dotfiles/main/scripts/setup.sh)"
 ```
 
 This script clones the repository and runs the included setup scripts. This will do the following things:
 
-- Ask you which type of setup you want (minimal / work)
+- Ask you which type of setup you want (minimal / work / omarchy)
 - Install brew if not installed
 - Install all dependencies that are stated in brew.txt
   stow.sh:

@@ -1,2 +1,4 @@
+command = /bin/zsh
+
 config-file = keybinds
 config-file = options

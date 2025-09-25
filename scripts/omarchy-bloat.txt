@@ -1,0 +1,4 @@
+1password-cli
+1password-beta
+libreoffice-fresh
+signal-desktop

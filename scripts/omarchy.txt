@@ -25,3 +25,4 @@ go
 github-cli
 tmux
 hyprland
+firefox

@@ -26,3 +26,4 @@ github-cli
 tmux
 hyprland
 firefox
+eww

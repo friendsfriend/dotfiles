@@ -2,3 +2,4 @@
 1password-beta
 libreoffice-fresh
 signal-desktop
+typora

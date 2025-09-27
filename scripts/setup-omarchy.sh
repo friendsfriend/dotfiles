@@ -16,12 +16,8 @@ remove_packages_omarchy() {
 
 echo "Setting up omarchy"
 
-echo "Removing hyprland montior.conf..."
-rm -rf ~/.config/hypr/monitors.conf
-echo "Removing hyprland input.conf..."
-rm -rf ~/.config/hypr/input.conf
-echo "Removing hyprland bindings.conf..."
-rm -rf ~/.config/hypr/bindings.conf
+rm -rf ~/.config/hypr
+mkdir ~/.config/hypr
 
 echo "Removing predefinded ghostty config..."
 rm -rf ~/.config/ghostty

@@ -65,7 +65,7 @@ openWidget() {
           ([]; . + [$in[$i : ($i + $n)]]);
     chunks($n)
   ')
-  eww --config "$CONFIG_DIR" open which-key --arg bindsJson="$grouped"
+  eww --config "$CONFIG_DIR" open which-key --screen 1 --arg bindsJson="$grouped" 
 }
 
 if [[ $toggleBase == true ]]; then

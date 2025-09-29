@@ -41,11 +41,11 @@ Plug 'tpope/vim-surround'
 " gc: Comment selected text.
 Plug 'tpope/vim-commentary'
 
-" Allows selecting text and swapping it somewhere else.
-" cx + motion: Select the first block to swap or select the second, and perform the swap.
-" cxx : Similar to cx but for the current line.
-" X: Similar to cx but for the select text.
-" cxc: Cancel pending exchange.
+"Allows selecting text and swapping it somewhere else.
+"cx + motion: Select the first block to swap or select the second, and perform the swap.
+"cxx : Similar to cx but for the current line.
+"X: Similar to cx but for the select text.
+"cxc: Cancel pending exchange.
 Plug 'tommcdo/vim-exchange'
 
 " Allows selecting statements in the same intendation level. 

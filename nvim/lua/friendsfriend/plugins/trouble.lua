@@ -13,6 +13,7 @@ return {
 			keys = {
 				q = "close",
 				["<cr>"] = "jump_close",
+				["<esc>"] = "close",
 			},
 		},
 		cmd = "Trouble",

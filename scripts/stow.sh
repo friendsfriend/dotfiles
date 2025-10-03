@@ -53,6 +53,7 @@ case "$DOTFILES_ENV" in
         ;;
     omarchy)
         stow_folder "$HOME"/.config/hypr/ hyprland
+        stow_folder "$HOME"/.config/waybar/ waybar
         stow_folder "$HOME"/ zsh
         stow_folder "$HOME"/.config/nvim/ nvim
         stow_folder "$HOME"/.config/ghostty/ ghostty

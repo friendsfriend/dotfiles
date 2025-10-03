@@ -23,6 +23,8 @@ echo "Removing predefinded ghostty config..."
 rm -rf ~/.config/ghostty
 echo "Removing preinstalled nvim config..."
 rm -rf ~/.config/nvim
+echo "Removing preinstalled waybar config..."
+rm -rf ~/.config/waybar
 
 echo "Starting to remove omarchy bloatware..."
 remove_packages_omarchy ~/dotfiles/scripts/omarchy-bloat.txt

@@ -40,3 +40,23 @@ If you want to create a local zshrc that overrides the defaults provided by this
 The provided values will override the values defined in `zsh/.zshrc`.
 This way you can apply maschine specific settigs like $PATH modifications.
 The git repository will automatically ignore that file.
+
+## Wayland Path of Exile (1 & 2) price checking
+
+As all currently available price checker dont really work well with wayland / linux in general I came up with my own solution. 
+
+The basic idea is to use the omarchy web app functionality to spawn a window that price checks the item description in the clipboard. 
+
+How it works:
+
+1. Download and run Sidekick **Important: Use the linux web version** (https://github.com/Sidekick-Poe/Sidekick/releases)
+2. Copy an item in either Path of Exile or Path of Exile 2
+3. Use SUPER + D (defined in hyprland/bindings.conf). This will
+    * Switch to workspace 9 (I asume no one uses that one)
+    * Spawn omarchy web app for the item in the clipboard
+4. Use SUPER + D (defined in hyprland/bindings.conf). This will
+    * Kill the active app (only if you are in workspace 9)
+    * Switch to workspace 1 (I always run games in the first workspace)
+5. Happy price checking :)
+
+Note: If you run into issues with Sidekick missing .NET dependencies you have to install them via pacman. I asked ChatGPT and it returned all the packages nessesairy

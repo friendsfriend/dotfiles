@@ -1,0 +1,9 @@
+[Unit]
+Description=Virtual Output Scarlett Main
+
+[Service]
+Type=simple
+ExecStart=%h/.config/systemd/user/scarlett_virtual_output_main.sh
+
+[Install]
+WantedBy=default.target

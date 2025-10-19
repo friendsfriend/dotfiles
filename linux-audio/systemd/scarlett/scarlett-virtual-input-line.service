@@ -1,0 +1,9 @@
+[Unit]
+Description=Virtual Input Scarlett Line
+
+[Service]
+Type=simple
+ExecStart=%h/.config/systemd/user/scarlett_virtual_input_line.sh
+
+[Install]
+WantedBy=default.target

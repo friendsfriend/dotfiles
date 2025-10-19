@@ -1,0 +1,9 @@
+[Unit]
+Description=Virtual Input Scarlett Mic
+
+[Service]
+Type=simple
+ExecStart=%h/.config/systemd/user/scarlett_virtual_input_mic.sh
+
+[Install]
+WantedBy=default.target

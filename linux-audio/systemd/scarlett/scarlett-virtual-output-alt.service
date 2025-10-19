@@ -1,0 +1,9 @@
+[Unit]
+Description=Virtual Output Scarlett Alt
+
+[Service]
+Type=simple
+ExecStart=%h/.config/systemd/user/scarlett_virtual_output_alt.sh
+
+[Install]
+WantedBy=default.target

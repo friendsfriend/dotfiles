@@ -1,0 +1,9 @@
+[Unit]
+Description=Virtual Input Scarlett Instrument
+
+[Service]
+Type=simple
+ExecStart=%h/.config/systemd/user/scarlett_virtual_input_inst.sh
+
+[Install]
+WantedBy=default.target

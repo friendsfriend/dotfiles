@@ -96,6 +96,8 @@ outer.right =      0
 
 alt-f = "macos-native-fullscreen"
 
+alt-tab = 'workspace-back-and-forth'
+
 alt-q = "close --quit-if-last-window"
 
 alt-right = 'focus right'

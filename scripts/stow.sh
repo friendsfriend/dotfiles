@@ -28,6 +28,7 @@ stow_folder() {
 # Stow links the folders in the repository to the specified config locations so that the system finds them
 case "$DOTFILES_ENV" in
     minimal)
+        stow_folder "$HOME"/.config/fastfetch/ fastfetch
         stow_folder "$HOME"/ zsh
         stow_folder "$HOME"/.config/nvim/ nvim
         stow_folder "$HOME"/.config/ghostty/ ghostty
@@ -37,6 +38,8 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/.config/btop/ btop
         ;;
     work)
+        stow_folder "$HOME"/.config/fastfetch/ fastfetch
+        stow_folder "$HOME"/.config/btop/ btop
         stow_folder "$HOME"/ zsh
         stow_folder "$HOME"/.config/nvim/ nvim
         stow_folder "$HOME"/.config/ghostty/ ghostty
@@ -45,7 +48,6 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/ p10k
         stow_folder "$HOME"/.config/opencode/ opencode
         stow_folder "$HOME"/ tmux
-        stow_folder "$HOME"/.config/btop/ btop
         cd ideavim || exit
         stow_folder "$HOME"/ ideavimrc
         stow_folder "$HOME"/ ataman
@@ -54,13 +56,15 @@ case "$DOTFILES_ENV" in
     omarchy)
         stow_folder "$HOME"/.config/hypr/ hyprland
         stow_folder "$HOME"/.config/waybar/ waybar
+        stow_folder "$HOME"/.config/walker/ walker
+        stow_folder "$HOME"/.config/fastfetch/ fastfetch
+        stow_folder "$HOME"/.config/btop/ btop
         stow_folder "$HOME"/ zsh
         stow_folder "$HOME"/.config/nvim/ nvim
         stow_folder "$HOME"/.config/ghostty/ ghostty
         stow_folder "$HOME"/ p10k
         stow_folder "$HOME"/.config/opencode/ opencode
         stow_folder "$HOME"/ tmux
-        stow_folder "$HOME"/.config/btop/ btop
         hyprctl reload
 	;;
     *)

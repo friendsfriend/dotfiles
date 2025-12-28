@@ -1,0 +1,19 @@
+context.modules = [
+{
+    name = libpipewire-module-loopback
+    args = {
+        node.name = "scarlett_input_fl_mono"
+        node.description = "Scarlett Input Front Left (Mono)"
+        capture.props = {
+            audio.position = [ FL ]
+            stream.dont-remix = true
+            node.target = "alsa_input.usb-Focusrite_Scarlett_4i4_USB_D8E9B5J2428B79-00.pro-input-0"
+            node.passive = true
+        }
+        playback.props = {
+            media.class = "Audio/Source"
+            audio.position = [ MONO ]
+        }
+    }
+}
+]

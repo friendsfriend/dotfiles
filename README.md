@@ -3,6 +3,13 @@
 This repository contains all my personal dotfiles.
 The goal is to have a synchronisable state across multiple maschines.
 
+*Note on Omarchy with increased terminal font size: Adjust ~/.local/share/omarchy/default/hypr/apps/system.conf as follows*
+
+```bash
+# Find the existing line and adjust the size as needed
+windowrule = size 43% 80%, tag:floating-window
+```
+
 ## Installation
 
 ```bash

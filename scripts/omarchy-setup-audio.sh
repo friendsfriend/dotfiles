@@ -20,9 +20,7 @@ stow_folder() {
     # Run the stow command
     echo "Creating symlink for $3 from $source to $target"
     
-    cd ~/dotfiles || exit
     stow -t "$target" "$source"
-    cd ~/dotfiles/scripts || exit
 }
 
 # Stow links the folders in the repository to the specified config locations so that the system finds them
@@ -35,6 +33,8 @@ case "$DOTFILES_ENV" in
         ;;
     omarchy)
         echo "Setting up audio services"
+        cd ~/dotfiles/linux-audio/
+        stow_folder $HOME/.config/pipewire/  pipewire
         cd ~/dotfiles/linux-audio/systemd/
         stow_folder $HOME/.config/systemd/user/  scarlett
         cd ~/dotfiles/

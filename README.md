@@ -3,12 +3,6 @@
 This repository contains all my personal dotfiles.
 The goal is to have a synchronisable state across multiple maschines.
 
-*Note on Omarchy with increased terminal font size: Adjust ~/.local/share/omarchy/default/hypr/apps/system.conf as follows*
-
-```bash
-# Find the existing line and adjust the size as needed
-windowrule = size 43% 80%, tag:floating-window
-```
 
 ## Installation
 
@@ -41,14 +35,25 @@ sudo ./sketchybar/resources/setup-zscaler.sh
 You are set to go now.
 If you want to change your config or update the repository you can just edit them in your local repository and manage it with git.
 
-## Local ZSH adaption
+## Notes on Omarchy
 
-If you want to create a local zshrc that overrides the defaults provided by this repository you can create it in this repository as `zsh/.zshrc_local`.
-The provided values will override the values defined in `zsh/.zshrc`.
-This way you can apply maschine specific settigs like $PATH modifications.
-The git repository will automatically ignore that file.
+*Note on Omarchy with increased terminal font size: Adjust ~/.local/share/omarchy/default/hypr/apps/system.conf as follows*
 
-## Wayland Path of Exile (1 & 2) price checking
+```bash
+# Find the existing line and adjust the size as needed
+windowrule = size (monitor_w*0.6) (monitor_h*0.8), match:tag floating-window
+```
+
+*Note on Steam in Omarchy: Adjust ~/.local/share/omarchy/default/hypr/apps/steam.conf as follows*
+
+```bash
+windowrule = opacity 1 1, match:class steam
+windowrule = size 1100 700, match:class steam, match:title Steam
+windowrule = size 460 800, match:class steam, match:title Friends List
+windowrule = idle_inhibit fullscreen, match:class steam
+```
+
+*Note on Omarchy Path of Exile (1 & 2) price checking*
 
 As all currently available price checker dont really work well with wayland / linux in general I came up with my own solution. 
 
@@ -67,3 +72,11 @@ How it works:
 5. Happy price checking :)
 
 Note: If you run into issues with Sidekick missing .NET dependencies you have to install them via pacman. I asked ChatGPT and it returned all the packages nessesairy
+
+## Local ZSH adaption
+
+If you want to create a local zshrc that overrides the defaults provided by this repository you can create it in this repository as `zsh/.zshrc_local`.
+The provided values will override the values defined in `zsh/.zshrc`.
+This way you can apply maschine specific settigs like $PATH modifications.
+The git repository will automatically ignore that file.
+

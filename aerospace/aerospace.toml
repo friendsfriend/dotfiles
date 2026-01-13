@@ -127,6 +127,9 @@ alt-shift-e = 'move-node-to-workspace E'
 alt-shift-d = 'move-node-to-workspace D'
 alt-shift-v = 'move-node-to-workspace V'
 
+alt-ctrl-t = 'exec-and-forget open -n "/Applications/Ghostty.app"'
+alt-ctrl-b = 'exec-and-forget open "/Applications/Firefox.app"'
+
 [[on-window-detected]]
 if.app-id = 'com.mitchellh.ghostty'
 run = "move-node-to-workspace T"

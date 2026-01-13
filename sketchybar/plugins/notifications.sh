@@ -7,14 +7,6 @@ NOTIFICATION_STATUS_COLOR=$BAR_COLOR
 STATUS_LABEL=$(lsappinfo info -only StatusLabel "Microsoft Outlook")
 if [[ $STATUS_LABEL =~ \"label\"=\"([^\"]*)\" ]]; then
     LABEL="${BASH_REMATCH[1]}"
-
-    if [[ $LABEL == "•" ]]; then
-          NOTIFICATION_STATUS_COLOR=$ALERT_YELLOW
-    elif [[ $LABEL =~ ^[0-9]+$ ]]; then
-        NOTIFICATION_STATUS_COLOR=$ALERT_RED
-    else
-        LABEL=" "
-    fi
 fi
 
 sketchybar --set outlook label="${LABEL}" 

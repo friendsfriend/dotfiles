@@ -121,7 +121,3 @@ bindkey "^E" edit-command-line
 
 # bun completions
 [ -s "/Users/fabiankellner/.bun/_bun" ] && source "/Users/fabiankellner/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"

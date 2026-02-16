@@ -4,9 +4,11 @@ source "$CONFIG_DIR/colors.sh" # Loads all defined colors
 
 NOTIFICATION_STATUS_COLOR=$BAR_COLOR
 
-STATUS_LABEL=$(lsappinfo info -only StatusLabel "Microsoft Outlook")
+STATUS_LABEL=$(lsappinfo info -only StatusLabel "Mail")
 if [[ $STATUS_LABEL =~ \"label\"=\"([^\"]*)\" ]]; then
     LABEL="${BASH_REMATCH[1]}"
+else
+    LABEL=" "
 fi
 
 sketchybar --set outlook label="${LABEL}" 
@@ -25,6 +27,8 @@ if [[ $STATUS_LABEL =~ \"label\"=\"([^\"]*)\" ]]; then
     else
         LABEL=" "
     fi
+else 
+  LABEL=" "
 fi
 
 sketchybar --set teams label="${LABEL}" 
@@ -43,6 +47,8 @@ if [[ $STATUS_LABEL =~ \"label\"=\"([^\"]*)\" ]]; then
     else
         LABEL=" "
     fi
+else
+  LABEL=" "
 fi
 
 sketchybar --set mattermost label="${LABEL}" 

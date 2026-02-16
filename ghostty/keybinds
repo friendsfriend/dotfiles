@@ -2,7 +2,6 @@
 # TMUX like config
 # ------------------------------------
 
-# (ctrl b for tmux -> cmb b for ghostty)
-keybind = global:super+g=new_window
-
+# (cmb b for ghostty)
+keybind = global:ctrl+alt+t=new_window
 keybind = global:super+t=toggle_quick_terminal

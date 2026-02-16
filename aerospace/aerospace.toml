@@ -98,22 +98,22 @@ alt-f = "macos-native-fullscreen"
 
 alt-tab = 'workspace-back-and-forth'
 
-alt-q = "close --quit-if-last-window"
+alt-w = "close --quit-if-last-window"
 
 alt-right = 'focus right'
 alt-left = 'focus left'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
 alt-1 = ['workspace 1', 'layout accordion horizontal','exec-and-forget open "/Applications/Microsoft Teams.app"']
-alt-b = ['workspace B', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Firefox.app"']
+alt-b = ['workspace B', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Google Chrome.app"']
 alt-m = ['workspace M', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Mattermost.app"']
 alt-p = ['workspace P', 'layout accordion horizontal', 'exec-and-forget open "~/Applications/Intellij IDEA Ultimate.app"']
 alt-t = ['workspace T', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Ghostty.app"']
 alt-o = ['workspace O', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Microsoft Outlook.app"']
 alt-r = ['workspace R', 'layout accordion horizontal']
 alt-e = ['workspace E', 'layout accordion horizontal']
-alt-d = ['workspace D', 'layout accordion horizontal']
-alt-v = ['workspace V', 'layout accordion horizontal']
+alt-d = ['workspace D', 'layout accordion horizontal', 'exec-and-forget open "/Applications/draw.io.app"']
+alt-v = ['workspace V', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Miro.app"']
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 alt-shift-1 = 'move-node-to-workspace 1'
@@ -127,15 +127,15 @@ alt-shift-e = 'move-node-to-workspace E'
 alt-shift-d = 'move-node-to-workspace D'
 alt-shift-v = 'move-node-to-workspace V'
 
-alt-ctrl-t = 'exec-and-forget open -n "/Applications/Ghostty.app"'
-alt-ctrl-b = 'exec-and-forget open "/Applications/Firefox.app"'
+alt-ctrl-d = 'exec-and-forget open -a "/Applications/draw.io.app"'
+alt-ctrl-b = 'exec-and-forget open -a "/Applications/Google Chrome.app"'
 
 [[on-window-detected]]
 if.app-id = 'com.mitchellh.ghostty'
 run = "move-node-to-workspace T"
 
 [[on-window-detected]]
-if.app-id = 'org.mozilla.firefox'
+if.app-id = 'com.google.Chrome'
 run = "move-node-to-workspace B"
 
 [[on-window-detected]]
@@ -147,8 +147,7 @@ if.window-title-regex-substring = "Microsoft Teams"
 run = ["move-node-to-workspace 1"]
 
 [[on-window-detected]]
-if.app-id = 'com.microsoft.Outlook'
-if.window-title-regex-substring = 'Posteingang'
+if.app-id = 'com.microsoft.outlook'
 run = "move-node-to-workspace O"
 
 [[on-window-detected]]
@@ -170,8 +169,8 @@ P =  ['main']
 1 =  ['main']       
 B =  ['main']       
 O =  ['secondary', 'main']       
-R =  ['main']       
-E =  ['secondary','main']       
+R =  ['secondary', 'main']       
+E =  ['main']       
 D =  ['main']       
 V =  ['main']       
 

@@ -36,5 +36,7 @@
     "messages_last": "ctrl+alt+g",
     "messages_copy": "<leader>y",
     "app_exit": "ctrl+c,<leader>q"
-  }
+  },
+
+  "plugin": ["opencode-beads"]
 }

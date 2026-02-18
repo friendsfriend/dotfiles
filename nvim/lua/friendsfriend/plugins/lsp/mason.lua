@@ -22,8 +22,20 @@ local tools = {
 return {
 	"williamboman/mason.nvim",
 	dependencies = {
-		"williamboman/mason-lspconfig.nvim",
-		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		{ "neovim/nvim-lspconfig" },
+		{ "williamboman/mason-lspconfig.nvim" },
+		{ "WhoIsSethDaniel/mason-tool-installer.nvim" },
+		{
+			"j-hui/fidget.nvim",
+			opts = {
+				notification = {
+					window = {
+						winblend = 20,
+						border = "single",
+					},
+				},
+			},
+		},
 	},
 	config = function()
 		local mason = require("mason")

@@ -11,13 +11,13 @@ return {
 			end
 
 			-- Git History for whole repository
-			vim.keymap.set("n", "<leader>gh", "<cmd>DiffviewFileHistory<cr>", { desc = "Git history" })
+			vim.keymap.set("n", "<leader>gs", "<cmd>DiffviewFileHistory<cr>", { desc = "Git history" })
 			-- Git History for file
 			vim.keymap.set("n", "<leader>gf", "<cmd>DiffviewFileHistory --follow %<cr>", { desc = "Git File history" })
 			-- Git History for selection
 			vim.keymap.set(
 				"v",
-				"<leader>gh",
+				"<leader>gs",
 				"<Esc><Cmd>'<,'>DiffviewFileHistory --follow<CR>",
 				{ desc = "Range history" }
 			)
@@ -53,8 +53,6 @@ return {
 				require("gitsigns").toggle_deleted,
 				{ desc = "Toggle highlighting of git deleted lines" }
 			)
-
-			vim.keymap.set("n", "<leader>gH", require("gitsigns").preview_hunk, { desc = "Preview hunk" })
 		end,
 	},
 }

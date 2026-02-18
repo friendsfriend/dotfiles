@@ -19,27 +19,27 @@ return {
 		cmd = "Trouble",
 		keys = {
 			{
-				"<leader>tt",
+				"<leader>dd",
 				"<cmd>Trouble diagnostics toggle<cr>",
 				desc = "Diagnostics (Trouble)",
 			},
 			{
-				"<leader>tT",
+				"<leader>dD",
 				"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
 				desc = "Buffer Diagnostics (Trouble)",
 			},
 			{
-				"<leader>tl",
+				"<leader>dl",
 				"<cmd>Trouble loclist toggle<cr>",
 				desc = "Location List (Trouble)",
 			},
 			{
-				"<leader>tq",
+				"<leader>dq",
 				"<cmd>Trouble qflist toggle<cr>",
 				desc = "Quickfix List (Trouble)",
 			},
 			{
-				"<leader>xt",
+				"<leader>dt",
 				"<cmd>Trouble todo toggle<CR>",
 				desc = "Open todos in trouble",
 			},

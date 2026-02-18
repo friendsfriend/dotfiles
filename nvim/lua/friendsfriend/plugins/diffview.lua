@@ -50,7 +50,7 @@ return {
 			vim.keymap.set(
 				"n",
 				"<leader>ghd",
-				require("gitsigns").toggle_deleted,
+				require("gitsigns").preview_hunk_inline,
 				{ desc = "Toggle highlighting of git deleted lines" }
 			)
 		end,

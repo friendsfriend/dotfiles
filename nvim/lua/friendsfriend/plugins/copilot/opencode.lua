@@ -5,7 +5,6 @@ return {
 		dependencies = {
 			"folke/snacks.nvim",
 		},
-		---@type opencode.Config
 		opts = {
 			win = {
 				position = "float",

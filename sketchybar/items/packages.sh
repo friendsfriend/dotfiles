@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 sketchybar -m --add item packages right \
               --set packages update_freq=120 \

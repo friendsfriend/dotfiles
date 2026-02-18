@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 CONFIG_DIR="$HOME/.config/hypr/scripts/eww-which-key-config"
 

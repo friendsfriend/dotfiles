@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 sketchybar -m --add item calendar_with_meetings center \
     --set calendar_with_meetings icon=":calendar:" \

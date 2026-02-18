@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 sketchybar --add item front_app left \
            --set front_app       icon.font="sketchybar-app-font:Regular:15.0" \

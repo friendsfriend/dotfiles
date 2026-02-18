@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 sketchybar --add item zscaler right \
            --set zscaler  update_freq=10 \

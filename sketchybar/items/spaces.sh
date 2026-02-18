@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 for sid in $(aerospace list-workspaces --all); do
     sketchybar --add item space."$sid" left \

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 export WHITE=0xffffffff
 export BAR_COLOR="0xff7f849c"

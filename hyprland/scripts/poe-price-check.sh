@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/usr/bin/env bash
 
 # Get the active workspace ID (first monitor in this case)
 current_ws=$(hyprctl -j monitors | jq -r '.[0].activeWorkspace.id')

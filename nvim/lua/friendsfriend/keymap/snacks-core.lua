@@ -31,6 +31,9 @@ return {
 	{"<leader>gg", function() require("snacks").lazygit() end, desc = "[G]it: UI",},
 	{"<leader>gl", function() require("snacks").lazygit.log() end, desc = "[G]it: [L]ogs (Lazygit)",},
 
+	-- Search & Replace
+	{"<leader>SR", function() require("friendsfriend.plugins.snacks.scooter").open() end, desc = "[S]earch & [R]eplace (Scooter)",},
+
   -- explorer 
 	{"<leader>ee", function() require("snacks").explorer.reveal() end, desc = "[E]xplorer",},
 }

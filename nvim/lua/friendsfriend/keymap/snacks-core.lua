@@ -33,6 +33,17 @@ return {
 
 	-- Search & Replace
 	{"<leader>SR", function() require("friendsfriend.plugins.snacks.scooter").open() end, desc = "[S]earch & [R]eplace (Scooter)",},
+	{
+		"<leader>SR",
+		function()
+			local selection = vim.fn.getreg('"')
+			vim.cmd('normal! "ay')
+			require("friendsfriend.plugins.snacks.scooter").open_with_text(vim.fn.getreg("a"))
+			vim.fn.setreg('"', selection)
+		end,
+		mode = "v",
+		desc = "[S]earch & [R]eplace: Visual Selection (Scooter)",
+	},
 
   -- explorer 
 	{"<leader>ee", function() require("snacks").explorer.reveal() end, desc = "[E]xplorer",},

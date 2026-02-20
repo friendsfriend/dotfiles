@@ -15,6 +15,7 @@ require("lazy").setup({
 	{ import = "friendsfriend.plugins" },
 	{ import = "friendsfriend.plugins.lsp" },
 	{ import = "friendsfriend.plugins.copilot" },
+	{ import = "friendsfriend.plugins.treesitter" },
 }, {
 	checker = {
 		enabled = true,

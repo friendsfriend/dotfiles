@@ -1,12 +1,7 @@
--- Treesitter parses the contents of files structurally into a tree
--- It is used by lsps and other plugins for highlighting and analysis
 return {
 	"nvim-treesitter/nvim-treesitter",
 	event = { "BufReadPre", "BufNewFile" },
 	build = ":TSUpdate",
-	dependencies = {
-		"windwp/nvim-ts-autotag",
-	},
 	config = function()
 		-- import nvim-treesitter plugin
 		local treesitter = require("nvim-treesitter.configs")
@@ -27,8 +22,8 @@ return {
 				"tsx",
 				"yaml",
 				"html",
-				"kotlin",
 				"css",
+				"prisma",
 				"markdown",
 				"markdown_inline",
 				"bash",
@@ -36,7 +31,9 @@ return {
 				"vim",
 				"dockerfile",
 				"gitignore",
+				"vimdoc",
 				"c",
+				"kotlin",
 				"java",
 			},
 			incremental_selection = {
@@ -47,9 +44,6 @@ return {
 					scope_incremental = false,
 					node_decremental = "<bs>",
 				},
-			},
-			autotag = {
-				enable = true,
 			},
 		})
 

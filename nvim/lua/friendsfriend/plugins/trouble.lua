@@ -34,11 +34,6 @@ return {
 				desc = "Location List (Trouble)",
 			},
 			{
-				"<leader>dq",
-				"<cmd>Trouble qflist toggle<cr>",
-				desc = "Quickfix List (Trouble)",
-			},
-			{
 				"<leader>dt",
 				"<cmd>Trouble todo toggle<CR>",
 				desc = "Open todos in trouble",

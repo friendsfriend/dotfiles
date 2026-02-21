@@ -36,13 +36,24 @@ print(Unmanaged<CFString>.fromOpaque(name!).takeUnretainedValue() as String)
 EOF
 )
 
+# Map system layout names to custom display labels
+layout_display_name() {
+  case "$1" in
+    "com.apple.keylayout.German") echo "Mac" ;;
+    "com.apple.keylayout.German-DIN-2137") echo "PC" ;;
+    *) echo "$2" ;; # fallback to the localized name
+  esac
+}
+
 # On click: cycle to next layout
 if [ "$SENDER" = "mouse.clicked" ]; then
+  sketchybar --set "$NAME" label="..."
+
   LAYOUT_IDS=$(echo "$LAYOUTS" | cut -d'|' -f1)
   LAYOUT_COUNT=$(echo "$LAYOUT_IDS" | wc -l | tr -d ' ')
 
   if [ "$LAYOUT_COUNT" -lt 2 ]; then
-    sketchybar --set "$NAME" label="$CURRENT_NAME"
+    sketchybar --set "$NAME" label="$(layout_display_name "$CURRENT_ID" "$CURRENT_NAME")"
     exit 0
   fi
 
@@ -75,7 +86,7 @@ if let source = sources.first {
 }
 SWIFTEOF
 
-  sketchybar --set "$NAME" label="$NEXT_NAME"
+  sketchybar --set "$NAME" label="$(layout_display_name "$NEXT_ID" "$NEXT_NAME")"
 else
-  sketchybar --set "$NAME" label="$CURRENT_NAME"
+  sketchybar --set "$NAME" label="$(layout_display_name "$CURRENT_ID" "$CURRENT_NAME")"
 fi

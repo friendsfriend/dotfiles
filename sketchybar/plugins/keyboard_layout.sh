@@ -41,6 +41,8 @@ layout_display_name() {
   case "$1" in
     "com.apple.keylayout.German") echo "Mac" ;;
     "com.apple.keylayout.German-DIN-2137") echo "PC" ;;
+    "com.apple.keylayout.USInternational-PC") echo "US" ;;
+    "dev.kellner.keyboardlayout.us-intl-linux.us-international-linux") echo "US" ;;
     *) echo "$2" ;; # fallback to the localized name
   esac
 }

@@ -107,7 +107,7 @@ alt-left = 'focus left'
 alt-1 = ['workspace 1', 'layout accordion horizontal','exec-and-forget open "/Applications/Microsoft Teams.app"']
 alt-b = ['workspace B', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Google Chrome.app"']
 alt-m = ['workspace M', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Mattermost.app"']
-alt-p = ['workspace P', 'layout accordion horizontal', 'exec-and-forget open "~/Applications/Intellij IDEA Ultimate.app"']
+alt-i = ['workspace I', 'layout accordion horizontal', 'exec-and-forget open "~/Applications/Intellij IDEA Ultimate.app"']
 alt-t = ['workspace T', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Ghostty.app"']
 alt-o = ['workspace O', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Microsoft Outlook.app"']
 alt-r = ['workspace R', 'layout accordion horizontal']
@@ -119,7 +119,7 @@ alt-v = ['workspace V', 'layout accordion horizontal', 'exec-and-forget open "/A
 alt-shift-1 = 'move-node-to-workspace 1'
 alt-shift-b = 'move-node-to-workspace B'
 alt-shift-m = 'move-node-to-workspace M'
-alt-shift-p = 'move-node-to-workspace P'
+alt-shift-i = 'move-node-to-workspace I'
 alt-shift-t = 'move-node-to-workspace T'
 alt-shift-o = 'move-node-to-workspace O'
 alt-shift-r = 'move-node-to-workspace R'
@@ -140,7 +140,7 @@ run = "move-node-to-workspace B"
 
 [[on-window-detected]]
 if.app-id = 'com.jetbrains.intellij'
-run = "move-node-to-workspace P"
+run = "move-node-to-workspace I"
 
 [[on-window-detected]]
 if.window-title-regex-substring = "Microsoft Teams"
@@ -165,7 +165,7 @@ run = ["move-node-to-workspace D"]
 [workspace-to-monitor-force-assignment]
 M =  ['secondary', 'main']        
 T =  ['main']       
-P =  ['main']       
+I =  ['main']       
 1 =  ['main']       
 B =  ['main']       
 O =  ['secondary', 'main']       

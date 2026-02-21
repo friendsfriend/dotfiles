@@ -24,11 +24,13 @@ case "$DOTFILES_ENV" in
     ~/dotfiles/scripts/dependencies.sh
     ~/dotfiles/scripts/stow.sh
     ~/dotfiles/scripts/setup-copilot.sh
+    ~/dotfiles/keyboard-layouts/install.sh
     ;;
   work)
     ~/dotfiles/scripts/dependencies.sh
     ~/dotfiles/scripts/stow.sh
     ~/dotfiles/scripts/setup-copilot.sh
+    ~/dotfiles/keyboard-layouts/install.sh
     ;;
   omarchy)
     ~/dotfiles/scripts/dependencies.sh

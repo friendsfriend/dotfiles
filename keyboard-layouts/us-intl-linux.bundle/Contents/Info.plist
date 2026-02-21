@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleIdentifier</key>
+	<string>dev.kellner.keyboardlayout.us-intl-linux</string>
+	<key>CFBundleName</key>
+	<string>us-intl-linux</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>KLInfo_US International (Linux)</key>
+	<dict>
+		<key>TICapsLockLanguageSwitchCapable</key>
+		<false/>
+		<key>TISIconIsTemplate</key>
+		<false/>
+		<key>TISInputSourceID</key>
+		<string>dev.kellner.keyboardlayout.us-intl-linux.usinternational(linux)</string>
+		<key>TISIntendedLanguage</key>
+		<string>en</string>
+	</dict>
+</dict>
+</plist>

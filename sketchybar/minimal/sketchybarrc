@@ -51,19 +51,16 @@ default_properties=(
 sketchybar --default "${default_properties[@]}"
 
 # -- Left Side Items --
-source $ITEM_DIR/apple.sh
-source $ITEM_DIR/front_app.sh
+source "$ITEM_DIR"/apple.sh
 
 # -- Center Items (Only on main screen)
-source $ITEM_DIR/calendar_with_meetings.sh
+source "$ITEM_DIR"/calendar_with_meetings.sh
 
 # -- Right Side Items --
-source $ITEM_DIR/battery.sh
-source $ITEM_DIR/cpu.sh
-source $ITEM_DIR/keyboard_layout.sh
-source $ITEM_DIR/zscaler.sh
-source $ITEM_DIR/packages.sh
-source $ITEM_DIR/notifications.sh
+source "$ITEM_DIR"/battery.sh
+source "$ITEM_DIR"/cpu.sh
+source "$ITEM_DIR"/keyboard_layout.sh
+source "$ITEM_DIR"/packages.sh
 
 ##### Finalizing Setup #####
 # The below command is only needed at the end of the initial configuration to

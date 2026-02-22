@@ -32,6 +32,10 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/ zsh
         stow_folder "$HOME"/.config/nvim/ nvim
         stow_folder "$HOME"/.config/ghostty/ ghostty
+        stow_folder "$HOME"/.config/sketchybar/ sketchybar
+        cd sketchybar || exit
+        stow_folder "$HOME"/.config/sketchybar/ work
+        cd .. || exit
         stow_folder "$HOME"/ p10k
         stow_folder "$HOME"/.config/opencode/ opencode
         stow_folder "$HOME"/ tmux
@@ -45,6 +49,9 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/.config/ghostty/ ghostty
         stow_folder "$HOME"/.config/aerospace/ aerospace
         stow_folder "$HOME"/.config/sketchybar/ sketchybar
+        cd sketchybar || exit
+        stow_folder "$HOME"/.config/sketchybar/ work
+        cd .. || exit
         stow_folder "$HOME"/ p10k
         stow_folder "$HOME"/.config/opencode/ opencode
         stow_folder "$HOME"/ tmux

@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+
+sketchybar --add event aerospace_workspace_change
+
+source "$CONFIG_DIR/colors.sh" # Loads all defined colors
+
+ITEM_DIR="$CONFIG_DIR/items"
+export PLUGIN_DIR="$CONFIG_DIR/plugins"
+
+FONT="MesloLGL Nerd Font" # Needs to have Regular, Bold, Semibold, Heavy and Black variants
+
+##### Bar Appearance #####
+# Configuring the general appearance of the bar, these are only some of the
+# options available. For all options see:
+# https://felixkratz.github.io/SketchyBar/config/bar
+# If you are looking for other colors, see the color picker:
+# https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
+
+
+bar_properties=(
+  color="$BAR_COLOR"
+  height=37
+  blur_radius=30
+  position=top
+  sticky=off
+  padding_left=10
+  padding_right=10
+)
+sketchybar --bar "${bar_properties[@]}"
+
+
+##### Changing Defaults #####
+
+default_properties=(
+  icon.font="${FONT}:Mono:15.0"
+  icon.color="$FONT_COLOR"
+  label.font="${FONT}:Mono:14.0"
+  label.color="$FONT_COLOR"
+  background.color="$ITEM_BACKGROUND"
+  background.corner_radius=5
+  background.height=26
+  background.border_color="$ITEM_BACKGROUND_BORDER_COLOR"
+  background.border_width=1
+  padding_left=3
+  padding_right=3
+  label.padding_left=4
+  label.padding_right=12
+  icon.padding_left=12
+  icon.padding_right=4
+)
+sketchybar --default "${default_properties[@]}"
+
+# -- Left Side Items --
+source "$ITEM_DIR"/apple.sh
+source "$ITEM_DIR"/front_app.sh
+
+# -- Center Items (Only on main screen)
+source "$ITEM_DIR"/calendar_with_meetings.sh
+
+# -- Right Side Items --
+source "$ITEM_DIR"/battery.sh
+source "$ITEM_DIR"/cpu.sh
+source "$ITEM_DIR"/keyboard_layout.sh
+source "$ITEM_DIR"/zscaler.sh
+source "$ITEM_DIR"/packages.sh
+source "$ITEM_DIR"/notifications.sh
+
+##### Finalizing Setup #####
+# The below command is only needed at the end of the initial configuration to
+# force all scripts to run the first time, it should never be run in an item script.
+
+sketchybar --update

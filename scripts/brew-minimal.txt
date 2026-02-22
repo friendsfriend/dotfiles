@@ -6,9 +6,12 @@ eza
 zoxide
 fzf
 node
+sketchybar
 fd
 thefuck
 jq
+ical-buddy
+tmux
 git
 wget
 python

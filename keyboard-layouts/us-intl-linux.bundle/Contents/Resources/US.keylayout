@@ -28,7 +28,7 @@
     Alt+9 = ',  Alt+0 = ',  Alt+- = ¥,  Alt+= = ×
     Alt+[ = «,  Alt+] = »
 -->
-<keyboard group="126" id="-19437" name="US International (Linux)" maxout="1">
+<keyboard group="126" id="-19437" name="US" maxout="1">
     <layouts>
         <layout first="0" last="4" mapSet="fb0" modifiers="84"/>
         <layout first="5" last="5" mapSet="18c" modifiers="84"/>

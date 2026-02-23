@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# Installs the US International (Linux) keyboard layout bundle into
+# Installs the custom "US" keyboard layout bundle (Linux us-intl AltGr layer) into
 # ~/Library/Keyboard Layouts/ and configures macOS input sources to exactly:
 #   - German (com.apple.keylayout.German)
 #   - German – Standard / DIN-2137 (com.apple.keylayout.German-DIN-2137)
-#   - US International (Linux) (dev.kellner.keyboardlayout.us-intl-linux.us-international-linux)
+#   - US / us-intl-linux (dev.kellner.keyboardlayout.us-intl-linux.us-international-linux)
 
 set -e
 
-read -r -p "Install US International (Linux) keyboard layout and configure input sources? [y/N] " reply
+read -r -p "Install US keyboard layout and configure input sources? [y/N] " reply
 case "$reply" in
   [yY][eE][sS]|[yY]) ;;
   *) echo "Aborted."; exit 0 ;;
@@ -21,7 +21,7 @@ BUNDLE_DEST="$DEST_DIR/us-intl-linux.bundle"
 # ---------------------------------------------------------------------------
 # 1. Install the bundle
 # ---------------------------------------------------------------------------
-echo "Installing US International (Linux) keyboard layout..."
+echo "Installing US keyboard layout..."
 
 mkdir -p "$DEST_DIR"
 
@@ -35,7 +35,7 @@ echo "  Copied bundle to: $BUNDLE_DEST"
 
 # ---------------------------------------------------------------------------
 # 2. Configure AppleEnabledInputSources
-#    Exactly: German, German-DIN-2137, US International (Linux)
+#    Exactly: German, German-DIN-2137, US (us-intl-linux)
 #    plus the two system non-keyboard IMEs macOS always injects.
 # ---------------------------------------------------------------------------
 echo ""
@@ -76,4 +76,4 @@ echo "Done. You must log out and log back in (or reboot) for all changes to"
 echo "take effect. After logging back in the three layouts will be available:"
 echo "  • German"
 echo "  • German – Standard (DIN 2137)"
-echo "  • US International (Linux)"
+echo "  • US (Linux us-intl AltGr layer)"

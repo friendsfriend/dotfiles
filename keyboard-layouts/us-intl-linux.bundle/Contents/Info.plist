@@ -8,14 +8,14 @@
 	<string>us-intl-linux</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
-	<key>KLInfo_US International (Linux)</key>
+	<key>KLInfo_US</key>
 	<dict>
 		<key>TICapsLockLanguageSwitchCapable</key>
 		<false/>
 		<key>TISIconIsTemplate</key>
 		<false/>
 		<key>TISInputSourceID</key>
-		<string>dev.kellner.keyboardlayout.us-intl-linux.usinternational(linux)</string>
+		<string>dev.kellner.keyboardlayout.us-intl-linux.us-international-linux</string>
 		<key>TISIntendedLanguage</key>
 		<string>en</string>
 	</dict>

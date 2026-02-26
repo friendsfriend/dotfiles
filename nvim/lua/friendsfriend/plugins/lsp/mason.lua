@@ -11,6 +11,7 @@ local servers = {
 	"gopls",
 	"yamlls",
 	"jsonls",
+	"tinymist",
 }
 
 local tools = {

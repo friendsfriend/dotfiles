@@ -38,6 +38,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 local severity = vim.diagnostic.severity
 
+vim.lsp.config["tinymist"] = {
+	cmd = { "tinymist" },
+	filetypes = { "typst" },
+	settings = {
+		-- ...
+	},
+}
+
 vim.diagnostic.config({
 	signs = {
 		text = {

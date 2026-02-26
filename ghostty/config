@@ -2,3 +2,6 @@ command = /bin/zsh
 
 config-file = keybinds
 config-file = options
+
+# Fix general slowness on hyprland (https://github.com/ghostty-org/ghostty/discussions/3224)
+async-backend = epoll

@@ -25,6 +25,37 @@ stow_folder() {
     cd ~/dotfiles/scripts || exit
 }
 
+stow_file() {
+    local target="$1"
+    local source="$2"
+
+    # Check if both parameters are provided
+    if [[ -z "$target" || -z "$source" ]]; then
+        echo "Usage: stow_with_target_check <target> <source>"
+        return 1
+    fi
+
+    if [[ -d "$target" ]]; then
+        echo "Target file '$target' is an existing directory. Skipping..."
+        return 0
+    fi
+
+    if [[ -f "$target" ]]; then
+        echo "Target file '$target' already exist. Skipping..."
+        return 0
+    fi
+    
+    if [[ -L "$target" ]]; then
+        echo "Target symlink '$target' already exists. Skipping..."
+        return 0
+    fi
+
+    # Run the stow command
+    echo "Creating symlink for $3 from $source to $target"
+    
+    ln -s "$source" "$target"
+}
+
 # Stow links the folders in the repository to the specified config locations so that the system finds them
 case "$DOTFILES_ENV" in
     minimal)
@@ -33,8 +64,8 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/.config/nvim/ nvim
         stow_folder "$HOME"/.config/ghostty/ ghostty
         stow_folder "$HOME"/.config/sketchybar/ sketchybar
-        cd sketchybar || exit
-        stow_folder "$HOME"/.config/sketchybar/ work
+        stow_file ~/.config/sketchybar/sketchybarrc ~/dotfiles/sketchybar/minimal/sketchybarrc
+        stow_file ~/.config/aerospace/aerospace.toml ~/dotfiles/aerospace/minimal/aerospace.toml 
         cd .. || exit
         stow_folder "$HOME"/ p10k
         stow_folder "$HOME"/.config/opencode/ opencode
@@ -47,11 +78,9 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/ zsh
         stow_folder "$HOME"/.config/nvim/ nvim
         stow_folder "$HOME"/.config/ghostty/ ghostty
-        stow_folder "$HOME"/.config/aerospace/ aerospace
         stow_folder "$HOME"/.config/sketchybar/ sketchybar
-        cd sketchybar || exit
-        stow_folder "$HOME"/.config/sketchybar/ work
-        cd .. || exit
+        stow_file ~/.config/sketchybar/sketchybarrc ~/dotfiles/sketchybar/work/sketchybarrc 
+        stow_file ~/.config/aerospace/aerospace.toml ~/dotfiles/aerospace/work/aerospace.toml
         stow_folder "$HOME"/ p10k
         stow_folder "$HOME"/.config/opencode/ opencode
         stow_folder "$HOME"/ tmux

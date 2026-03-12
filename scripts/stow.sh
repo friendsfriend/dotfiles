@@ -20,9 +20,7 @@ stow_folder() {
     # Run the stow command
     echo "Creating symlink for $3 from $source to $target"
     
-    cd ~/dotfiles || exit
     stow -t "$target" "$source"
-    cd ~/dotfiles/scripts || exit
 }
 
 stow_file() {
@@ -57,6 +55,8 @@ stow_file() {
 }
 
 # Stow links the folders in the repository to the specified config locations so that the system finds them
+
+cd ~/dotfiles || exit
 case "$DOTFILES_ENV" in
     minimal)
         stow_folder "$HOME"/.config/fastfetch/ fastfetch
@@ -64,9 +64,7 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/.config/nvim/ nvim
         stow_folder "$HOME"/.config/ghostty/ ghostty
         stow_folder "$HOME"/.config/sketchybar/ sketchybar
-        stow_file ~/.config/sketchybar/sketchybarrc ~/dotfiles/sketchybar/minimal/sketchybarrc
-        stow_file ~/.config/aerospace/aerospace.toml ~/dotfiles/aerospace/minimal/aerospace.toml 
-        cd .. || exit
+        ln -sf ~/dotfiles/sketchybar/minimal/sketchybarrc "$HOME"/.config/sketchybar/sketchybarrc
         stow_folder "$HOME"/ p10k
         stow_folder "$HOME"/.config/opencode/ opencode
         stow_folder "$HOME"/ tmux
@@ -79,15 +77,14 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/.config/nvim/ nvim
         stow_folder "$HOME"/.config/ghostty/ ghostty
         stow_folder "$HOME"/.config/sketchybar/ sketchybar
-        stow_file ~/.config/sketchybar/sketchybarrc ~/dotfiles/sketchybar/work/sketchybarrc 
-        stow_file ~/.config/aerospace/aerospace.toml ~/dotfiles/aerospace/work/aerospace.toml
+        ln -sf ~/dotfiles/sketchybar/work/sketchybarrc "$HOME"/.config/sketchybar/sketchybarrc
         stow_folder "$HOME"/ p10k
         stow_folder "$HOME"/.config/opencode/ opencode
         stow_folder "$HOME"/ tmux
-        cd ideavim || exit
+        cd ~/dotfiles/ideavim || exit
         stow_folder "$HOME"/ ideavimrc
         stow_folder "$HOME"/ ataman
-        cd .. || exit
+        cd ~/dotfiles || exit
         ;;
     omarchy)
         stow_folder "$HOME"/.config/hypr/ hyprland
@@ -108,3 +105,4 @@ case "$DOTFILES_ENV" in
         exit 1
         ;;
   esac
+cd ~/dotfiles/scripts || exit

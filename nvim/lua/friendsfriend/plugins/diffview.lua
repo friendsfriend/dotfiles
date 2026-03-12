@@ -9,6 +9,11 @@ return {
 			return res.code == 0 and "main" or "master"
 		end
 
+		local function get_current_branch_name()
+			local res = vim.system({ "git", "rev-parse", "--abbrev-ref", "HEAD" }, { capture_output = true }):wait()
+			return res.code == 0 and vim.trim(res.stdout) or nil
+		end
+
 		-- Git History for whole repository
 		vim.keymap.set("n", "<leader>gs", "<cmd>DiffviewFileHistory<cr>", { desc = "Git history" })
 		-- Git History for file
@@ -19,6 +24,12 @@ return {
 		vim.keymap.set("n", "<leader>gdml", function()
 			vim.cmd("DiffviewOpen " .. get_default_branch_name())
 		end, { desc = "Diff against master" })
+		vim.keymap.set("n", "<leader>gdcl", function()
+			vim.cmd("DiffviewOpen " .. get_current_branch_name())
+		end, { desc = "Diff against current branch" })
+		vim.keymap.set("n", "<leader>gdcr", function()
+			vim.cmd("DiffviewOpen HEAD..origin/" .. get_current_branch_name())
+		end, { desc = "Diff against current branch remote" })
 
 		-- Diff against remote master branch
 		vim.keymap.set("n", "<leader>gdmr", function()

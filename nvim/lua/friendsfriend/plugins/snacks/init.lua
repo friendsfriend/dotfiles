@@ -13,6 +13,7 @@ return {
 		quickfile = require("friendsfriend.plugins.snacks.quickfile"),
 		rename = require("friendsfriend.plugins.snacks.rename"),
 		statuscolumn = require("friendsfriend.plugins.snacks.statuscolumn"),
+		terminal = { enabled = true },
 		toggle = require("friendsfriend.plugins.snacks.toggle"),
 	},
 	keys = require("friendsfriend.keymap.snacks-core"),

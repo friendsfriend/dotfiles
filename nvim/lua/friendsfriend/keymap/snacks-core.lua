@@ -45,6 +45,9 @@ return {
 		desc = "[S]earch & [R]eplace: Visual Selection (Scooter)",
 	},
 
+	-- Terminal
+	{"<C-t>", function() require("snacks").terminal.toggle(nil, { win = { position = "float", width = 0.9, height = 0.9 } }) end, mode = { "n", "t" }, desc = "Toggle Floating Terminal",},
+
   -- explorer 
 	{"<leader>ee", function() require("snacks").explorer.reveal() end, desc = "[E]xplorer",},
 }

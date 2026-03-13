@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-sketchybar -m --add item calendar_with_meetings center \
+sketchybar -m --add item calendar_with_meetings right \
     --set calendar_with_meetings icon=":calendar:" \
           display=1  \
           update_freq=20 \

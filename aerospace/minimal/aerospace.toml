@@ -67,7 +67,7 @@ inner.horizontal = 0
 inner.vertical =   0
 outer.left =       0
 outer.bottom =     0
-outer.top =        38
+outer.top =        6
 outer.right =      0
 
 # 'main' binding mode declaration
@@ -104,10 +104,10 @@ alt-right = 'focus right'
 alt-left = 'focus left'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
-alt-1 = ['workspace 1', 'layout accordion horizontal','exec-and-forget open "/Applications/Native Instruments/Traktor Pro 4/Traktor Pro 4.app"']
-alt-2 = ['workspace 2', 'layout accordion horizontal','exec-and-forget open "/Applications/Ableton Live 12 Suite.app"']
+alt-1 = ['workspace 1', 'layout accordion horizontal']
+alt-2 = ['workspace 2', 'layout accordion horizontal']
 alt-3 = ['workspace 3', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Google Chrome.app"']
-alt-4 = ['workspace 4', 'layout accordion horizontal']
+alt-4 = ['workspace 4', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Ghostty.app"']
 alt-5 = ['workspace 5', 'layout accordion horizontal']
 alt-6 = ['workspace 6', 'layout accordion horizontal']
 alt-7 = ['workspace 7', 'layout accordion horizontal']

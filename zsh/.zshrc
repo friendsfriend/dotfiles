@@ -119,5 +119,7 @@ autoload -z edit-command-line
 zle -N edit-command-line
 bindkey "^E" edit-command-line
 
+export PATH="$HOME/.local/bin:$PATH"
+
 # bun completions
 [ -s "/Users/fabiankellner/.bun/_bun" ] && source "/Users/fabiankellner/.bun/_bun"

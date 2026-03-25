@@ -65,6 +65,7 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/.config/ghostty/ ghostty
         stow_folder "$HOME"/.config/sketchybar/ sketchybar
         ln -sf ~/dotfiles/sketchybar/minimal/sketchybarrc "$HOME"/.config/sketchybar/sketchybarrc
+        ln -sf ~/dotfiles/aerospace/work/aerospace.toml "$HOME"/.config/aerospace/aerospace.toml
         stow_folder "$HOME"/ p10k
         stow_folder "$HOME"/.config/opencode/ opencode
         stow_folder "$HOME"/ tmux
@@ -78,8 +79,9 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/.config/ghostty/ ghostty
         stow_folder "$HOME"/.config/sketchybar/ sketchybar
         ln -sf ~/dotfiles/sketchybar/work/sketchybarrc "$HOME"/.config/sketchybar/sketchybarrc
+        ln -sf ~/dotfiles/aerospace/work/aerospace.toml "$HOME"/.config/aerospace/aerospace.toml
         stow_folder "$HOME"/ p10k
-        stow_folder "$HOME"/.config/opencode/ opencode
+        # stow_folder "$HOME"/.config/opencode/ opencode
         stow_folder "$HOME"/ tmux
         cd ~/dotfiles/ideavim || exit
         stow_folder "$HOME"/ ideavimrc

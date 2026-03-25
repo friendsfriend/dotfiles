@@ -27,8 +27,9 @@ powerlevel10k
 mdcat
 font-meslo-lg-nerd-font
 scooter
-sst/tap/opencode 
+sst/tap/opencode
 tmux
 Adembc/homebrew-tap/lazyssh
 serkanyersen/dotstate/dotstate
 kiki-ki/tap/qo
+gh

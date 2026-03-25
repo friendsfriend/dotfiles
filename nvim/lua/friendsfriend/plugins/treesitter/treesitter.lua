@@ -7,7 +7,7 @@ return {
 	build = ":TSUpdate",
 	config = function()
 		-- import nvim-treesitter plugin
-		local treesitter = require("nvim-treesitter.configs")
+		local treesitter = require("nvim-treesitter.config")
 
 		-- configure treesitter
 		---@diagnostic disable-next-line: missing-fields

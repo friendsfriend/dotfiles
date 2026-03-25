@@ -1,5 +1,6 @@
 #!/bin/sh
 
+export PATH="/opt/homebrew/bin:$PATH"
 source "$CONFIG_DIR/colors.sh" # Loads all defined colors
 
 # specify the package managers you want the program to use

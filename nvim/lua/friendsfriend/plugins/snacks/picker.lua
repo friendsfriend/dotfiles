@@ -14,6 +14,7 @@ return {
 			layout = "select",
 			jump = { close = true },
 			hidden = true,
+			ignored = true,
 		},
 	},
 	layouts = {

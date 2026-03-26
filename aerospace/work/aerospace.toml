@@ -148,6 +148,7 @@ run = ["move-node-to-workspace 1"]
 
 [[on-window-detected]]
 if.app-id = 'com.microsoft.outlook'
+if.window-title-regex-substring = 'Inbox'
 run = "move-node-to-workspace O"
 
 [[on-window-detected]]

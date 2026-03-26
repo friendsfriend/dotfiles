@@ -2,6 +2,7 @@
 
 sketchybar --add item outlook e \
            --set outlook \
+                 display=1  \
                  update_freq=5 \
                  script="$PLUGIN_DIR/notifications.sh" \
                  icon.font="sketchybar-app-font:Mono:15.0" \
@@ -11,6 +12,7 @@ sketchybar --add item outlook e \
 
 sketchybar --add item teams e \
            --set teams \
+                 display=1  \
                  icon.font="sketchybar-app-font:Mono:15.0" \
                  click_script="open -a 'Microsoft Teams'" \
                  icon=":microsoft_teams:" \
@@ -18,6 +20,7 @@ sketchybar --add item teams e \
 
 sketchybar --add item mattermost e \
            --set mattermost \
+                 display=1  \
                  icon.font="sketchybar-app-font:Mono:15.0" \
                  click_script="open -a 'Mattermost'" \
                  icon=":mattermost:" \

@@ -5,3 +5,38 @@
 # (cmb b for ghostty)
 keybind = global:ctrl+alt+t=new_window
 keybind = global:super+t=toggle_quick_terminal
+
+# Go to the N window in tmux in tmux it is Ctrl+b+number
+keybind = super+digit_1=text:\x02\x31
+keybind = super+digit_2=text:\x02\x32
+keybind = super+digit_3=text:\x02\x33
+keybind = super+digit_4=text:\x02\x34
+keybind = super+digit_5=text:\x02\x35
+keybind = super+digit_6=text:\x02\x36
+keybind = super+digit_7=text:\x02\x37
+keybind = super+digit_8=text:\x02\x38
+keybind = super+digit_9=text:\x02\x39
+
+# ---------------------------------------------------------------
+# Pass keybinds directly to tmux so that the prefix is not needed
+# ----------------------------------------------------------------
+
+# Sesh session picker on Cmd+o in tmux it is Ctrl+b+T
+keybind = super+o=text:\x02\x54
+# Last sesh session on Cmd+i in tmux it is Ctrl+b+L
+keybind = super+u=text:\x02\x4c
+# New tmux window on Cmd+t in tmux it is Ctrl+b+c
+keybind = super+t=text:\x02\x63
+# Close tmux pane on Cmd+w in tmux it is Ctrl+b+x (it is using a custom keybind in tmux to kill the pane)
+keybind = super+w=text:\x02\x78
+# Switch to a window using tmux-fzf on Cmd+p in tmux it is Ctrl+b+w
+keybind = super+p=text:\x02\x77
+# Rename a tmux window on Cmd+r in tmux it is Ctrl+b+,
+keybind = super+r=text:\x02\x2c
+# Go to the previous tmux window on Cmd+h in tmux it is Ctrl+b+p
+keybind = super+h=text:\x02\x70
+# Go to te next tmux window on Cmd+l in tmux it is Ctrl+b+n
+keybind = super+l=text:\x02\x6e
+# Split the window horizontally on Cmd+minus in tmux it is Ctrl+b+" (For me it is horizontal split but in tmux it is considered vertical split)
+keybind = super+-=text:\x02\x22
+# Split the window vertically on Cmd+backslash in tmux it is Ctrl+b+% (For me it is vertical split but in tmux it is considered horizontal split)

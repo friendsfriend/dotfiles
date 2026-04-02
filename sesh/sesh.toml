@@ -1,0 +1,73 @@
+#:schema https://github.com/joshmedeski/sesh/raw/main/sesh.schema.json
+blacklist = ["scratch"]
+cache = false
+
+[default_session]
+preview_command = "eza --all --git --icons --color=always {}"
+
+[[session]]
+name = "Main"
+path = "~"
+
+[[session]]
+name = "Dotfiles"
+path = "~/dotfiles"
+startup_command = "nvim"
+windows = ["lazygit", "opencode"]
+
+[[session]]
+name = "Installer Space"
+path = "~/development/mw-installer-space"
+startup_command = "nvim"
+windows = ["lazygit", "opencode"]
+
+[[session]]
+name = "Modulith"
+path = "~/development/mw-modulith"
+startup_command = "nvim"
+windows = ["lazygit", "opencode"]
+
+[[session]]
+name = "MW Commons"
+path = "~/development/mw-commons"
+startup_command = "nvim"
+windows = ["lazygit", "opencode"]
+
+[[session]]
+name = "Devenv"
+path = "~/devenv"
+startup_command = "nvim"
+windows = ["lazygit", "opencode"]
+
+[[session]]
+name = "Devenv Config"
+path = "~/devenv-config"
+startup_command = "nvim"
+windows = ["lazygit", "opencode"]
+
+[[session]]
+name = "Installer Legacy"
+path = "~/development/mw-installer"
+startup_command = "nvim"
+windows = ["lazygit", "opencode"]
+
+[[session]]
+name = "Installer FE"
+path = "~/development/fe-installer"
+startup_command = "nvim"
+windows = ["lazygit", "opencode"]
+
+[[session]]
+name = "Installer FE"
+path = "~/development/mw-installer-space"
+startup_command = "nvim"
+windows = ["lazygit", "opencode"]
+
+[[window]]
+name = "lazygit"
+startup_script = "lazygit"
+
+[[window]]
+name = "opencode"
+startup_script = "opencode"
+

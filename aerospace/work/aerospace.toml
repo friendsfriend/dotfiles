@@ -105,7 +105,7 @@ alt-left = 'focus left'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
 alt-1 = ['workspace 1', 'layout accordion horizontal','exec-and-forget open "/Applications/Microsoft Teams.app"']
-alt-b = ['workspace B', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Google Chrome.app"']
+alt-b = ['workspace B', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Brave Browser.app"']
 alt-m = ['workspace M', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Mattermost.app"']
 alt-i = ['workspace I', 'layout accordion horizontal', 'exec-and-forget open "~/Applications/Intellij IDEA Ultimate.app"']
 alt-t = ['workspace T', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Ghostty.app"']
@@ -128,14 +128,14 @@ alt-shift-d = 'move-node-to-workspace D'
 alt-shift-v = 'move-node-to-workspace V'
 
 alt-ctrl-d = 'exec-and-forget open -a "/Applications/draw.io.app"'
-alt-ctrl-b = 'exec-and-forget open -a "/Applications/Google Chrome.app"'
+alt-ctrl-b = 'exec-and-forget open -a "/Applications/Brave Browser.app"'
 
 [[on-window-detected]]
 if.app-id = 'com.mitchellh.ghostty'
 run = "move-node-to-workspace T"
 
 [[on-window-detected]]
-if.app-id = 'com.google.Chrome'
+if.app-id = 'com.brave.Browser'
 run = "move-node-to-workspace B"
 
 [[on-window-detected]]

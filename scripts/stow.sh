@@ -69,6 +69,7 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/ p10k
         stow_folder "$HOME"/.config/opencode/ opencode
         stow_folder "$HOME"/ tmux
+        stow_folder "$HOME"/.config/sesh/ sesh
         stow_folder "$HOME"/.config/btop/ btop
         ;;
     work)
@@ -83,6 +84,7 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/ p10k
         # stow_folder "$HOME"/.config/opencode/ opencode
         stow_folder "$HOME"/ tmux
+        stow_folder "$HOME"/.config/sesh/ sesh
         cd ~/dotfiles/ideavim || exit
         stow_folder "$HOME"/ ideavimrc
         stow_folder "$HOME"/ ataman
@@ -100,6 +102,7 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/ p10k
         stow_folder "$HOME"/.config/opencode/ opencode
         stow_folder "$HOME"/ tmux
+        stow_folder "$HOME"/.config/sesh/ sesh
         hyprctl reload
 	;;
     *)

@@ -16,17 +16,24 @@ if [[ "$1" == "--upgrade" ]]; then
   exit 0
 fi
 
+sketchybar --set packages label="$LOADING_LABEL"
+
 BREW=0
 if command -v brew >/dev/null 2>&1; then
-  brew update >/dev/null 2>&1
   if command -v python3 >/dev/null 2>&1; then
-    BREW=$(HOMEBREW_NO_AUTO_UPDATE=1 brew outdated --json=v2 2>/dev/null | python3 -c 'import json,sys
-raw=sys.stdin.read().strip()
-if not raw:
+    BREW=$(HOMEBREW_DOWNLOAD_CONCURRENCY=1 brew outdated --json=v2 2>/dev/null | python3 -c 'import json,sys
+for line in sys.stdin:
+    if line.strip().startswith("{"):
+        raw = line + sys.stdin.read()
+        break
+else:
     print(0)
     raise SystemExit
-d=json.loads(raw)
-print(len(d.get("formulae", [])) + len(d.get("casks", [])))' 2>/dev/null)
+try:
+    d=json.loads(raw)
+    print(len(d.get("formulae", [])) + len(d.get("casks", [])))
+except Exception:
+    print(0)' 2>/dev/null)
   fi
 fi
 

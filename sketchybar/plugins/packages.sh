@@ -18,8 +18,9 @@ fi
 
 BREW=0
 if command -v brew >/dev/null 2>&1; then
+  brew update >/dev/null 2>&1
   if command -v python3 >/dev/null 2>&1; then
-    BREW=$(brew outdated --json=v2 2>/dev/null | python3 -c 'import json,sys
+    BREW=$(HOMEBREW_NO_AUTO_UPDATE=1 brew outdated --json=v2 2>/dev/null | python3 -c 'import json,sys
 raw=sys.stdin.read().strip()
 if not raw:
     print(0)

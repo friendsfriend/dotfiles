@@ -1,0 +1,171 @@
+/**
+ * Catppuccin Mocha — mirrors sketchybar minimal colors.sh
+ *
+ * BAR_COLOR                #7f849c  (overlay2)
+ * FONT_COLOR               #cdd6f4  (text)
+ * ITEM_BACKGROUND          #1e1e2e  (base)
+ * ITEM_BACKGROUND_BORDER   rgba(205, 214, 244, 0.4)  (text @ 40%)
+ * ALERT_RED                #f38ba8  (red)
+ * ALERT_YELLOW             #fab387  (peach)
+ */
+
+@import 'https://www.nerdfonts.com/assets/css/webfont.css';
+
+:root {
+  --bar-bg:          #7f849c;
+  --font-color:      #cdd6f4;
+  --item-bg:         #1e1e2e;
+  --item-border:     rgba(205, 214, 244, 0.4);
+  --alert-red:       #f38ba8;
+  --alert-yellow:    #fab387;
+  --lavender:        #b4befe;
+  --workspace-focus: rgba(205, 214, 244, 0.2);
+  --font-size:       13px;
+  --icon-size:       14px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'MesloLGL Nerd Font Mono', 'Cascadia Code NF', ui-monospace, monospace;
+  font-size: var(--font-size);
+  color: var(--font-color);
+  background: var(--bar-bg);
+}
+
+/* ── Layout ────────────────────────────────────────────────────────────── */
+
+.app {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  height: 100%;
+  padding: 0 10px;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+/* ── Windows logo ──────────────────────────────────────────────────────── */
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 26px;
+  width: 32px;
+  background: var(--item-bg);
+  border: 1px solid var(--item-border);
+  border-radius: 5px;
+  font-size: 16px;
+  color: var(--font-color);
+}
+
+/* ── Workspace buttons ─────────────────────────────────────────────────── */
+
+.workspaces {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.workspace {
+  display: flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 12px;
+  background: var(--item-bg);
+  border: 1px solid var(--item-border);
+  border-radius: 5px;
+  color: rgba(205, 214, 244, 0.5);
+  font-size: var(--font-size);
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &.displayed {
+    color: var(--font-color);
+  }
+
+  &.focused {
+    color: var(--item-bg);
+    background: var(--lavender);
+    border-color: var(--lavender);
+  }
+
+  &:hover:not(.focused) {
+    color: var(--font-color);
+    background: rgba(205, 214, 244, 0.1);
+  }
+}
+
+/* ── Focused app name (front_app equivalent) ───────────────────────────── */
+
+.focused-app {
+  display: flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 12px;
+  background: var(--item-bg);
+  border: 1px solid var(--item-border);
+  border-radius: 5px;
+  color: var(--font-color);
+  font-size: var(--font-size);
+  max-width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Right-side chips (battery, keyboard, clock) ───────────────────────── */
+/* Mirrors sketchybar item style: rounded bg, border, icon+label padding   */
+
+.chip {
+  display: flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 12px 0 10px;
+  background: var(--item-bg);
+  border: 1px solid var(--item-border);
+  border-radius: 5px;
+  color: var(--font-color);
+  white-space: nowrap;
+
+  i {
+    font-size: var(--icon-size);
+    color: var(--font-color);
+    margin-right: 6px;
+  }
+
+  &.alert {
+    color: var(--alert-red);
+    border-color: var(--alert-red);
+
+    i { color: var(--alert-red); }
+  }
+}

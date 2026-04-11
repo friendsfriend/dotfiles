@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="./styles.css" />
+    <script
+      src="https://unpkg.com/@babel/standalone@7.25.6/babel.min.js"
+      integrity="sha256-aS0B0wnsaDByLfE16h4MDCP1fQFccysd1YWOcV+gbBo="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel" data-type="module">
+      import React, { useState, useEffect } from 'https://esm.sh/react@18?dev';
+      import { createRoot } from 'https://esm.sh/react-dom@18/client?dev';
+      import * as zebar from 'https://esm.sh/zebar@3.0';
+
+      const providers = zebar.createProviderGroup({
+        glazewm:  { type: 'glazewm' },
+        // Date format mirrors sketchybar clock.sh: date +"%d.%m. %H:%M"
+        date:     { type: 'date', formatting: 'dd.MM. HH:mm' },
+        battery:  { type: 'battery' },
+        keyboard: { type: 'keyboard' },
+      });
+
+      createRoot(document.getElementById('root')).render(<App />);
+
+      function App() {
+        const [output, setOutput] = useState(providers.outputMap);
+
+        useEffect(() => {
+          providers.onOutput(() => setOutput(providers.outputMap));
+        }, []);
+
+        // Mirrors sketchybar battery.sh icon set (Nerd Font equivalents).
+        function getBatteryIcon(battery) {
+          if (battery.isCharging) return 'nf-md-battery_charging';
+          if (battery.chargePercent > 90) return 'nf-fa-battery_4';
+          if (battery.chargePercent > 60) return 'nf-fa-battery_3';
+          if (battery.chargePercent > 30) return 'nf-fa-battery_2';
+          if (battery.chargePercent > 10) return 'nf-fa-battery_1';
+          return 'nf-fa-battery_0';
+        }
+
+        // Mirrors sketchybar keyboard_layout.sh display labels.
+        function getKeyboardLabel(layout) {
+          const map = {
+            'de-DE': 'DE',
+            'en-US': 'US',
+            'en-GB': 'UK',
+          };
+          return map[layout] ?? layout?.split('-')[0]?.toUpperCase() ?? '??';
+        }
+
+        // Equivalent of sketchybar front_app: the title of the focused window.
+        const focusedWindow = output.glazewm?.focusedContainer?.type === 'window'
+          ? output.glazewm.focusedContainer
+          : null;
+
+        return (
+          <div className="app">
+
+            {/* ── Left: logo + workspaces + focused app name ── */}
+            <div className="left">
+              <i className="nf nf-fa-windows logo"></i>
+
+              {output.glazewm && (
+                <div className="workspaces">
+                  {output.glazewm.currentWorkspaces.map(workspace => (
+                    <button
+                      className={[
+                        'workspace',
+                        workspace.hasFocus  ? 'focused'   : '',
+                        workspace.isDisplayed ? 'displayed' : '',
+                      ].join(' ')}
+                      onClick={() =>
+                        output.glazewm.runCommand(`focus --workspace ${workspace.name}`)
+                      }
+                      key={workspace.name}
+                    >
+                      {workspace.displayName ?? workspace.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {focusedWindow && (
+                <span className="focused-app">
+                  {focusedWindow.title}
+                </span>
+              )}
+            </div>
+
+            {/* ── Center: empty (reserved for future use) ── */}
+            <div className="center"></div>
+
+            {/* ── Right: keyboard · battery · clock ── */}
+            <div className="right">
+              {output.keyboard && (
+                <div className="chip">
+                  <i className="nf nf-md-keyboard_outline"></i>
+                  {getKeyboardLabel(output.keyboard.layout)}
+                </div>
+              )}
+
+              {output.battery && (
+                <div className={`chip ${output.battery.chargePercent < 20 && !output.battery.isCharging ? 'alert' : ''}`}>
+                  <i className={`nf ${getBatteryIcon(output.battery)}`}></i>
+                  {Math.round(output.battery.chargePercent)}%
+                </div>
+              )}
+
+              {output.date && (
+                <div className="chip">
+                  {output.date.formatted}
+                </div>
+              )}
+            </div>
+
+          </div>
+        );
+      }
+    </script>
+  </body>
+</html>

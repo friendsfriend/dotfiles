@@ -1,0 +1,222 @@
+general:
+  # GlazeWM equivalent of AeroSpace's after-startup-command.
+  # Zebar is the recommended status bar companion for GlazeWM (replaces Sketchybar).
+  startup_commands: ['shell-exec zebar start-widget-preset --pack minimal --widget-name bar --preset default']
+  shutdown_commands: ['shell-exec taskkill /IM zebar.exe /F']
+  config_reload_commands: []
+
+  focus_follows_cursor: false
+
+  # Re-focuses the previous workspace when pressing the current workspace key again.
+  # This replaces AeroSpace's `workspace-back-and-forth` behavior (was on alt+tab there,
+  # here it's handled per-binding via `focus --recent-workspace` on alt+tab instead).
+  toggle_workspace_on_refocus: false
+
+  cursor_jump:
+    # Mirrors AeroSpace's `on-focus-changed = "move-mouse window-lazy-center"` and
+    # `on-focused-monitor-changed = ['move-mouse monitor-lazy-center']`.
+    enabled: true
+    trigger: 'window_focus'
+
+  # Recommended for Windows — hides off-screen workspaces cleanly.
+  hide_method: 'cloak'
+  show_all_in_taskbar: false
+
+gaps:
+  scale_with_dpi: true
+  # AeroSpace had inner.horizontal = 0 / inner.vertical = 0
+  inner_gap: '0px'
+  outer_gap:
+    top: '0px'
+    right: '0px'
+    bottom: '0px'
+    left: '0px'
+
+window_effects:
+  focused_window:
+    # Replicates JankyBorders: active_color=0xffe1e3e4, width=5.0
+    border:
+      enabled: true
+      color: '#e1e3e4'
+    hide_title_bar:
+      enabled: false
+    corner_style:
+      enabled: false
+      style: 'square'
+    transparency:
+      enabled: false
+      opacity: '100%'
+  other_windows:
+    # Replicates JankyBorders: inactive_color=0xff494d64
+    border:
+      enabled: true
+      color: '#494d64'
+    hide_title_bar:
+      enabled: false
+    corner_style:
+      enabled: false
+      style: 'square'
+    transparency:
+      enabled: false
+      opacity: '100%'
+
+window_behavior:
+  # All new windows tile by default.
+  initial_state: 'tiling'
+  state_defaults:
+    floating:
+      centered: true
+      shown_on_top: false
+    fullscreen:
+      # Use true to maximize like AeroSpace's `macos-native-fullscreen`.
+      maximized: true
+      shown_on_top: false
+
+# NOTE: GlazeWM does not have an accordion layout. The default tiling behaviour
+# splits windows side-by-side (horizontal) then top-to-bottom, which is the
+# closest equivalent to AeroSpace's `layout accordion horizontal`.
+workspaces:
+  - name: '1'
+    display_name: '1'
+  - name: '2'
+    display_name: '2'
+  - name: '3'
+    display_name: '3'  # Browser
+  - name: '4'
+    display_name: '4'
+  - name: '5'
+    display_name: '5'
+  - name: '6'
+    display_name: '6'
+  - name: '7'
+    display_name: '7'
+
+window_rules:
+  # ── Ignore rules ──────────────────────────────────────────────────────────
+  - commands: ['ignore']
+    match:
+      # Zebar (status bar) should not be tiled.
+      - window_process: { equals: 'zebar' }
+      # Browser picture-in-picture overlays.
+      - window_title: { regex: '[Pp]icture.in.[Pp]icture' }
+        window_class: { regex: 'Chrome_WidgetWin_1|MozillaDialogClass' }
+      # PowerToys overlays.
+      - window_process: { equals: 'PowerToys' }
+        window_class: { regex: 'HwndWrapper\[PowerToys\.PowerAccent.*?\]' }
+      - window_title: { equals: 'Command Palette' }
+        window_class: { equals: 'WinUIDesktopWin32WindowClass' }
+      - window_process: { equals: 'PowerToys' }
+        window_title: { regex: '.*? - Peek' }
+
+  # ── App-to-workspace assignments ─────────────────────────────────────────
+  # Add your own rules following this example.
+
+  # Brave Browser → workspace 3
+  - commands: ['move --workspace 3']
+    match:
+      - window_process: { equals: 'brave' }
+
+binding_modes:
+  # Enter resize mode with alt+r, exit with escape/enter.
+  - name: 'resize'
+    keybindings:
+      - commands: ['resize --width -2%']
+        bindings: ['h', 'left']
+      - commands: ['resize --width +2%']
+        bindings: ['l', 'right']
+      - commands: ['resize --height +2%']
+        bindings: ['k', 'up']
+      - commands: ['resize --height -2%']
+        bindings: ['j', 'down']
+      - commands: ['wm-disable-binding-mode --name resize']
+        bindings: ['escape', 'enter', 'alt+r']
+
+keybindings:
+  # ── Focus ─────────────────────────────────────────────────────────────────
+  # Mirrors AeroSpace: alt-left / alt-right
+  - commands: ['focus --direction left']
+    bindings: ['alt+left']
+  - commands: ['focus --direction right']
+    bindings: ['alt+right']
+  - commands: ['focus --direction up']
+    bindings: ['alt+up']
+  - commands: ['focus --direction down']
+    bindings: ['alt+down']
+
+  # ── Close window ──────────────────────────────────────────────────────────
+  # Mirrors AeroSpace: alt-w = close --quit-if-last-window
+  - commands: ['close']
+    bindings: ['alt+w']
+
+  # ── Fullscreen ────────────────────────────────────────────────────────────
+  # Mirrors AeroSpace: alt-f = macos-native-fullscreen
+  - commands: ['toggle-fullscreen']
+    bindings: ['alt+f']
+
+  # ── Workspace back-and-forth ──────────────────────────────────────────────
+  # Mirrors AeroSpace: alt-tab = workspace-back-and-forth
+  # NOTE: alt+tab may conflict with Windows native app switcher — change if needed.
+  - commands: ['focus --recent-workspace']
+    bindings: ['alt+tab']
+
+  # ── Launch Brave ──────────────────────────────────────────────────────────
+  # Only opens a new window if Brave is not already running.
+  - commands: ['shell-exec powershell -WindowStyle Hidden -Command "if (-not (Get-Process brave -ErrorAction SilentlyContinue)) { Start-Process brave }"']
+    bindings: ['alt+ctrl+b']
+
+  # ── Switch to workspace ───────────────────────────────────────────────────
+  # Mirrors AeroSpace: alt-1 through alt-7
+  - commands: ['focus --workspace 1']
+    bindings: ['alt+1']
+  - commands: ['focus --workspace 2']
+    bindings: ['alt+2']
+  - commands: ['focus --workspace 3']
+    bindings: ['alt+3']
+  - commands: ['focus --workspace 4']
+    bindings: ['alt+4']
+  - commands: ['focus --workspace 5']
+    bindings: ['alt+5']
+  - commands: ['focus --workspace 6']
+    bindings: ['alt+6']
+  - commands: ['focus --workspace 7']
+    bindings: ['alt+7']
+
+  # ── Move window to workspace ──────────────────────────────────────────────
+  # Mirrors AeroSpace: alt-shift-1 through alt-shift-7
+  # GlazeWM moves the window AND follows focus to the target workspace.
+  - commands: ['move --workspace 1', 'focus --workspace 1']
+    bindings: ['alt+shift+1']
+  - commands: ['move --workspace 2', 'focus --workspace 2']
+    bindings: ['alt+shift+2']
+  - commands: ['move --workspace 3', 'focus --workspace 3']
+    bindings: ['alt+shift+3']
+  - commands: ['move --workspace 4', 'focus --workspace 4']
+    bindings: ['alt+shift+4']
+  - commands: ['move --workspace 5', 'focus --workspace 5']
+    bindings: ['alt+shift+5']
+  - commands: ['move --workspace 6', 'focus --workspace 6']
+    bindings: ['alt+shift+6']
+  - commands: ['move --workspace 7', 'focus --workspace 7']
+    bindings: ['alt+shift+7']
+
+  # ── WM controls ───────────────────────────────────────────────────────────
+  - commands: ['wm-reload-config']
+    bindings: ['alt+shift+r']
+  - commands: ['wm-exit']
+    bindings: ['alt+shift+e']
+  - commands: ['wm-redraw']
+    bindings: ['alt+shift+w']
+  - commands: ['wm-toggle-pause']
+    bindings: ['alt+shift+p']
+
+  # ── Resize mode ───────────────────────────────────────────────────────────
+  - commands: ['wm-enable-binding-mode --name resize']
+    bindings: ['alt+r']
+
+  # ── Tiling direction ──────────────────────────────────────────────────────
+  - commands: ['toggle-tiling-direction']
+    bindings: ['alt+v']
+
+  # ── Float / tile toggle ───────────────────────────────────────────────────
+  - commands: ['toggle-floating --centered']
+    bindings: ['alt+shift+space']

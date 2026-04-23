@@ -33,3 +33,4 @@ Adembc/homebrew-tap/lazyssh
 serkanyersen/dotstate/dotstate
 kiki-ki/tap/qo
 gh
+pnpm

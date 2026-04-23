@@ -30,3 +30,4 @@ sst/tap/opencode
 tmux
 Adembc/homebrew-tap/lazyssh
 serkanyersen/dotstate/dotstate
+pnpm

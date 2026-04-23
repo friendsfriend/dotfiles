@@ -82,6 +82,7 @@ eval $(thefuck --alias)
 eval $(thefuck --alias fk)
 alias cd="z"
 alias top="btop"
+alias npm="pnpm"
 
 export EDITOR=nvim
 export TERM=ghostty

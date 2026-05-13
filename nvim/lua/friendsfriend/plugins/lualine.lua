@@ -85,7 +85,6 @@ return {
 		-- configure lualine with modified theme
 		lualine.setup({
 			options = {
-				theme = "catppuccin",
 				globalstatus = true,
 			},
 			sections = {
@@ -142,7 +141,10 @@ return {
 							-- read lualine_z's normal-mode colors and return them directly,
 							-- bypassing modes.nvim which recolors named highlight groups
 							local hl = vim.api.nvim_get_hl(0, { name = "lualine_z_normal", link = false })
-							return { fg = hl.fg and string.format("#%06x", hl.fg), bg = hl.bg and string.format("#%06x", hl.bg) }
+							return {
+								fg = hl.fg and string.format("#%06x", hl.fg),
+								bg = hl.bg and string.format("#%06x", hl.bg),
+							}
 						end,
 					},
 				},

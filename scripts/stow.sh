@@ -23,6 +23,44 @@ stow_folder() {
     stow -t "$target" "$source"
 }
 
+link_pi_agent_asset_items() {
+    local target_dir="$1"
+    local source_dir="$2"
+
+    if [[ -z "$target_dir" || -z "$source_dir" ]]; then
+        echo "Usage: link_pi_agent_asset_items <target_dir> <source_dir>"
+        return 1
+    fi
+
+    if [[ ! -d "$target_dir" ]]; then
+        echo "Target directory '$target_dir' does not exist. Creating it..."
+        mkdir -p "$target_dir"
+    fi
+
+    shopt -s nullglob
+    for source_path in "$source_dir"/*; do
+        local source_abs
+        local target_path
+        source_abs="$(cd "$(dirname "$source_path")" && pwd)/$(basename "$source_path")"
+        target_path="$target_dir/$(basename "$source_path")"
+
+        if [[ -e "$target_path" || -L "$target_path" ]]; then
+            echo "Pi agent asset '$target_path' already exists. Skipping..."
+            continue
+        fi
+
+        echo "Creating symlink for pi agent asset from $source_abs to $target_path"
+        ln -s "$source_abs" "$target_path"
+    done
+    shopt -u nullglob
+}
+
+stow_pi_agent_assets() {
+    link_pi_agent_asset_items "$HOME"/.pi/agent/extensions pi/extensions
+    link_pi_agent_asset_items "$HOME"/.pi/agent/prompts pi/prompts
+    link_pi_agent_asset_items "$HOME"/.pi/agent/skills pi/skills
+}
+
 stow_file() {
     local target="$1"
     local source="$2"
@@ -65,12 +103,14 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/.config/ghostty/ ghostty
         stow_folder "$HOME"/.config/sketchybar/ sketchybar
         ln -sf ~/dotfiles/sketchybar/minimal/sketchybarrc "$HOME"/.config/sketchybar/sketchybarrc
+        mkdir -p "$HOME"/.config/aerospace
         ln -sf ~/dotfiles/aerospace/work/aerospace.toml "$HOME"/.config/aerospace/aerospace.toml
         stow_folder "$HOME"/ p10k
         stow_folder "$HOME"/.config/opencode/ opencode
         stow_folder "$HOME"/ tmux
         stow_folder "$HOME"/.config/sesh/ sesh
         stow_folder "$HOME"/.config/btop/ btop
+        stow_pi_agent_assets
         ;;
     work)
         stow_folder "$HOME"/.config/fastfetch/ fastfetch
@@ -80,6 +120,7 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/.config/ghostty/ ghostty
         stow_folder "$HOME"/.config/sketchybar/ sketchybar
         ln -sf ~/dotfiles/sketchybar/work/sketchybarrc "$HOME"/.config/sketchybar/sketchybarrc
+        mkdir -p "$HOME"/.config/aerospace
         ln -sf ~/dotfiles/aerospace/work/aerospace.toml "$HOME"/.config/aerospace/aerospace.toml
         stow_folder "$HOME"/ p10k
         # stow_folder "$HOME"/.config/opencode/ opencode
@@ -89,6 +130,7 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/ ideavimrc
         stow_folder "$HOME"/ ataman
         cd ~/dotfiles || exit
+        stow_pi_agent_assets
         ;;
     omarchy)
         stow_folder "$HOME"/.config/hypr/ hyprland
@@ -103,6 +145,7 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/.config/opencode/ opencode
         stow_folder "$HOME"/ tmux
         stow_folder "$HOME"/.config/sesh/ sesh
+        stow_pi_agent_assets
         hyprctl reload
 	;;
     *)

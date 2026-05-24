@@ -28,6 +28,6 @@ go
 gh
 sst/tap/opencode
 tmux
-Adembc/homebrew-tap/lazyssh
+lazyssh
 serkanyersen/dotstate/dotstate
 pnpm

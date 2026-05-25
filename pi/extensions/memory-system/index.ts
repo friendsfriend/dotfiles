@@ -2,7 +2,7 @@ import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-a
 import { matchesKey, truncateToWidth, wrapTextWithAnsi } from "@earendil-works/pi-tui";
 import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
-import { copyFile, mkdir, readFile, readdir, realpath, rename, stat, writeFile } from "node:fs/promises";
+import { appendFile, copyFile, mkdir, readFile, readdir, realpath, rename, stat, writeFile } from "node:fs/promises";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { homedir } from "node:os";
@@ -128,6 +128,136 @@ interface MemoryHealthReport {
 	lastInjection?: { ids: string[]; estimatedTokens: number };
 }
 
+type MemoryTelemetryEventType = "memory_injection" | "turn_start" | "turn_end" | "message_end" | "tool_call" | "tool_result" | "provider_request" | "provider_response";
+
+interface MemoryTelemetryBase {
+	eventType: MemoryTelemetryEventType;
+	timestamp: string;
+	turnId: string;
+	turnIndex?: number;
+	benchmarkRunId?: string;
+	benchmarkPass?: string;
+	benchmarkRequestId?: string;
+}
+
+interface MemoryInjectionTelemetry extends MemoryTelemetryBase {
+	eventType: "memory_injection";
+	memoryEnabled: boolean;
+	selectedMemoryIds: string[];
+	memoryHitCount: number;
+	cardCharacters: number;
+	estimatedCardTokens: number;
+	estimatedAvoidedTokens: number;
+	estimatedNetSavedTokens: number;
+	promptSummary?: string;
+}
+
+interface ProviderUsageTelemetry {
+	provider?: string;
+	model?: string;
+	inputTokens?: number;
+	outputTokens?: number;
+	cacheReadTokens?: number;
+	cacheWriteTokens?: number;
+	cacheTokens?: number;
+	totalTokens?: number;
+	costUsd?: number;
+}
+
+interface ToolTelemetry {
+	toolCallId?: string;
+	toolName: string;
+	argumentSummary?: string;
+	resultSummary?: string;
+	readPaths?: string[];
+	commandSummary?: string;
+	resultCharacters?: number;
+	isError?: boolean;
+	durationMs?: number;
+}
+
+interface TurnTelemetrySummary extends MemoryTelemetryBase {
+	eventType: "turn_end";
+	startedAt?: string;
+	endedAt: string;
+	durationMs?: number;
+	selectedMemoryIds: string[];
+	memoryHitCount: number;
+	cardTokens?: number;
+	estimatedAvoidedTokens?: number;
+	estimatedNetSavedTokens?: number;
+	toolCount: number;
+	toolSummaries: string[];
+	providerUsage?: ProviderUsageTelemetry;
+}
+
+interface MemoryTelemetryEvent extends MemoryTelemetryBase {
+	memoryEnabled?: boolean;
+	selectedMemoryIds?: string[];
+	memoryHitCount?: number;
+	cardCharacters?: number;
+	estimatedCardTokens?: number;
+	estimatedAvoidedTokens?: number;
+	estimatedNetSavedTokens?: number;
+	promptSummary?: string;
+	providerUsage?: ProviderUsageTelemetry;
+	tool?: ToolTelemetry;
+	toolCount?: number;
+	toolSummaries?: string[];
+	payloadCharacters?: number;
+	estimatedPayloadTokens?: number;
+	status?: number;
+	responseMetadata?: Record<string, string>;
+	durationMs?: number;
+	startedAt?: string;
+	endedAt?: string;
+}
+
+interface MemoryBenchmarkRequest {
+	id: string;
+	title: string;
+	prompt: string;
+	expectedSubstrings: string[];
+}
+
+interface MemoryBenchmarkAssertionResult {
+	expected: string;
+	passed: boolean;
+}
+
+interface MemoryBenchmarkPassResult {
+	requestId: string;
+	passName: "baseline" | "memory-assisted";
+	prompt: string;
+	stdout: string;
+	stderr: string;
+	durationMs: number;
+	exitCode: number | null;
+	assertions: MemoryBenchmarkAssertionResult[];
+	telemetryRecords: MemoryTelemetryEvent[];
+	providerUsage?: ProviderUsageTelemetry;
+	memoryHits: number;
+	injectedTokens: number;
+	estimatedAvoidedTokens: number;
+	toolCalls: number;
+}
+
+interface MemoryBenchmarkReport {
+	runId: string;
+	createdAt: string;
+	model: string;
+	mode: string;
+	requests: MemoryBenchmarkRequest[];
+	results: MemoryBenchmarkPassResult[];
+	summary: {
+		baseline: Record<string, number | undefined>;
+		memoryAssisted: Record<string, number | undefined>;
+		deltas: Record<string, number | undefined>;
+		quality: { passed: number; total: number };
+	};
+	warnings: string[];
+}
+
 const defaultConfig: MemoryConfig = { tokenBudget: DEFAULT_TOKEN_BUDGET, maxEntriesPerCard: 12 };
 
 function globalMemoryRootPath(file = ""): string {
@@ -208,6 +338,10 @@ function benchmarksPath(ctx: ExtensionContext): string {
 
 function globalBenchmarksPath(_ctx: ExtensionContext): string {
 	return globalMemoryRootPath(BENCHMARKS_DIR);
+}
+
+function benchmarkRunPath(ctx: ExtensionContext, runId: string): string {
+	return join(globalBenchmarksPath(ctx), runId);
 }
 
 function nowIso(): string {
@@ -332,12 +466,25 @@ async function readJsonFile<T>(path: string, fallback: T): Promise<T> {
 }
 
 async function writeJsonFile(path: string, value: unknown): Promise<void> {
+	await mkdir(dirname(path), { recursive: true });
 	const tmp = `${path}.${process.pid}.${Date.now().toString(36)}.${Math.random().toString(36).slice(2, 8)}.tmp`;
 	const serialized = `${JSON.stringify(value, null, 2)}\n`;
 	JSON.parse(serialized);
 	await writeFile(tmp, serialized, "utf8");
 	JSON.parse(await readFile(tmp, "utf8"));
 	await rename(tmp, path);
+}
+
+async function appendJsonlFile(path: string, value: unknown): Promise<void> {
+	await mkdir(dirname(path), { recursive: true });
+	const line = JSON.stringify(value);
+	JSON.parse(line);
+	await appendFile(path, `${line}\n`, "utf8");
+}
+
+async function writeMarkdownFile(path: string, content: string): Promise<void> {
+	await mkdir(dirname(path), { recursive: true });
+	await writeFile(path, `${content.replace(/\s+$/g, "")}\n`, "utf8");
 }
 
 async function appendMarkdown(path: string, content: string): Promise<void> {
@@ -1377,6 +1524,319 @@ function parseScopeArg(args: string[]): { scope?: MemoryScope | "all"; rest: str
 	return { rest };
 }
 
+function currentBenchmarkTags(): { benchmarkRunId?: string; benchmarkPass?: string; benchmarkRequestId?: string } {
+	return {
+		benchmarkRunId: process.env.PI_MEMORY_BENCHMARK_RUN_ID || undefined,
+		benchmarkPass: process.env.PI_MEMORY_BENCHMARK_PASS || undefined,
+		benchmarkRequestId: process.env.PI_MEMORY_BENCHMARK_REQUEST_ID || undefined,
+	};
+}
+
+function memoryInjectionEnabled(): boolean {
+	const raw = String(process.env.PI_MEMORY_INJECTION_ENABLED ?? process.env.PI_MEMORY_ENABLED ?? "1").toLowerCase();
+	return !(raw === "0" || raw === "false" || raw === "off" || raw === "disabled");
+}
+
+function summarizePrompt(prompt: string, max = 240): string {
+	return clip(prompt.replace(/```[\s\S]*?```/g, "[code block]").replace(/\s+/g, " "), max);
+}
+
+function safeJsonSummary(value: unknown, max = 360): string {
+	try {
+		return clip(JSON.stringify(value, (_key, nested) => {
+			if (typeof nested === "string") {
+				if (/api[_-]?key|token|secret|password/i.test(nested)) return "[redacted]";
+				return clip(nested.replace(/[A-Za-z0-9_=-]{32,}/g, "[redacted]"), 180);
+			}
+			return nested;
+		}), max);
+	} catch {
+		return clip(String(value), max);
+	}
+}
+
+function summarizeToolInput(toolName: string, input: unknown): { argumentSummary: string; readPaths?: string[]; commandSummary?: string } {
+	const object = input && typeof input === "object" ? input as Record<string, unknown> : {};
+	const readPath = typeof object.path === "string" ? object.path : undefined;
+	const command = typeof object.command === "string" ? object.command : undefined;
+	return {
+		argumentSummary: safeJsonSummary(input),
+		readPaths: readPath ? [readPath] : undefined,
+		commandSummary: command && toolName === "bash" ? clip(command.replace(/\s+/g, " "), 220) : undefined,
+	};
+}
+
+function summarizeToolResult(content: unknown, max = 360): { resultSummary: string; resultCharacters: number } {
+	const text = textFromContent(content) || safeJsonSummary(content, max);
+	return { resultSummary: clip(text.replace(/\s+/g, " "), max), resultCharacters: text.length };
+}
+
+function estimateTokensFromText(text: string): number {
+	return Math.max(0, Math.ceil(text.length / 4));
+}
+
+function estimateGrossAvoidedTokens(entry: MemoryEntry): number {
+	// Heuristic: memory text stands in for re-reading source context. Source-backed memories receive
+	// a floor for likely file/command lookup context; all estimates remain explicitly labeled.
+	const textTokens = estimateTokensFromText(entry.text);
+	const sourceTokens = entry.source?.path || entry.source?.command ? Math.max(textTokens, 120) : 0;
+	return Math.max(20, textTokens * 4, sourceTokens);
+}
+
+function estimateSavings(entries: MemoryEntry[], selectedIds: string[], cardTokens: number): { estimatedAvoidedTokens: number; estimatedNetSavedTokens: number } {
+	const byId = new Map(entries.map((entry) => [entry.id, entry]));
+	const estimatedAvoidedTokens = selectedIds.reduce((sum, id) => sum + (byId.get(id) ? estimateGrossAvoidedTokens(byId.get(id)!) : 0), 0);
+	return { estimatedAvoidedTokens, estimatedNetSavedTokens: estimatedAvoidedTokens - cardTokens };
+}
+
+function telemetryTurnId(turnIndex?: number, suffix = "current"): string {
+	return `${process.pid}-${turnIndex ?? "agent"}-${suffix}`;
+}
+
+async function recordTelemetry(ctx: ExtensionContext, event: MemoryTelemetryEvent): Promise<void> {
+	try {
+		await appendJsonlFile(globalStatsPath(ctx), event);
+	} catch {
+		// Telemetry must never break memory injection or command handling.
+	}
+}
+
+function extractProviderUsage(messageOrRecord: unknown): ProviderUsageTelemetry {
+	const object = messageOrRecord && typeof messageOrRecord === "object" ? messageOrRecord as Record<string, unknown> : {};
+	const usage = (object.usage && typeof object.usage === "object" ? object.usage as Record<string, unknown> : object) as Record<string, unknown>;
+	const cost = usage.cost && typeof usage.cost === "object" ? usage.cost as Record<string, unknown> : usage;
+	return {
+		provider: typeof object.provider === "string" ? object.provider : typeof usage.provider === "string" ? usage.provider : undefined,
+		model: typeof object.model === "string" ? object.model : typeof usage.model === "string" ? usage.model : undefined,
+		inputTokens: firstNumber(usage.inputTokens, usage.promptTokens, usage.input_tokens, usage.prompt_tokens),
+		outputTokens: firstNumber(usage.outputTokens, usage.completionTokens, usage.output_tokens, usage.completion_tokens),
+		cacheReadTokens: firstNumber(usage.cacheReadTokens, usage.cache_read_tokens),
+		cacheWriteTokens: firstNumber(usage.cacheWriteTokens, usage.cache_write_tokens),
+		cacheTokens: firstNumber(usage.cacheTokens, usage.cachedTokens, usage.cache_tokens),
+		totalTokens: firstNumber(usage.totalTokens, usage.total_tokens),
+		costUsd: firstNumber(usage.costUsd, usage.totalCostUsd, usage.cost, cost.total, cost.totalUsd, cost.usd),
+	};
+}
+
+function telemetryMetricSummary(records: MemoryTelemetryEvent[]): Record<string, number | undefined> {
+	const provider = records.reduce((summary, record) => mergeProviderUsage(summary, record.providerUsage ?? {}), {} as ProviderUsageSummary);
+	return {
+		inputTokens: provider.inputTokens,
+		outputTokens: provider.outputTokens,
+		cacheTokens: provider.cacheTokens,
+		totalTokens: provider.totalTokens,
+		costUsd: provider.costUsd,
+		latencyMs: records.reduce((sum, record) => sum + (record.durationMs ?? 0), 0) || undefined,
+		toolCalls: records.filter((record) => record.eventType === "tool_call").length || undefined,
+		memoryHits: records.reduce((sum, record) => sum + (record.memoryHitCount ?? 0), 0) || undefined,
+		injectedTokens: records.reduce((sum, record) => sum + (record.estimatedCardTokens ?? 0), 0) || undefined,
+		estimatedAvoidedTokens: records.reduce((sum, record) => sum + (record.estimatedAvoidedTokens ?? 0), 0) || undefined,
+	};
+}
+
+function metricDelta(memory: Record<string, number | undefined>, baseline: Record<string, number | undefined>): Record<string, number | undefined> {
+	const keys = [...new Set([...Object.keys(memory), ...Object.keys(baseline)])];
+	return Object.fromEntries(keys.map((key) => [key, memory[key] === undefined || baseline[key] === undefined ? undefined : memory[key]! - baseline[key]!]));
+}
+
+function defaultBenchmarkRequests(): MemoryBenchmarkRequest[] {
+	return [
+		{ id: "memory-extension-path", title: "Locate memory extension", prompt: "Read the repository context and answer: which file implements the pi memory system extension? Include the exact path.", expectedSubstrings: ["pi/extensions/memory-system/index.ts"] },
+		{ id: "observability-capability", title: "Summarize observability capability", prompt: "Read the OpenSpec change for memory observability and name the new capability plus one required stats command.", expectedSubstrings: ["pi-memory-observability", "/memory stats"] },
+		{ id: "stats-storage", title: "Find stats storage", prompt: "Identify where runtime memory telemetry stats are stored. Include the exact JSONL path.", expectedSubstrings: [".pi/memory/stats.jsonl"] },
+		{ id: "benchmark-storage", title: "Find benchmark storage", prompt: "Identify where memory benchmark run artifacts are stored and mention the run directory pattern.", expectedSubstrings: [".pi/memory/benchmarks", "run"] },
+		{ id: "measurement-control", title: "Explain measurement control", prompt: "Explain how the baseline benchmark pass should treat memory injection without deleting stored memories.", expectedSubstrings: ["disabled", "stored memory"] },
+		{ id: "default-model", title: "Default benchmark model", prompt: "What default cheap model should memory benchmarks use when no model override is provided?", expectedSubstrings: ["openai/gpt-4o-mini"] },
+		{ id: "provider-usage-labeling", title: "Usage versus estimates", prompt: "Explain how reports should label actual provider usage versus estimated memory savings.", expectedSubstrings: ["actual", "estimated"] },
+		{ id: "quality-assertions", title: "Quality assertions", prompt: "Describe the deterministic quality check approach for memory benchmark requests.", expectedSubstrings: ["assertions", "expected"] },
+		{ id: "command-surface", title: "Command surface", prompt: "List the memory commands added by this change for observability and benchmarking.", expectedSubstrings: ["stats", "benchmark"] },
+		{ id: "benchmark-isolation", title: "Benchmark memory isolation", prompt: "Explain how benchmark prompts and answers should be isolated from normal durable inferred session memory.", expectedSubstrings: ["benchmark", "durable"] },
+	];
+}
+
+function parseBenchmarkArgs(args: string[]): { model: string; mode: "comparison" | "dry-run"; confirm: boolean; requestLimit?: number } {
+	let model = process.env.PI_MEMORY_BENCHMARK_MODEL || "openai/gpt-4o-mini";
+	let mode: "comparison" | "dry-run" = "comparison";
+	let confirm = false;
+	let requestLimit: number | undefined;
+	for (let index = 0; index < args.length; index++) {
+		const arg = args[index];
+		if (arg === "--model" && args[index + 1]) model = args[++index];
+		else if (arg.startsWith("--model=")) model = arg.slice("--model=".length);
+		else if (arg === "--dry-run") mode = "dry-run";
+		else if (arg === "--yes" || arg === "--confirm") confirm = true;
+		else if (arg === "--limit" && args[index + 1]) requestLimit = Number(args[++index]);
+		else if (arg.startsWith("--limit=")) requestLimit = Number(arg.slice("--limit=".length));
+	}
+	return { model, mode, confirm, requestLimit: Number.isFinite(requestLimit) ? Math.max(1, Math.min(10, requestLimit!)) : undefined };
+}
+
+async function readBenchmarkTelemetry(ctx: ExtensionContext, runId: string, passName?: string, requestId?: string): Promise<MemoryTelemetryEvent[]> {
+	const loaded = await readJsonlFileTolerant(globalStatsPath(ctx));
+	return loaded.records.filter((record) => record.benchmarkRunId === runId && (!passName || record.benchmarkPass === passName) && (!requestId || record.benchmarkRequestId === requestId)) as MemoryTelemetryEvent[];
+}
+
+function assertionResults(output: string, expected: string[]): MemoryBenchmarkAssertionResult[] {
+	const lower = output.toLowerCase();
+	return expected.map((item) => ({ expected: item, passed: lower.includes(item.toLowerCase()) }));
+}
+
+async function runBenchmarkRequest(ctx: ExtensionContext, runId: string, request: MemoryBenchmarkRequest, passName: "baseline" | "memory-assisted", model: string): Promise<MemoryBenchmarkPassResult> {
+	const started = Date.now();
+	let stdout = "";
+	let stderr = "";
+	let exitCode: number | null = 0;
+	try {
+		const extensionPath = resolve(ctx.cwd, "pi/extensions/memory-system/index.ts");
+		const extensionArgs = existsSync(extensionPath) ? ["-e", extensionPath] : [];
+		const result = await execFileAsync("pi", [...extensionArgs, "--model", model, "--tools", "read,grep,find", "--no-session", "--no-context-files", "--no-skills", "--no-prompt-templates", "--no-themes", "-p", `${request.prompt}\n\nThis is a read-only benchmark request. Do not edit files. Keep the answer concise.`], {
+			cwd: ctx.cwd,
+			timeout: 120_000,
+			maxBuffer: 4 * 1024 * 1024,
+			env: { ...process.env, PI_MEMORY_BENCHMARK_RUN_ID: runId, PI_MEMORY_BENCHMARK_PASS: passName, PI_MEMORY_BENCHMARK_REQUEST_ID: request.id, PI_MEMORY_INJECTION_ENABLED: passName === "baseline" ? "0" : "1" },
+		});
+		stdout = String(result.stdout ?? "");
+		stderr = String(result.stderr ?? "");
+	} catch (error) {
+		const err = error as NodeJS.ErrnoException & { stdout?: string | Buffer; stderr?: string | Buffer; code?: number };
+		stdout = String(err.stdout ?? "");
+		stderr = String(err.stderr ?? err.message ?? error);
+		exitCode = typeof err.code === "number" ? err.code : 1;
+	}
+	const durationMs = Date.now() - started;
+	const telemetryRecords = await readBenchmarkTelemetry(ctx, runId, passName, request.id);
+	const metrics = telemetryMetricSummary(telemetryRecords);
+	const providerUsage = telemetryRecords.reduce((summary, record) => mergeProviderUsage(summary, record.providerUsage ?? {}), {} as ProviderUsageSummary);
+	return {
+		requestId: request.id,
+		passName,
+		prompt: request.prompt,
+		stdout: clip(stdout, 12_000),
+		stderr: clip(stderr, 4_000),
+		durationMs,
+		exitCode,
+		assertions: assertionResults(stdout, request.expectedSubstrings),
+		telemetryRecords,
+		providerUsage,
+		memoryHits: metrics.memoryHits ?? 0,
+		injectedTokens: metrics.injectedTokens ?? 0,
+		estimatedAvoidedTokens: metrics.estimatedAvoidedTokens ?? 0,
+		toolCalls: metrics.toolCalls ?? 0,
+	};
+}
+
+function summarizeBenchmarkPass(results: MemoryBenchmarkPassResult[]): Record<string, number | undefined> {
+	const provider = results.reduce((summary, result) => mergeProviderUsage(summary, result.providerUsage ?? {}), {} as ProviderUsageSummary);
+	return {
+		inputTokens: provider.inputTokens,
+		outputTokens: provider.outputTokens,
+		cacheTokens: provider.cacheTokens,
+		totalTokens: provider.totalTokens,
+		costUsd: provider.costUsd,
+		latencyMs: results.reduce((sum, result) => sum + result.durationMs, 0),
+		toolCalls: results.reduce((sum, result) => sum + result.toolCalls, 0),
+		memoryHits: results.reduce((sum, result) => sum + result.memoryHits, 0),
+		injectedTokens: results.reduce((sum, result) => sum + result.injectedTokens, 0),
+		estimatedAvoidedTokens: results.reduce((sum, result) => sum + result.estimatedAvoidedTokens, 0),
+	};
+}
+
+function renderBenchmarkReport(report: MemoryBenchmarkReport): string {
+	const value = (item: number | undefined, cost = false) => item === undefined ? "unknown" : cost ? `$${item.toFixed(4)}` : Math.round(item).toLocaleString();
+	const metricRows = ["inputTokens", "outputTokens", "cacheTokens", "totalTokens", "costUsd", "latencyMs", "toolCalls", "memoryHits", "injectedTokens", "estimatedAvoidedTokens"];
+	return [
+		"# Memory Benchmark Report",
+		`Generated: ${report.createdAt}`,
+		`Run ID: ${report.runId}`,
+		`Model: ${report.model}`,
+		"",
+		"Actual provider usage/cost values are shown only when reported by the provider. Estimated avoided tokens are heuristic estimates and are not actual provider billing data.",
+		"",
+		"## Summary",
+		"| Metric | Baseline | Memory-assisted | Delta |",
+		"| --- | ---: | ---: | ---: |",
+		...metricRows.map((key) => `| ${key} | ${value(report.summary.baseline[key], key === "costUsd")} | ${value(report.summary.memoryAssisted[key], key === "costUsd")} | ${value(report.summary.deltas[key], key === "costUsd")} |`),
+		"",
+		`Quality assertions: ${report.summary.quality.passed}/${report.summary.quality.total} passed`,
+		"",
+		"## Requests",
+		...report.requests.flatMap((request) => {
+			const results = report.results.filter((result) => result.requestId === request.id);
+			return [`### ${request.title}`, "", ...results.map((result) => `- ${result.passName}: exit ${result.exitCode ?? "unknown"}, ${result.durationMs}ms, assertions ${result.assertions.filter((item) => item.passed).length}/${result.assertions.length}, memory hits ${result.memoryHits}, tool calls ${result.toolCalls}`), ""];
+		}),
+		"## Warnings",
+		report.warnings.length ? report.warnings.map((warning) => `- ${warning}`).join("\n") : "No warnings.",
+		"",
+	].join("\n");
+}
+
+async function runMemoryBenchmark(ctx: ExtensionContext, args: string[]): Promise<string> {
+	const parsed = parseBenchmarkArgs(args);
+	const runId = `run-${new Date().toISOString().replace(/[:.]/g, "-")}-${Math.random().toString(36).slice(2, 6)}`;
+	const runDir = benchmarkRunPath(ctx, runId);
+	const requests = defaultBenchmarkRequests().slice(0, parsed.requestLimit ?? 10);
+	await mkdir(runDir, { recursive: true });
+	await writeJsonFile(join(runDir, "config.json"), { runId, createdAt: nowIso(), model: parsed.model, mode: parsed.mode, requestCount: requests.length });
+	await writeJsonFile(join(runDir, "requests.json"), requests);
+	if (parsed.mode === "dry-run") {
+		const dryReport: MemoryBenchmarkReport = { runId, createdAt: nowIso(), model: parsed.model, mode: parsed.mode, requests, results: [], summary: { baseline: {}, memoryAssisted: {}, deltas: {}, quality: { passed: 0, total: 0 } }, warnings: ["Dry run: child pi requests were not executed."] };
+		await writeJsonFile(join(runDir, "report.json"), dryReport);
+		await writeMarkdownFile(join(runDir, "report.md"), renderBenchmarkReport(dryReport));
+		return join(runDir, "report.md");
+	}
+	const results: MemoryBenchmarkPassResult[] = [];
+	for (const passName of ["baseline", "memory-assisted"] as const) {
+		for (const [index, request] of requests.entries()) {
+			if (ctx.hasUI) ctx.ui.setStatus("memory-benchmark", `benchmark ${passName} ${index + 1}/${requests.length}`);
+			results.push(await runBenchmarkRequest(ctx, runId, request, passName, parsed.model));
+			await appendJsonlFile(join(runDir, "results.jsonl"), results[results.length - 1]);
+		}
+	}
+	const baseline = summarizeBenchmarkPass(results.filter((result) => result.passName === "baseline"));
+	const memoryAssisted = summarizeBenchmarkPass(results.filter((result) => result.passName === "memory-assisted"));
+	const quality = results.flatMap((result) => result.assertions);
+	const report: MemoryBenchmarkReport = { runId, createdAt: nowIso(), model: parsed.model, mode: parsed.mode, requests, results, summary: { baseline, memoryAssisted, deltas: metricDelta(memoryAssisted, baseline), quality: { passed: quality.filter((item) => item.passed).length, total: quality.length } }, warnings: results.filter((result) => result.exitCode !== 0).map((result) => `${result.passName}/${result.requestId} exited ${result.exitCode}`) };
+	await writeJsonFile(join(runDir, "report.json"), report);
+	await writeMarkdownFile(join(runDir, "report.md"), renderBenchmarkReport(report));
+	if (ctx.hasUI) ctx.ui.setStatus("memory-benchmark", `benchmark complete: ${runId}`);
+	return join(runDir, "report.md");
+}
+
+async function renderMemoryStats(ctx: ExtensionContext): Promise<string> {
+	const data = await loadDashboardData(ctx);
+	const overview = data.overview;
+	const topHits = data.memories.slice(0, 10);
+	return [
+		"# Memory Stats",
+		`Generated: ${data.generatedAt}`,
+		"",
+		"Actual provider usage/cost is reported separately from estimated memory savings. Unknown means the provider or runtime did not expose that actual value.",
+		"",
+		"## Runtime Observability",
+		`- Observed turns: ${formatInteger(overview.observedTurns)}`,
+		`- Turns with memory hits: ${formatInteger(Math.round(overview.observedTurns * overview.memoryHitRate))}`,
+		`- Hit rate: ${formatPercent(overview.memoryHitRate)}`,
+		`- Injected memory tokens: ${formatInteger(overview.injectedTokens)}`,
+		`- Estimated avoided tokens: ${formatInteger(overview.estimatedAvoidedTokens)} (estimate)` ,
+		`- Estimated net saved tokens: ${formatDelta(overview.estimatedNetSavedTokens, " tokens")} (estimate)` ,
+		"",
+		"## Actual Provider Usage (when available)",
+		`- Input tokens: ${formatInteger(overview.providerUsage.inputTokens)}`,
+		`- Output tokens: ${formatInteger(overview.providerUsage.outputTokens)}`,
+		`- Cache tokens: ${formatInteger(overview.providerUsage.cacheTokens)}`,
+		`- Total tokens: ${formatInteger(overview.providerUsage.totalTokens)}`,
+		`- Cost: ${formatCost(overview.providerUsage.costUsd)}`,
+		"",
+		"## Top-hit Memory Entries",
+		topHits.length ? topHits.map((entry) => `- ${entry.id}: ${entry.hitCount} hits, ~${formatInteger(entry.estimatedAvoidedTokens)} estimated avoided tokens — ${entry.text}`).join("\n") : "No hit memory entries yet.",
+		"",
+		"## Latest Benchmark",
+		overview.latestBenchmark ? `- ${overview.latestBenchmark.id}: token delta ${formatDelta(overview.latestBenchmark.deltas.totalTokens)}, cost delta ${formatCostDelta(overview.latestBenchmark.deltas.costUsd)}, quality ${overview.latestBenchmark.qualitySummary ?? "unknown"}` : "No benchmark report found. Run `/memory benchmark --dry-run` or `/memory benchmark --yes`.",
+		"",
+		data.warnings.length ? `## Warnings\n${data.warnings.map((warning) => `- ${warning}`).join("\n")}` : "",
+	].filter(Boolean).join("\n");
+}
+
 type DashboardView = "overview" | "benchmarks" | "memories" | "turns";
 
 type ProviderUsageSummary = {
@@ -2284,7 +2744,11 @@ async function showMemoryDashboard(ctx: ExtensionContext): Promise<void> {
 }
 
 export default function memorySystem(pi: ExtensionAPI) {
-	let lastInjection: { ids: string[]; estimatedTokens: number } = { ids: [], estimatedTokens: 0 };
+	let lastInjection: { ids: string[]; estimatedTokens: number; estimatedAvoidedTokens?: number; estimatedNetSavedTokens?: number; enabled?: boolean } = { ids: [], estimatedTokens: 0, enabled: true };
+	let activeTurnId = telemetryTurnId(undefined);
+	const turnStarts = new Map<string, number>();
+	const turnTools = new Map<string, ToolTelemetry[]>();
+	const turnProviderUsage = new Map<string, ProviderUsageTelemetry>();
 
 	pi.on("session_start", async (event, ctx) => {
 		try {
@@ -2298,13 +2762,36 @@ export default function memorySystem(pi: ExtensionAPI) {
 	});
 
 	pi.registerCommand("memory", {
-		description: "Inspect, pin, forget, refresh, diagnose, or show status for global and repository memory",
-		getArgumentCompletions: (prefix) => ["show", "global", "repo", "session", "all", "status", "pin", "forget", "refresh", "doctor", "health", "export", "clear-generated", "dashboard"].filter((s) => s.startsWith(prefix)).map((value) => ({ value, label: value })),
+		description: "Inspect, pin, forget, refresh, diagnose, show status, stats, dashboard, or benchmark global and repository memory",
+		getArgumentCompletions: (prefix) => ["show", "global", "repo", "session", "all", "status", "stats", "benchmark", "pin", "forget", "refresh", "doctor", "health", "export", "clear-generated", "dashboard"].filter((s) => s.startsWith(prefix)).map((value) => ({ value, label: value })),
 		handler: async (args, ctx) => {
-			const [subcommand = "show", ...rest] = args.trim().split(/\s+/);
+			const tokens = args.trim() ? args.trim().split(/\s+/) : [];
+			const [subcommand = "show", ...rest] = tokens;
 			await ensureMemoryDirs(ctx);
 			if (subcommand === "dashboard") {
 				await showMemoryDashboard(ctx);
+				return;
+			}
+			if (subcommand === "stats") {
+				const output = await renderMemoryStats(ctx);
+				if (ctx.hasUI && output.length > 900) await ctx.ui.editor("Memory stats", output);
+				else if (ctx.hasUI) ctx.ui.notify(output.replace(/\n+/g, " ").slice(0, 700), "info");
+				else console.log(output);
+				return;
+			}
+			if (subcommand === "benchmark") {
+				const parsed = parseBenchmarkArgs(rest);
+				if (ctx.hasUI && parsed.mode !== "dry-run" && !parsed.confirm) {
+					ctx.ui.notify(`Memory benchmark will run ${parsed.requestLimit ?? 10} requests twice with model ${parsed.model}. Re-run /memory benchmark --yes to confirm, or /memory benchmark --dry-run to only create artifacts.`, "warning");
+					return;
+				}
+				const reportPath = await runMemoryBenchmark(ctx, rest);
+				if (ctx.hasUI) {
+					ctx.ui.notify(`Memory benchmark report written: ${reportPath}`, "info");
+					await ctx.ui.editor(`Memory benchmark ${basename(dirname(reportPath))}`, await readFile(reportPath, "utf8"));
+				} else {
+					console.log(`Memory benchmark report written: ${reportPath}`);
+				}
 				return;
 			}
 			if (subcommand === "pin") {
@@ -2381,7 +2868,10 @@ export default function memorySystem(pi: ExtensionAPI) {
 			const entries = subcommand === "show" || subcommand === "status" || ["global", "repo", "session", "all"].includes(subcommand) ? await (await getMemoryStore(ctx)).listEntries({ scope: scopeSelection.scope }) : await updateStaleness(ctx);
 			if (subcommand === "status") {
 				const storage = await (await getMemoryStore(ctx)).storageHealth();
-				const status = `Memory: ${entries.filter((e) => !e.forgottenAt && e.sourceKind !== "forgotten").length} active entries visible in current scope; global ${entries.filter((e) => e.scope === "global").length}, repo ${entries.filter((e) => e.scope === "repo").length}, session ${entries.filter((e) => e.scope === "session").length}; SQLite ${storage.dbPath ?? memoryDbPath(ctx)}; schema ${storage.schemaVersion ?? "unknown"}; migration ${storage.migrationStatus ?? "unknown"}; last injection ${lastInjection.ids.length} entries/~${lastInjection.estimatedTokens} tokens`;
+				const telemetry = await loadTelemetryTurns(ctx);
+				const benchmarks = await loadBenchmarkRuns(ctx);
+				const latestReport = benchmarks.benchmarks[0]?.markdownReportPath;
+				const status = `Memory: ${entries.filter((e) => !e.forgottenAt && e.sourceKind !== "forgotten").length} active entries visible in current scope; global ${entries.filter((e) => e.scope === "global").length}, repo ${entries.filter((e) => e.scope === "repo").length}, session ${entries.filter((e) => e.scope === "session").length}; SQLite ${storage.dbPath ?? memoryDbPath(ctx)}; schema ${storage.schemaVersion ?? "unknown"}; migration ${storage.migrationStatus ?? "unknown"}; last injection ${lastInjection.ids.length} entries/~${lastInjection.estimatedTokens} tokens (enabled ${lastInjection.enabled !== false ? "yes" : "no"}); recent telemetry ${telemetry.exists ? `${telemetry.turns.length} turns available` : "not available"}; use /memory stats${latestReport ? `; latest benchmark ${latestReport}` : " or /memory benchmark"}`;
 				if (ctx.hasUI) ctx.ui.notify(status, "info");
 				else console.log(status);
 				return;
@@ -2395,23 +2885,74 @@ export default function memorySystem(pi: ExtensionAPI) {
 	pi.on("before_agent_start", async (event, ctx) => {
 		try {
 			const entries = await updateStaleness(ctx);
-			const selected = selectMemoryCard(event.prompt, entries, defaultConfig);
-			lastInjection = { ids: selected.ids, estimatedTokens: selected.estimatedTokens };
-			if (selected.ids.length > 0) {
+			const enabled = memoryInjectionEnabled();
+			const selected = enabled ? selectMemoryCard(event.prompt, entries, defaultConfig) : { card: "", ids: [], estimatedTokens: 0 };
+			const savings = estimateSavings(entries, selected.ids, selected.estimatedTokens);
+			lastInjection = { ids: selected.ids, estimatedTokens: selected.estimatedTokens, ...savings, enabled };
+			const telemetry: MemoryInjectionTelemetry = { eventType: "memory_injection", timestamp: nowIso(), turnId: activeTurnId, ...currentBenchmarkTags(), memoryEnabled: enabled, selectedMemoryIds: selected.ids, memoryHitCount: selected.ids.length, cardCharacters: selected.card.length, estimatedCardTokens: selected.estimatedTokens, ...savings, promptSummary: summarizePrompt(event.prompt) };
+			await recordTelemetry(ctx, telemetry);
+			if (enabled && selected.ids.length > 0) {
 				await recordEntryUsage(ctx, selected.ids);
 			}
-			ctx.ui.setStatus("memory", `memory: ${selected.ids.length}/~${selected.estimatedTokens}t`);
-			if (selected.ids.length === 0) return;
-			return { message: { customType: "memory-card", content: selected.card, display: true, details: selected } };
+			ctx.ui.setStatus("memory", enabled ? `memory: ${selected.ids.length}/~${selected.estimatedTokens}t` : "memory: disabled");
+			if (!enabled || selected.ids.length === 0) return;
+			return { message: { customType: "memory-card", content: selected.card, display: true, details: { ...selected, ...savings, memoryEnabled: enabled } } };
 		} catch (error) {
 			ctx.ui.notify(`Memory injection skipped: ${error instanceof Error ? error.message : String(error)}`, "warning");
 			return;
 		}
 	});
 
+	pi.on("turn_start", async (event, ctx) => {
+		const turnIndex = (event as { turnIndex?: number }).turnIndex;
+		activeTurnId = telemetryTurnId(turnIndex, Date.now().toString(36));
+		turnStarts.set(activeTurnId, Date.now());
+		turnTools.set(activeTurnId, []);
+		await recordTelemetry(ctx, { eventType: "turn_start", timestamp: nowIso(), turnId: activeTurnId, turnIndex, ...currentBenchmarkTags() });
+	});
+
+	pi.on("message_end", async (event, ctx) => {
+		const message = (event as { message?: unknown }).message as { role?: string } | undefined;
+		if (message?.role !== "assistant") return;
+		const providerUsage = extractProviderUsage(message);
+		turnProviderUsage.set(activeTurnId, mergeProviderUsage(turnProviderUsage.get(activeTurnId) ?? {}, providerUsage));
+		await recordTelemetry(ctx, { eventType: "message_end", timestamp: nowIso(), turnId: activeTurnId, ...currentBenchmarkTags(), providerUsage });
+	});
+
+	pi.on("before_provider_request", async (event, ctx) => {
+		const payload = (event as { payload?: unknown }).payload;
+		const payloadCharacters = safeJsonSummary(payload, 20_000).length;
+		await recordTelemetry(ctx, { eventType: "provider_request", timestamp: nowIso(), turnId: activeTurnId, ...currentBenchmarkTags(), payloadCharacters, estimatedPayloadTokens: Math.ceil(payloadCharacters / 4) });
+	});
+
+	pi.on("after_provider_response", async (event, ctx) => {
+		const e = event as { status?: number; headers?: Record<string, string> };
+		await recordTelemetry(ctx, { eventType: "provider_response", timestamp: nowIso(), turnId: activeTurnId, ...currentBenchmarkTags(), status: e.status, responseMetadata: e.headers ? Object.fromEntries(Object.entries(e.headers).slice(0, 8)) : undefined });
+	});
+
+	pi.on("tool_call", async (event, ctx) => {
+		const e = event as { toolCallId?: string; toolName: string; input?: unknown };
+		const tool = { toolCallId: e.toolCallId, toolName: e.toolName, ...summarizeToolInput(e.toolName, e.input) };
+		turnTools.set(activeTurnId, [...(turnTools.get(activeTurnId) ?? []), tool]);
+		await recordTelemetry(ctx, { eventType: "tool_call", timestamp: nowIso(), turnId: activeTurnId, ...currentBenchmarkTags(), tool });
+	});
+
+	pi.on("turn_end", async (event, ctx) => {
+		const e = event as { turnIndex?: number };
+		const started = turnStarts.get(activeTurnId);
+		const tools = turnTools.get(activeTurnId) ?? [];
+		const providerUsage = turnProviderUsage.get(activeTurnId);
+		const summary: TurnTelemetrySummary = { eventType: "turn_end", timestamp: nowIso(), turnId: activeTurnId, turnIndex: e.turnIndex, ...currentBenchmarkTags(), startedAt: started ? new Date(started).toISOString() : undefined, endedAt: nowIso(), durationMs: started ? Date.now() - started : undefined, selectedMemoryIds: lastInjection.ids, memoryHitCount: lastInjection.ids.length, cardTokens: lastInjection.estimatedTokens, estimatedAvoidedTokens: lastInjection.estimatedAvoidedTokens, estimatedNetSavedTokens: lastInjection.estimatedNetSavedTokens, toolCount: tools.length, toolSummaries: tools.map((tool) => `${tool.toolName}${tool.commandSummary ? `: ${tool.commandSummary}` : tool.readPaths?.length ? `: ${tool.readPaths.join(", ")}` : ""}`).slice(0, 12), providerUsage };
+		await recordTelemetry(ctx, summary);
+	});
+
 	pi.on("tool_result", async (event, ctx) => {
 		const text = textFromContent(event.content);
-		if (text.length < 2000) return;
+		const e = event as { toolCallId?: string; toolName: string; content?: unknown; isError?: boolean };
+		const tool = { toolCallId: e.toolCallId, toolName: e.toolName, isError: e.isError, ...summarizeToolResult(e.content) };
+		turnTools.set(activeTurnId, [...(turnTools.get(activeTurnId) ?? []), tool]);
+		await recordTelemetry(ctx, { eventType: "tool_result", timestamp: nowIso(), turnId: activeTurnId, ...currentBenchmarkTags(), tool });
+		if (text.length < 2000 || currentBenchmarkTags().benchmarkRunId) return;
 		const summary = clip(`Tool ${event.toolName} produced a large result: ${text.slice(0, 700)}`);
 		await addEntry(ctx, {
 			type: "tool",
@@ -2428,6 +2969,7 @@ export default function memorySystem(pi: ExtensionAPI) {
 
 	pi.on("agent_end", async (event, ctx) => {
 		try {
+			if (currentBenchmarkTags().benchmarkRunId) return;
 			const entries = await readEntries(ctx);
 			const candidates = extractTurnMemory((event as { messages?: unknown[] }).messages ?? [], entries);
 			for (const candidate of candidates) {

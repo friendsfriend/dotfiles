@@ -1,7 +1,9 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { Type } from "typebox";
+import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
-import { readFile, readdir, stat } from "node:fs/promises";
+import { readFile, readdir, realpath, stat } from "node:fs/promises";
+import { homedir } from "node:os";
 import { dirname, extname, join, relative, resolve } from "node:path";
 
 const MAX_FILES = 2500;
@@ -9,6 +11,7 @@ const MAX_FILE_BYTES = 256 * 1024;
 const DEFAULT_LIMIT = 10;
 const MAX_LIMIT = 50;
 const MAX_DEPTH = 4;
+const FILE_SUMMARIES_PATH = join(homedir(), ".pi", "agent", "memory", "file-summaries.json");
 
 const BUILTIN_IGNORES = new Set([
 	".git",
@@ -91,12 +94,31 @@ type EdgeKind =
 	| "has-artifact"
 	| "has-script";
 
+interface FileSummaryAnnotation {
+	text: string;
+	source: "read-derived" | "deterministic";
+	freshness: "hash-valid" | "current-scan";
+	contentHash?: string;
+}
+
+interface FileSummaryRecord {
+	repoKey: string;
+	repoRoot: string;
+	path: string;
+	contentHash: string;
+	summary: string;
+	source: "read-derived";
+	createdAt: string;
+	updatedAt: string;
+}
+
 interface GraphNode {
 	id: string;
 	kind: NodeKind;
 	label: string;
 	path?: string;
 	metadata?: Record<string, string | number | boolean>;
+	summary?: FileSummaryAnnotation;
 	searchText: string;
 }
 
@@ -164,6 +186,22 @@ function toPosix(path: string): string {
 function rel(root: string, path: string): string {
 	const value = relative(root, path) || ".";
 	return toPosix(value);
+}
+
+function hashText(text: string): string {
+	return createHash("sha256").update(text).digest("hex");
+}
+
+async function canonicalPath(path: string): Promise<string> {
+	try {
+		return await realpath(path);
+	} catch {
+		return resolve(path);
+	}
+}
+
+async function repositoryKey(root: string): Promise<string> {
+	return hashText(await canonicalPath(root)).slice(0, 16);
 }
 
 function nodeId(kind: NodeKind, value: string): string {
@@ -462,12 +500,76 @@ async function scanSourceAndConfig(root: string, graph: RepoGraph, files: string
 	}
 }
 
+async function readFileSummaryCache(): Promise<FileSummaryRecord[]> {
+	try {
+		const parsed = JSON.parse(await readFile(FILE_SUMMARIES_PATH, "utf8")) as unknown;
+		return Array.isArray(parsed) ? parsed.filter((item): item is FileSummaryRecord => Boolean(item && typeof item === "object" && typeof (item as FileSummaryRecord).path === "string" && typeof (item as FileSummaryRecord).summary === "string")) : [];
+	} catch {
+		return [];
+	}
+}
+
+function compactSummary(text: string): string | undefined {
+	const summary = text.replace(/\s+/g, " ").trim();
+	if (!summary) return undefined;
+	if (/(?:api[_-]?key|secret|password|token)\s*[:=]/i.test(summary) || /[`{};]/.test(summary) || /[A-Za-z0-9_=-]{48,}/.test(summary)) return undefined;
+	return summary.length > 220 ? `${summary.slice(0, 219)}…` : summary;
+}
+
+function deterministicFileSummary(graph: RepoGraph, node: GraphNode): string | undefined {
+	if (node.kind !== "file" || !node.path) return undefined;
+	const path = node.path;
+	const base = node.label;
+	const artifact = artifactKind(path);
+	if (artifact) return compactSummary(`${base} is an OpenSpec ${artifact} artifact.`);
+	const outgoing = graph.outgoing.get(node.id) ?? [];
+	const headings = outgoing.map((edge) => graph.nodes.get(edge.to)).filter((child): child is GraphNode => child?.kind === "markdown-heading").slice(0, 2).map((child) => child.label);
+	if (headings.length) return compactSummary(`${base} documents ${headings.join(" and ")}.`);
+	const scripts = outgoing.map((edge) => graph.nodes.get(edge.to)).filter((child): child is GraphNode => child?.kind === "package-script").slice(0, 4).map((child) => child.label);
+	if (scripts.length) return compactSummary(`${base} defines package scripts ${scripts.join(", ")}.`);
+	const configs = outgoing.map((edge) => graph.nodes.get(edge.to)).filter((child): child is GraphNode => child?.kind === "config-key").slice(0, 4).map((child) => child.label);
+	if (configs.length) return compactSummary(`${base} defines config keys ${configs.join(", ")}.`);
+	const symbols = outgoing.map((edge) => graph.nodes.get(edge.to)).filter((child): child is GraphNode => child?.kind === "symbol").slice(0, 4).map((child) => child.label);
+	if (symbols.length) return compactSummary(`${base} defines symbols ${symbols.join(", ")}.`);
+	const imports = outgoing.filter((edge) => edge.kind === "imports").length;
+	if (imports) return compactSummary(`${base} imports ${imports} local file${imports === 1 ? "" : "s"}.`);
+	if (node.metadata?.extension) return compactSummary(`${base} is a ${node.metadata.extension} file at ${path}.`);
+	return undefined;
+}
+
+async function attachFileSummaries(graph: RepoGraph): Promise<void> {
+	const repoKey = await repositoryKey(graph.root);
+	const cache = await readFileSummaryCache();
+	for (const node of graph.nodes.values()) {
+		if (node.kind !== "file" || !node.path) continue;
+		let attached = false;
+		const fullPath = join(graph.root, node.path);
+		try {
+			const info = await stat(fullPath);
+			if (info.size > MAX_FILE_BYTES) throw new Error("file too large for summary hash check");
+			const contentHash = hashText(await readFile(fullPath, "utf8"));
+			const record = cache.find((item) => item.repoKey === repoKey && item.path === node.path && item.contentHash === contentHash);
+			if (record) {
+				node.summary = { text: record.summary, source: "read-derived", freshness: "hash-valid", contentHash };
+				attached = true;
+			}
+		} catch {
+			// Summary attachment is best-effort navigation metadata.
+		}
+		if (!attached) {
+			const fallback = deterministicFileSummary(graph, node);
+			if (fallback) node.summary = { text: fallback, source: "deterministic", freshness: "current-scan" };
+		}
+	}
+}
+
 async function buildGraph(root: string): Promise<RepoGraph> {
 	const graph: RepoGraph = { root, nodes: new Map(), edges: [], outgoing: new Map(), incoming: new Map(), warnings: [], fileCount: 0 };
 	const files = await walkFilesystem(root, graph);
 	await scanMarkdown(root, graph, files);
 	await scanOpenSpec(root, graph, files);
 	await scanSourceAndConfig(root, graph, files);
+	await attachFileSummaries(graph);
 	return graph;
 }
 
@@ -477,6 +579,7 @@ function scoreNode(node: GraphNode, query: string): RankedNode | undefined {
 	const label = node.label.toLowerCase();
 	const path = (node.path ?? "").toLowerCase();
 	const text = node.searchText.toLowerCase();
+	const summary = node.summary?.text.toLowerCase() ?? "";
 	let score = 0;
 	const reasons: string[] = [];
 	for (const term of terms) {
@@ -492,6 +595,10 @@ function scoreNode(node: GraphNode, query: string): RankedNode | undefined {
 			reasons.push(`path contains "${term}"`);
 		}
 		if (text.includes(term)) score += 3;
+		if (summary.includes(term)) {
+			score += 4;
+			reasons.push(`summary contains "${term}"`);
+		}
 	}
 	if (score === 0) return undefined;
 	return { node, score, reasons: [...new Set(reasons)].slice(0, 3) };
@@ -525,7 +632,8 @@ function findNode(graph: RepoGraph, target: string | undefined): GraphNode | und
 
 function formatNode(node: GraphNode): string {
 	const location = node.path ? ` (${node.path})` : "";
-	return `${node.kind}: ${node.label}${location}`;
+	const summary = node.summary ? ` — ${node.summary.text} [${node.summary.source}/${node.summary.freshness}]` : "";
+	return `${node.kind}: ${node.label}${location}${summary}`;
 }
 
 function suggestedReads(nodes: GraphNode[], limit = 5): string[] {
@@ -725,7 +833,7 @@ export default function repoGraphExtension(pi: ExtensionAPI) {
 			const output = await runRepoGraph(ctx.cwd, params as RepoGraphParams);
 			return {
 				content: [{ type: "text", text: output }],
-				details: { mode: (params as RepoGraphParams).mode, fresh: true, persisted: false },
+				details: { mode: (params as RepoGraphParams).mode, fresh: true, persisted: false, summaries: "hash-valid read-derived or current deterministic fallback when available" },
 			};
 		},
 	});

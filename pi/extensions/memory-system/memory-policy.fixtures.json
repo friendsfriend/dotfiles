@@ -1,0 +1,74 @@
+{
+  "effectiveIntent": [
+    {
+      "name": "workflow boilerplate preserves change argument",
+      "prompt": "Implement tasks from an OpenSpec change.\n\n**Provided arguments**: optimize-memory-injection-token-efficiency\n\n## Guardrails\n- Use read before edit\n- Use bash for discovery",
+      "expectedIncludes": ["optimize-memory-injection-token-efficiency"],
+      "expectedExcludes": ["Use read before edit", "Use bash for discovery"]
+    },
+    {
+      "name": "memory card echo is removed",
+      "prompt": "## Memory (orientation, not authority)\nUse this as a compact orientation card only.\n### Current Repository Memory\n- [repo/observed/tool/medium] Tool read produced a large result (id: tool-old)\n## User\nContinue optimize-memory-injection-token-efficiency",
+      "expectedIncludes": ["Continue optimize-memory-injection-token-efficiency"],
+      "expectedExcludes": ["Tool read produced a large result", "tool-old"]
+    },
+    {
+      "name": "code blocks are stripped",
+      "prompt": "Please remember the decision for the memory system.\n```ts\nconst noisy = 'tool read bash openspec';\n```\nWe decided pinned preferences stay hot.",
+      "expectedIncludes": ["pinned preferences stay hot"],
+      "expectedExcludes": ["const noisy"]
+    },
+    {
+      "name": "ordinary short prompt remains useful",
+      "prompt": "Prefer concise status updates for this repo.",
+      "expectedIncludes": ["Prefer concise status updates"],
+      "expectedExcludes": []
+    }
+  ],
+  "selection": {
+    "genericToolPrompt": "Use the read and bash tools to inspect OpenSpec task output.",
+    "preferencePrompt": "Please keep status updates concise.",
+    "entries": [
+      {
+        "id": "tool-cold",
+        "type": "tool",
+        "scope": "repo",
+        "repoKey": "repo-a",
+        "sourceKind": "observed",
+        "text": "Tool read produced a large result about OpenSpec tasks.",
+        "createdAt": "2026-05-25T00:00:00.000Z",
+        "updatedAt": "2026-05-25T00:00:00.000Z",
+        "tags": ["tool", "read"],
+        "quality": "medium",
+        "lifecycle": "temporary"
+      },
+      {
+        "id": "pref-hot",
+        "type": "preference",
+        "scope": "global",
+        "sourceKind": "pinned",
+        "text": "Prefer concise status updates.",
+        "createdAt": "2026-05-25T00:00:00.000Z",
+        "updatedAt": "2026-05-25T00:00:00.000Z",
+        "tags": ["preference"],
+        "quality": "high",
+        "lifecycle": "durable",
+        "classification": "preference"
+      },
+      {
+        "id": "decision-hot",
+        "type": "session",
+        "scope": "repo",
+        "repoKey": "repo-a",
+        "sourceKind": "inferred",
+        "text": "Decision: memory injection treats tool-result summaries as cold by default.",
+        "createdAt": "2026-05-25T00:00:00.000Z",
+        "updatedAt": "2026-05-25T00:00:00.000Z",
+        "tags": ["session", "decision"],
+        "quality": "medium",
+        "lifecycle": "temporary",
+        "classification": "decision"
+      }
+    ]
+  }
+}

@@ -1,28 +1,4 @@
-## Purpose
-Define behavior for the Pi repository graph tooling that helps agents navigate repository structure, OpenSpec artifacts, symbols, and relationships while preserving freshness and exact-file verification.
-## Requirements
-### Requirement: Fresh deterministic graph queries
-The system SHALL compute repository graph query results from the current filesystem for each graph tool call and SHALL NOT return stale graph data.
-
-#### Scenario: File changes before graph query
-- **WHEN** a repository file changes before the agent invokes the graph tool
-- **THEN** the graph result reflects the changed filesystem state
-- **AND** the result is not based on an unvalidated stale persisted graph
-
-### Requirement: Graph is not durable memory
-The system SHALL NOT persist repository graph data as semantic memory.
-
-#### Scenario: Graph query completes
-- **WHEN** the graph tool finishes a query
-- **THEN** any graph data built for the query is discarded or retained only as an implementation cache that preserves freshness semantics
-- **AND** the graph data is not injected as durable memory in later turns
-
-### Requirement: Repository overview query
-The system SHALL provide a graph query mode that returns a compact overview of repository structure.
-
-#### Scenario: Agent requests overview
-- **WHEN** the agent invokes the graph tool in overview mode
-- **THEN** the result includes major directories, recognized project systems, OpenSpec presence, pi resources, and notable config/script areas within a bounded output size
+## MODIFIED Requirements
 
 ### Requirement: Search and neighbor queries
 The system SHALL provide graph query modes for matching nodes and exploring connected nodes, and SHALL include compact file-summary annotations in results when summaries are available and fresh.
@@ -53,35 +29,7 @@ The system SHALL provide OpenSpec-aware graph queries for changes, capabilities,
 - **AND** the result recommends exact files to read next
 - **AND** one-line file summaries may be used as navigation labels and ranking inputs only when current or hash-valid
 
-### Requirement: Source and configuration relationships
-The system SHALL include deterministic source and configuration relationships where feasible.
-
-#### Scenario: Source file imports another file
-- **WHEN** the graph scanner can parse an import relationship from a source file
-- **THEN** the graph includes an imports edge from the importing file to the imported file
-
-#### Scenario: Package script is discovered
-- **WHEN** the graph scanner reads a package or script configuration file
-- **THEN** the graph includes nodes or metadata for scripts and their referenced commands when deterministically extractable
-
-### Requirement: Graph before broad discovery guidance
-The system SHALL instruct the agent to prefer the graph tool before broad exploratory grep/find/bash searches.
-
-#### Scenario: Agent is in an OpenSpec apply workflow
-- **WHEN** the agent has read required OpenSpec context files and needs to locate implementation files
-- **THEN** the agent uses the graph tool before broad grep/find/bash discovery when the graph tool is available
-- **AND** the agent reads exact files before editing
-
-### Requirement: Exact tools remain authoritative
-The system SHALL preserve `read` as authoritative for exact file contents and `grep` as appropriate for exact text searches.
-
-#### Scenario: Graph suggests a file to edit
-- **WHEN** the graph tool suggests a file relevant to a task
-- **THEN** the agent reads the current file contents before editing
-
-#### Scenario: Agent needs exact string occurrences
-- **WHEN** the task requires locating exact text occurrences
-- **THEN** the agent may use grep or equivalent exact search even if the graph tool is available
+## ADDED Requirements
 
 ### Requirement: File summary graph annotations
 The graph tool SHALL annotate file nodes with compact one-line summaries that help agents decide what to read next while preserving exact-file verification.
@@ -128,4 +76,3 @@ The graph tool SHALL keep file summaries bounded, non-authoritative, and separat
 - **WHEN** the graph tool finishes a query
 - **THEN** the graph result MAY include summaries for returned nodes
 - **AND** those summaries SHALL NOT be injected as durable prompt memory by the graph tool
-

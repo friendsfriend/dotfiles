@@ -99,7 +99,7 @@ Implement tasks from an OpenSpec change.
    Display:
    - Tasks completed this session
    - Overall progress: "N/M tasks complete"
-   - If all done: suggest archive
+   - If all done: check whether `.pi/verifier/*.md` policies exist in the OpenSpec project root. If policies exist, offer to run `/opsx-verify <change>` before archive. If no policies exist, suggest archive.
    - If paused: explain why and wait for guidance
 
 **Output During Implementation**
@@ -130,7 +130,7 @@ Working on task 4/7: <task description>
 - [x] Task 2
 ...
 
-All tasks complete! Ready to archive this change.
+All tasks complete! If repository verifier policies exist under `.pi/verifier/*.md`, run `/opsx-verify <change>` before archive. Otherwise this change is ready to archive.
 ```
 
 **Output On Pause (Issue Encountered)**

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildSessionBootContext, extractEffectiveIntent, isAutomaticInjectionCandidate, memoryMatchesQuery, selectMemoryCard } from "./index";
+import { buildSessionBootContext, extractEffectiveIntent, isAutomaticInjectionCandidate, memoryMatchesQuery, planPrunedMemoryEntryIds, selectMemoryCard } from "./index";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const fixtures = JSON.parse(readFileSync(join(__dirname, "memory-policy.fixtures.json"), "utf8")) as {
@@ -32,3 +32,14 @@ assert.equal(bootContext.ids.includes("decision-hot"), false, "session-start boo
 
 const savedDecision = { ...entries.find((entry) => entry.id === "decision-hot"), sourceKind: "agent-saved", source: { relatedFiles: ["pi/extensions/memory-system/index.ts"], relatedChange: "add-tool-queried-memory-graph-summaries" }, tags: ["agent-saved", "change:add-tool-queried-memory-graph-summaries", "file:pi/extensions/memory-system/index.ts"] };
 assert.equal(memoryMatchesQuery(savedDecision, { query: "memory injection", type: "decision", relatedFile: "memory-system/index.ts", change: "add-tool-queried-memory-graph-summaries" }), true, "explicit memory query supports type, text, related file, and change filters");
+
+const now = new Date().toISOString();
+const retentionEntries = [
+	{ id: "global-pref", type: "preference", scope: "global", sourceKind: "pinned", text: "Prefer concise responses.", quality: "high", lifecycle: "durable", classification: "preference", createdAt: "2024-01-01T00:00:00.000Z", updatedAt: now },
+	{ id: "saved-decision", type: "session", scope: "repo", sourceKind: "agent-saved", text: "Decision: keep lifecycle cleanup idempotent.", quality: "high", lifecycle: "durable", classification: "decision", createdAt: "2024-01-02T00:00:00.000Z", updatedAt: now },
+	{ id: "stale-observed", type: "repo", scope: "repo", sourceKind: "observed", text: "Old generated repository orientation.", quality: "low", stale: true, lifecycle: "temporary", createdAt: "2026-01-01T00:00:00.000Z", updatedAt: now },
+	{ id: "duplicate", type: "tool", scope: "repo", sourceKind: "observed", text: "Duplicate tool summary.", quality: "low", duplicateOf: "other", createdAt: "2026-01-02T00:00:00.000Z", updatedAt: now },
+] as any[];
+const pruned = planPrunedMemoryEntryIds(retentionEntries, 2);
+assert.deepEqual(new Set(pruned), new Set(["stale-observed", "duplicate"]), "pruning removes lower-value entries before protected durable/global entries");
+assert.equal(memoryMatchesQuery(retentionEntries[0], { query: "Prefer concise", type: "preference", scope: "global" }), true, "protected global memory remains queryable after retention planning");

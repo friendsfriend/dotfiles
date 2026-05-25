@@ -1,7 +1,8 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { Type } from "typebox";
 import { createHash } from "node:crypto";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
+import type { Stats } from "node:fs";
 import { readFile, readdir, realpath, stat } from "node:fs/promises";
 import { homedir } from "node:os";
 import { dirname, extname, join, relative, resolve } from "node:path";
@@ -133,6 +134,63 @@ interface RepoGraph {
 	fileCount: number;
 }
 
+interface CachedFileData {
+	stat?: Stats;
+	text?: string;
+	hash?: string;
+	tooLarge?: boolean;
+}
+
+class GraphScanCache {
+	private readonly files = new Map<string, CachedFileData>();
+
+	constructor(private readonly warnings: string[]) {}
+
+	private entry(path: string): CachedFileData {
+		const existing = this.files.get(path);
+		if (existing) return existing;
+		const created: CachedFileData = {};
+		this.files.set(path, created);
+		return created;
+	}
+
+	async stat(path: string): Promise<Stats | undefined> {
+		const entry = this.entry(path);
+		if (entry.stat) return entry.stat;
+		try {
+			entry.stat = await stat(path);
+			entry.tooLarge = entry.stat.size > MAX_FILE_BYTES;
+			return entry.stat;
+		} catch (error) {
+			this.warnings.push(`Could not stat ${path}: ${(error as Error).message}`);
+			return undefined;
+		}
+	}
+
+	async readText(path: string): Promise<string | undefined> {
+		const entry = this.entry(path);
+		if (entry.text !== undefined) return entry.text;
+		const info = await this.stat(path);
+		if (!info || entry.tooLarge) return undefined;
+		try {
+			entry.text = await readFile(path, "utf8");
+			return entry.text;
+		} catch (error) {
+			this.warnings.push(`Could not read ${path}: ${(error as Error).message}`);
+			return undefined;
+		}
+	}
+
+	async contentHash(path: string): Promise<string | undefined> {
+		const entry = this.entry(path);
+		if (entry.hash) return entry.hash;
+		const content = await this.readText(path);
+		if (content === undefined) return undefined;
+		entry.hash = hashText(content);
+		return entry.hash;
+	}
+}
+
 interface RankedNode {
 	node: GraphNode;
 	score: number;
@@ -251,7 +309,7 @@ function simpleGitignoreIgnores(root: string): Set<string> {
 	const gitignore = join(root, ".gitignore");
 	if (!existsSync(gitignore)) return ignores;
 	try {
-		const content = require("node:fs").readFileSync(gitignore, "utf8") as string;
+		const content = readFileSync(gitignore, "utf8") as string;
 		for (const rawLine of content.split(/\r?\n/)) {
 			const line = rawLine.trim();
 			if (!line || line.startsWith("#") || line.startsWith("!")) continue;
@@ -264,15 +322,8 @@ function simpleGitignoreIgnores(root: string): Set<string> {
 	return ignores;
 }
 
-async function safeReadText(path: string, warnings: string[]): Promise<string | undefined> {
-	try {
-		const info = await stat(path);
-		if (info.size > MAX_FILE_BYTES) return undefined;
-		return await readFile(path, "utf8");
-	} catch (error) {
-		warnings.push(`Could not read ${path}: ${(error as Error).message}`);
-		return undefined;
-	}
+async function safeReadText(path: string, cache: GraphScanCache): Promise<string | undefined> {
+	return cache.readText(path);
 }
 
 async function walkFilesystem(root: string, graph: RepoGraph): Promise<string[]> {
@@ -325,9 +376,9 @@ function slugify(text: string): string {
 	return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 80) || "heading";
 }
 
-async function scanMarkdown(root: string, graph: RepoGraph, files: string[]): Promise<void> {
+async function scanMarkdown(root: string, graph: RepoGraph, files: string[], cache: GraphScanCache): Promise<void> {
 	for (const file of files.filter((path) => extname(path).toLowerCase() === ".md")) {
-		const content = await safeReadText(file, graph.warnings);
+		const content = await safeReadText(file, cache);
 		if (!content) continue;
 		const filePath = rel(root, file);
 		const fileId = nodeId("file", filePath);
@@ -370,12 +421,12 @@ function resolveImportPath(root: string, fromFile: string, specifier: string): s
 	return undefined;
 }
 
-async function scanSourceAndConfig(root: string, graph: RepoGraph, files: string[]): Promise<void> {
+async function scanSourceAndConfig(root: string, graph: RepoGraph, files: string[], cache: GraphScanCache): Promise<void> {
 	for (const fullPath of files.filter(isTextCandidate)) {
 		const path = rel(root, fullPath);
 		const fileId = nodeId("file", path);
 		const ext = extname(path).toLowerCase();
-		const content = await safeReadText(fullPath, graph.warnings);
+		const content = await safeReadText(fullPath, cache);
 		if (!content) continue;
 
 		if ([".ts", ".tsx", ".js", ".jsx", ".mjs"].includes(ext)) {
@@ -462,24 +513,20 @@ function deterministicFileSummary(graph: RepoGraph, node: GraphNode): string | u
 	return undefined;
 }
 
-async function attachFileSummaries(graph: RepoGraph): Promise<void> {
+async function attachFileSummaries(graph: RepoGraph, scanCache: GraphScanCache): Promise<void> {
 	const repoKey = await repositoryKey(graph.root);
 	const cache = await readFileSummaryCache();
 	for (const node of graph.nodes.values()) {
 		if (node.kind !== "file" || !node.path) continue;
 		let attached = false;
 		const fullPath = join(graph.root, node.path);
-		try {
-			const info = await stat(fullPath);
-			if (info.size > MAX_FILE_BYTES) throw new Error("file too large for summary hash check");
-			const contentHash = hashText(await readFile(fullPath, "utf8"));
+		const contentHash = await scanCache.contentHash(fullPath);
+		if (contentHash) {
 			const record = cache.find((item) => item.repoKey === repoKey && item.path === node.path && item.contentHash === contentHash);
 			if (record) {
 				node.summary = { text: record.summary, source: "read-derived", freshness: "hash-valid", contentHash };
 				attached = true;
 			}
-		} catch {
-			// Summary attachment is best-effort navigation metadata.
 		}
 		if (!attached) {
 			const fallback = deterministicFileSummary(graph, node);
@@ -490,10 +537,11 @@ async function attachFileSummaries(graph: RepoGraph): Promise<void> {
 
 async function buildGraph(root: string): Promise<RepoGraph> {
 	const graph: RepoGraph = { root, nodes: new Map(), edges: [], outgoing: new Map(), incoming: new Map(), warnings: [], fileCount: 0 };
+	const scanCache = new GraphScanCache(graph.warnings);
 	const files = await walkFilesystem(root, graph);
-	await scanMarkdown(root, graph, files);
-	await scanSourceAndConfig(root, graph, files);
-	await attachFileSummaries(graph);
+	await scanMarkdown(root, graph, files, scanCache);
+	await scanSourceAndConfig(root, graph, files, scanCache);
+	await attachFileSummaries(graph, scanCache);
 	return graph;
 }
 
@@ -642,12 +690,6 @@ function querySymbols(graph: RepoGraph, query: string | undefined, limit: number
 	});
 	if (!ranked.length) lines.push("- No supported symbols found.");
 	return lines.join("\n") + safetyFooter(suggestedReads(ranked.map((item) => item.node)));
-}
-
-function relatedImplementationSearch(graph: RepoGraph, text: string, limit: number): RankedNode[] {
-	const stop = new Set(["the", "and", "with", "for", "from", "that", "this", "mode", "query", "tool", "task", "implement", "add"]);
-	const terms = text.toLowerCase().split(/[^a-z0-9_.-]+/).filter((term) => term.length > 2 && !stop.has(term)).slice(0, 8);
-	return rankedSearch(graph, terms.join(" "), limit, new Set(["file", "symbol", "package-script", "config-key", "markdown-heading"]));
 }
 
 function deprecatedOpenSpecMode(mode: "openspec-change" | "task-context" | "capability"): string {

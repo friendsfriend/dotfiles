@@ -32,6 +32,7 @@ try {
 	assert.doesNotMatch(stale, /read-derived\/hash-valid/, "stale read-derived summary is omitted from normal results");
 
 	const fallback = await __repoGraphTest.runRepoGraph(root, { mode: "search", query: "queryMemoryAgain", limit: 5 });
+	assert.match(fallback, /queryMemoryAgain/, "fresh graph calls reflect file changes made after a previous graph query");
 	assert.match(fallback, /deterministic\/current-scan/, "deterministic fallback summary is displayed when no valid read-derived summary exists");
 } finally {
 	if (priorCache !== undefined) await writeFile(cachePath, priorCache, "utf8");

@@ -24,7 +24,6 @@ const REPO_FILE = "repo.md";
 const PREFERENCES_FILE = "preferences.md";
 const DEFAULT_TOKEN_BUDGET = 900;
 const MAX_ENTRY_TEXT = 1200;
-const MAX_SESSION_MEMORY_TEXT = 500;
 const INFERRED_TTL_DAYS = 30;
 const MAX_STORED_ENTRIES = 300;
 
@@ -310,13 +309,46 @@ function clip(text: string, max = MAX_ENTRY_TEXT): string {
 	return normalized.length <= max ? normalized : `${normalized.slice(0, max - 1)}…`;
 }
 
-function addDaysIso(days: number): string {
-	return new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString();
-}
-
 function isExpired(entry: MemoryEntry, now = Date.now()): boolean {
 	if (entry.sourceKind === "pinned") return false;
 	return Boolean(entry.expiresAt && Date.parse(entry.expiresAt) <= now);
+}
+
+export function isProtectedMemoryEntry(entry: MemoryEntry): boolean {
+	if (entry.forgottenAt || entry.sourceKind === "forgotten" || entry.lifecycle === "expired" || isExpired(entry)) return false;
+	if (entry.scope === "global" && entry.sourceKind === "pinned") return true;
+	return entry.sourceKind === "agent-saved" && entry.lifecycle === "durable" && entry.quality === "high";
+}
+
+function prunePriority(entry: MemoryEntry): number {
+	if (entry.sourceKind === "forgotten" || entry.forgottenAt) return 100;
+	if (entry.lifecycle === "expired" || isExpired(entry)) return 95;
+	if (entry.sourceKind === "rejected" || entry.reasonRejected) return 90;
+	if (entry.duplicateOf) return 85;
+	if (entry.quality === "suspected-junk") return 80;
+	if (entry.stale) return 75;
+	if (entry.quality === "low") return 65;
+	if (entry.sourceKind === "observed" || entry.sourceKind === "inferred") return 50;
+	if (entry.type === "tool") return 45;
+	return 10;
+}
+
+export function planPrunedMemoryEntryIds(entries: MemoryEntry[], maxEntries = MAX_STORED_ENTRIES): string[] {
+	if (entries.length <= maxEntries) return [];
+	const createdAscending = (a: MemoryEntry, b: MemoryEntry) => Date.parse(a.createdAt) - Date.parse(b.createdAt) || a.id.localeCompare(b.id);
+	const byPruneValue = (a: MemoryEntry, b: MemoryEntry) => prunePriority(b) - prunePriority(a) || createdAscending(a, b);
+	const protectedIds = new Set(entries.filter(isProtectedMemoryEntry).map((entry) => entry.id));
+	const selected = new Set<string>();
+	const choose = (candidates: MemoryEntry[]) => {
+		for (const entry of candidates) {
+			if (entries.length - selected.size <= maxEntries) break;
+			selected.add(entry.id);
+		}
+	};
+	choose(entries.filter((entry) => !protectedIds.has(entry.id) && prunePriority(entry) >= 45).sort(byPruneValue));
+	choose(entries.filter((entry) => !protectedIds.has(entry.id) && !selected.has(entry.id)).sort(createdAscending));
+	choose(entries.filter((entry) => !selected.has(entry.id)).sort(createdAscending));
+	return [...selected];
 }
 
 async function ensureMemoryDirs(ctx: ExtensionContext, repo?: RepositoryInfo): Promise<void> {
@@ -341,6 +373,16 @@ async function findOpenSpecRoot(start: string): Promise<string | undefined> {
 	let current = await canonicalPath(start);
 	while (true) {
 		if (existsSync(join(current, "openspec"))) return current;
+		const parent = dirname(current);
+		if (parent === current) return undefined;
+		current = parent;
+	}
+}
+
+async function findInitializedOpenSpecRoot(start: string): Promise<string | undefined> {
+	let current = await canonicalPath(start);
+	while (true) {
+		if (existsSync(join(current, "openspec", "config.yaml"))) return current;
 		const parent = dirname(current);
 		if (parent === current) return undefined;
 		current = parent;
@@ -429,11 +471,6 @@ async function appendJsonlFile(path: string, value: unknown): Promise<void> {
 	const line = JSON.stringify(value);
 	JSON.parse(line);
 	await appendFile(path, `${line}\n`, "utf8");
-}
-
-async function writeMarkdownFile(path: string, content: string): Promise<void> {
-	await mkdir(dirname(path), { recursive: true });
-	await writeFile(path, `${content.replace(/\s+$/g, "")}\n`, "utf8");
 }
 
 function coerceEntries(value: unknown, recoveryState: RecoveryState = "none"): MemoryEntry[] {
@@ -545,10 +582,12 @@ interface MemoryStore {
 	recordUsage(ids: string[]): Promise<void>;
 	storageHealth(): Promise<StorageHealth>;
 	exportInspectionFiles(): Promise<void>;
+	close(): void;
 }
 
 class SqliteMemoryStore implements MemoryStore {
 	private journalMode = "unknown";
+	private closed = false;
 	private readonly ctx: ExtensionContext;
 	private readonly db: SqliteDatabase;
 	private readonly repo?: RepositoryInfo;
@@ -560,6 +599,7 @@ class SqliteMemoryStore implements MemoryStore {
 	}
 
 	initialize(): void {
+		this.assertOpen();
 		this.db.exec("PRAGMA foreign_keys = ON");
 		this.db.exec("PRAGMA busy_timeout = 5000");
 		try {
@@ -643,8 +683,27 @@ class SqliteMemoryStore implements MemoryStore {
 	}
 
 	async importJsonIfNeeded(): Promise<void> {
+		this.assertOpen();
 		await this.importLegacyJsonIfNeeded();
 		await this.importLegacySqliteIfNeeded();
+	}
+
+	close(): void {
+		if (this.closed) return;
+		this.closed = true;
+		try {
+			this.db.close();
+		} catch {
+			// Shutdown cleanup is best-effort and must tolerate repeated or racing teardown.
+		}
+	}
+
+	isClosed(): boolean {
+		return this.closed;
+	}
+
+	private assertOpen(): void {
+		if (this.closed) throw new Error("Memory store is closed");
 	}
 
 	private async importLegacyJsonIfNeeded(): Promise<void> {
@@ -988,7 +1047,10 @@ class SqliteMemoryStore implements MemoryStore {
 	}
 
 	private pruneEntries(): void {
-		this.db.prepare("DELETE FROM entries WHERE id NOT IN (SELECT id FROM entries ORDER BY datetime(created_at) DESC, id DESC LIMIT ?)").run(MAX_STORED_ENTRIES);
+		const prunedIds = planPrunedMemoryEntryIds(this.selectEntries({ includeAll: true }), MAX_STORED_ENTRIES);
+		if (prunedIds.length === 0) return;
+		const deleteEntry = this.db.prepare("DELETE FROM entries WHERE id = ?");
+		for (const id of prunedIds) deleteEntry.run(id);
 	}
 
 	private getSchemaVersion(): number {
@@ -1003,12 +1065,17 @@ class SqliteMemoryStore implements MemoryStore {
 
 const stores = new Map<string, SqliteMemoryStore>();
 
+function closeMemoryStores(): void {
+	for (const store of stores.values()) store.close();
+	stores.clear();
+}
+
 async function getMemoryStore(ctx: ExtensionContext): Promise<MemoryStore> {
 	const repo = await discoverRepository(ctx);
 	await ensureMemoryDirs(ctx, repo);
 	const key = `${memoryDbPath(ctx)}:${repo?.key ?? "no-repo"}`;
 	let store = stores.get(key);
-	if (!store) {
+	if (!store || store.isClosed()) {
 		store = new SqliteMemoryStore(ctx, new DatabaseSync(memoryDbPath(ctx)), repo);
 		store.initialize();
 		stores.set(key, store);
@@ -1102,13 +1169,6 @@ function textFromContent(content: unknown): string {
 	return "";
 }
 
-function messageText(message: unknown): string {
-	if (!message || typeof message !== "object") return "";
-	const maybe = message as { content?: unknown; message?: { content?: unknown }; role?: string; type?: string; customType?: string };
-	if (maybe.customType === "memory-card" || maybe.type === "tool_result") return "";
-	return textFromContent(maybe.content ?? maybe.message?.content);
-}
-
 async function writeHumanFiles(ctx: ExtensionContext, entries: MemoryEntry[]): Promise<void> {
 	const prefs = entries
 		.filter((e) => e.type === "preference" && e.sourceKind === "pinned" && !e.forgottenAt)
@@ -1119,8 +1179,10 @@ async function writeHumanFiles(ctx: ExtensionContext, entries: MemoryEntry[]): P
 }
 
 async function refreshOpenSpecIndex(pi: ExtensionAPI, ctx: ExtensionContext): Promise<void> {
+	const openSpecRoot = await findInitializedOpenSpecRoot(ctx.cwd);
+	if (!openSpecRoot) return;
 	await ensureMemoryDirs(ctx);
-	const result = await pi.exec("openspec", ["list", "--json"], { timeout: 10_000 });
+	const result = await pi.exec("openspec", ["list", "--json"], { cwd: openSpecRoot, timeout: 10_000 });
 	const raw = result.stdout || result.stderr || "{}";
 	let parsed: unknown = {};
 	try {
@@ -1129,11 +1191,11 @@ async function refreshOpenSpecIndex(pi: ExtensionAPI, ctx: ExtensionContext): Pr
 		parsed = { error: "Failed to parse openspec list output", raw: clip(raw, 2000) };
 	}
 	const resultHash = hashText(raw);
-	const sourcePath = join(ctx.cwd, "openspec", "config.yaml");
+	const sourcePath = join(openSpecRoot, "openspec", "config.yaml");
 	const index = {
 		generatedAt: nowIso(),
 		command: "openspec list --json",
-		cwd: ctx.cwd,
+		cwd: openSpecRoot,
 		resultHash,
 		data: parsed,
 		source: existsSync(sourcePath) ? await sourceFor(sourcePath) : undefined,
@@ -1153,8 +1215,19 @@ async function refreshOpenSpecIndex(pi: ExtensionAPI, ctx: ExtensionContext): Pr
 	});
 }
 
+async function shouldRefreshRepoOrientation(repo: RepositoryInfo): Promise<boolean> {
+	try {
+		const info = await stat(repoFilePath(repo));
+		return Date.now() - info.mtimeMs > 24 * 60 * 60 * 1000;
+	} catch {
+		return true;
+	}
+}
+
 async function refreshRepoOrientation(pi: ExtensionAPI, ctx: ExtensionContext): Promise<void> {
-	await ensureMemoryDirs(ctx);
+	const repo = await discoverRepository(ctx, { allowCwdFallback: false });
+	if (!repo || !(await shouldRefreshRepoOrientation(repo))) return;
+	await ensureMemoryDirs(ctx, repo);
 	const command = "find repo orientation";
 	const result = await pi.exec(
 		"bash",
@@ -1166,9 +1239,6 @@ async function refreshRepoOrientation(pi: ExtensionAPI, ctx: ExtensionContext): 
 	);
 	const output = result.stdout || result.stderr || "No orientation output.";
 	const repoText = `# Repo Orientation\n\nGenerated: ${nowIso()}\n\nThis memory is orientation only; read exact files before edits or exact claims.\n\n\`\`\`text\n${clip(output, 6000)}\n\`\`\`\n`;
-	const repo = await discoverRepository(ctx);
-	if (!repo) return;
-	await ensureMemoryDirs(ctx, repo);
 	await writeFile(repoFilePath(repo), repoText, "utf8");
 	const resultHash = hashText(output);
 	await upsertSingletonEntry(ctx, "singleton:repo-orientation", {
@@ -1189,17 +1259,6 @@ async function refreshAll(pi: ExtensionAPI, ctx: ExtensionContext): Promise<void
 	await refreshRepoOrientation(pi, ctx);
 	await updateStaleness(ctx);
 	await writeHumanFiles(ctx, await readEntries(ctx));
-}
-
-function isSuspectedJunkText(text: string, existingIds: Set<string>): string | undefined {
-	const trimmed = text.trim();
-	if (/Repo Memory \(orientation, not authority\)|orientation card only|read exact current files before edits/i.test(trimmed)) return "memory-card echo";
-	if ([...existingIds].some((id) => id && trimmed.includes(id))) return "contains existing memory id";
-	if (/^```|\n```|interface\s+\w+|type\s+\w+\s*=|function\s+\w+\s*\(|const\s+\w+\s*=|import\s+.*from\s+/.test(trimmed)) return "raw code or type snippet";
-	if (/^\s*(at\s+\S+\s+\(|Error:|\w*Error:|Traceback \(most recent call last\))/.test(trimmed)) return "stack trace";
-	if (/^(\/|\.\/|\.pi\/|openspec\/|src\/|docs\/)[^\s]+$/.test(trimmed) || /\/opt\/homebrew\/lib\/node_modules\//.test(trimmed)) return "raw path or docs location";
-	if (/^(stdout|stderr|exit code|tool result|{\s*"|\[\s*{)/i.test(trimmed)) return "raw tool output";
-	return undefined;
 }
 
 function groupDuplicateEntries(entries: MemoryEntry[]): DuplicateGroup[] {
@@ -1412,41 +1471,6 @@ export function selectMemoryCard(prompt: string, entries: MemoryEntry[], config:
 }
 function stripCodeBlocks(text: string): string {
 	return text.replace(/```[\s\S]*?```/g, "\n");
-}
-
-function classifyCandidate(line: string): MemoryClassification | undefined {
-	if (/\b(prefer|preference)\b/i.test(line)) return "preference";
-	if (/\b(decided|decision|settled|we will|approach is)\b/i.test(line)) return "decision";
-	if (/\b(blocker|blocked|cannot|can't)\b/i.test(line)) return "blocker";
-	if (/\b(assumption|assume)\b/i.test(line)) return "assumption";
-	if (/\b(next step|todo|follow up|continue by)\b/i.test(line)) return "next-step";
-	return undefined;
-}
-
-function isActionableCandidate(line: string): boolean {
-	return line.length >= 30 && line.length <= MAX_SESSION_MEMORY_TEXT && /\b(repo|project|openspec|pi|memory|extension|change|task|implementation|design|spec|test|validation|observability)\b/i.test(line);
-}
-
-function extractTurnMemory(messages: unknown[], existingEntries: MemoryEntry[] = []): Array<{ text: string; classification: MemoryClassification; quality: MemoryQuality; reasonRejected?: string }> {
-	const existingIds = new Set(existingEntries.map((entry) => entry.id));
-	const existingKeys = new Set(existingEntries.map((entry) => entry.dedupeKey ?? semanticDedupeKey(entry)));
-	const text = stripCodeBlocks(messages.map(messageText).join("\n"));
-	const lines = text.split("\n").map((line) => line.trim().replace(/^[-*]\s+/, "")).filter(Boolean);
-	const accepted: Array<{ text: string; classification: MemoryClassification; quality: MemoryQuality; reasonRejected?: string }> = [];
-	for (const line of lines) {
-		if (!/\b(decided|decision|assumption|rejected|prefer|preference|blocker|next step|todo|follow up|we will|settled)\b/i.test(line)) continue;
-		const text = clip(line, MAX_SESSION_MEMORY_TEXT);
-		const classification = classifyCandidate(text);
-		if (!classification) continue;
-		const junkReason = isSuspectedJunkText(text, existingIds);
-		const key = semanticDedupeKey({ type: "session", text, tags: ["session", classification] });
-		if (junkReason || existingKeys.has(key) || !isActionableCandidate(text)) {
-			accepted.push({ text, classification, quality: "suspected-junk", reasonRejected: junkReason ?? (existingKeys.has(key) ? "duplicate inferred memory" : "not durable or actionable") });
-			continue;
-		}
-		accepted.push({ text, classification, quality: "medium" });
-	}
-	return accepted.slice(-5);
 }
 
 function memoryInjectionEnabled(): boolean {
@@ -1785,6 +1809,10 @@ export default function memorySystem(pi: ExtensionAPI) {
 		} catch (error) {
 			ctx.ui.notify(`Memory startup failed open: ${error instanceof Error ? error.message : String(error)}`, "warning");
 		}
+	});
+
+	pi.on("session_shutdown", async () => {
+		closeMemoryStores();
 	});
 
 	pi.registerTool({

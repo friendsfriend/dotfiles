@@ -44,7 +44,11 @@ Archive a completed change in the experimental workflow.
 
    **If no tasks file exists:** Proceed without task-related warning.
 
-4. **Assess delta spec sync state**
+4. **Recommend verification when policies exist**
+
+   Before archive, check whether `.pi/verifier/*.md` policies exist in the OpenSpec project root. If policies exist, recommend running `/opsx-verify <change>` first unless the user explicitly wants to archive now. Archive remains user-controllable; do not hard-block archive solely because verification has not run or has not passed.
+
+5. **Assess delta spec sync state**
 
    Check for delta specs at `openspec/changes/<name>/specs/`. If none exist, proceed without sync prompt.
 
@@ -59,7 +63,7 @@ Archive a completed change in the experimental workflow.
 
    If user chooses sync, use Task tool (subagent_type: "general-purpose", prompt: "Use Skill tool to invoke openspec-sync-specs for change '<name>'. Delta spec analysis: <include the analyzed delta spec summary>"). Proceed to archive regardless of choice.
 
-5. **Perform the archive**
+6. **Perform the archive**
 
    Create the archive directory if it doesn't exist:
    ```bash
@@ -76,7 +80,7 @@ Archive a completed change in the experimental workflow.
    mv openspec/changes/<name> openspec/changes/archive/YYYY-MM-DD-<name>
    ```
 
-6. **Display summary**
+7. **Display summary**
 
    Show archive completion summary including:
    - Change name

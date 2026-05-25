@@ -2,15 +2,15 @@ import type { ExtensionAPI, ExtensionContext, Theme } from "@earendil-works/pi-c
 import { DynamicBorder } from "@earendil-works/pi-coding-agent";
 import { Container, type SelectItem, SelectList, Text } from "@earendil-works/pi-tui";
 import { existsSync } from "node:fs";
-import { mkdir, readFile, realpath, rename, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, realpath, rename, stat, writeFile } from "node:fs/promises";
 import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 
 const STATE_PATH = join(homedir(), ".pi", "agent", "openspec-launcher-state.json");
 
-type WorkflowStage = "initial" | "afterExplore" | "afterPropose" | "afterApply";
-type WorkflowActionKind = "explore" | "propose" | "applyGroup" | "archiveGroup" | "init" | "exit";
-type CandidateActionKind = "applyCandidate" | "archiveCandidate";
+type WorkflowStage = "initial" | "afterExplore" | "afterPropose" | "afterApply" | "afterVerify";
+type WorkflowActionKind = "explore" | "propose" | "applyGroup" | "verifyGroup" | "archiveGroup" | "init" | "exit";
+type CandidateActionKind = "applyCandidate" | "verifyCandidate" | "archiveCandidate";
 type LauncherActionKind = WorkflowActionKind | CandidateActionKind;
 
 interface LauncherAction {
@@ -67,6 +67,21 @@ async function findOpenSpecRoot(cwd: string): Promise<string | undefined> {
 		if (parent === current) return undefined;
 		current = parent;
 	}
+}
+
+async function hasVerifierPolicies(root: string): Promise<boolean> {
+	const policyDir = join(root, ".pi", "verifier");
+	try {
+		const entries = await readdir(policyDir, { withFileTypes: true });
+		for (const entry of entries) {
+			if (!entry.isFile() || !entry.name.endsWith(".md")) continue;
+			const info = await stat(join(policyDir, entry.name));
+			if (info.isFile()) return true;
+		}
+	} catch {
+		return false;
+	}
+	return false;
 }
 
 async function readJsonFile<T>(path: string, fallback: T): Promise<T> {
@@ -132,6 +147,11 @@ function getApplyCandidates(changes: OpenSpecChangeSummary[]): OpenSpecChangeSum
 	return changes.filter((change) => change.totalTasks > 0 && change.completedTasks < change.totalTasks);
 }
 
+function getVerifyCandidates(changes: OpenSpecChangeSummary[], verifierPoliciesExist: boolean): OpenSpecChangeSummary[] {
+	if (!verifierPoliciesExist) return [];
+	return changes.filter((change) => change.totalTasks > 0 && change.completedTasks === change.totalTasks);
+}
+
 function getArchiveCandidates(changes: OpenSpecChangeSummary[]): OpenSpecChangeSummary[] {
 	return changes.filter((change) => change.totalTasks > 0 && change.completedTasks === change.totalTasks);
 }
@@ -140,7 +160,7 @@ function candidateDescription(change: OpenSpecChangeSummary): string {
 	return `${change.completedTasks}/${change.totalTasks} tasks${change.status ? ` • ${change.status}` : ""}`;
 }
 
-function candidateAction(kind: "applyCandidate" | "archiveCandidate", change: OpenSpecChangeSummary): LauncherAction {
+function candidateAction(kind: CandidateActionKind, change: OpenSpecChangeSummary): LauncherAction {
 	return {
 		kind,
 		change: change.name,
@@ -149,14 +169,15 @@ function candidateAction(kind: "applyCandidate" | "archiveCandidate", change: Op
 	};
 }
 
-function groupedAction(kind: "applyGroup" | "archiveGroup", candidates: OpenSpecChangeSummary[]): LauncherAction | undefined {
+function groupedAction(kind: "applyGroup" | "verifyGroup" | "archiveGroup", candidates: OpenSpecChangeSummary[]): LauncherAction | undefined {
 	if (candidates.length === 0) return undefined;
-	const isApply = kind === "applyGroup";
+	const label = kind === "applyGroup" ? "Apply" : kind === "verifyGroup" ? "Verify" : "Archive";
+	const readiness = kind === "applyGroup" ? "ready for implementation" : kind === "verifyGroup" ? "ready for verification" : "ready to archive";
 	return {
 		kind,
 		candidates,
-		label: `OpenSpec ${isApply ? "Apply" : "Archive"} (${candidates.length})`,
-		description: `${candidates.length} ${candidates.length === 1 ? "change" : "changes"} ${isApply ? "ready for implementation" : "ready to archive"}`,
+		label: `OpenSpec ${label} (${candidates.length})`,
+		description: `${candidates.length} ${candidates.length === 1 ? "change" : "changes"} ${readiness}`,
 	};
 }
 
@@ -164,23 +185,26 @@ function definedActions(actions: Array<LauncherAction | undefined>): LauncherAct
 	return actions.filter((action): action is LauncherAction => Boolean(action));
 }
 
-function buildInitializedActions(stage: WorkflowStage, changes: OpenSpecChangeSummary[]): LauncherAction[] {
+function buildInitializedActions(stage: WorkflowStage, changes: OpenSpecChangeSummary[], verifierPoliciesExist: boolean): LauncherAction[] {
 	const explore: LauncherAction = { kind: "explore", label: "OpenSpec Explore", description: "Think through ideas and clarify requirements" };
 	const propose: LauncherAction = { kind: "propose", label: "OpenSpec Propose", description: "Create a proposal, design, specs, and tasks" };
 	const apply = groupedAction("applyGroup", getApplyCandidates(changes));
+	const verify = groupedAction("verifyGroup", getVerifyCandidates(changes, verifierPoliciesExist));
 	const archive = groupedAction("archiveGroup", getArchiveCandidates(changes));
 	const exit: LauncherAction = { kind: "exit", label: "Exit", description: "Close the launcher" };
 
 	switch (stage) {
 		case "afterExplore":
-			return definedActions([propose, apply, archive, explore, exit]);
+			return definedActions([propose, apply, verify, archive, explore, exit]);
 		case "afterPropose":
-			return definedActions([apply, archive, propose, explore, exit]);
+			return definedActions([apply, verify, archive, propose, explore, exit]);
 		case "afterApply":
-			return definedActions([archive, apply, propose, explore, exit]);
+			return verifierPoliciesExist ? definedActions([verify, archive, apply, propose, explore, exit]) : definedActions([archive, apply, propose, explore, exit]);
+		case "afterVerify":
+			return definedActions([archive, verify, apply, propose, explore, exit]);
 		case "initial":
 		default:
-			return definedActions([explore, propose, apply, archive, exit]);
+			return definedActions([explore, propose, apply, verify, archive, exit]);
 	}
 }
 
@@ -240,14 +264,14 @@ function isPrintable(data: string): boolean {
 	return data.length === 1 && data.charCodeAt(0) >= 32 && data.charCodeAt(0) !== 127;
 }
 
-async function selectCandidateAction(ctx: ExtensionContext, kind: "applyCandidate" | "archiveCandidate", candidates: OpenSpecChangeSummary[]): Promise<LauncherAction | undefined> {
+async function selectCandidateAction(ctx: ExtensionContext, kind: CandidateActionKind, candidates: OpenSpecChangeSummary[]): Promise<LauncherAction | undefined> {
 	const itemByValue = new Map(candidates.map((change) => [change.name, candidateAction(kind, change)]));
 	const items: SelectItem[] = candidates.map((change) => ({
 		value: change.name,
 		label: change.name,
 		description: candidateDescription(change),
 	}));
-	const title = `OpenSpec ${kind === "applyCandidate" ? "Apply" : "Archive"} Candidates`;
+	const title = `OpenSpec ${kind === "applyCandidate" ? "Apply" : kind === "verifyCandidate" ? "Verify" : "Archive"} Candidates`;
 
 	const selected = await ctx.ui.custom<string | null>((tui, theme, _keybindings, done) => {
 		let filter = "";
@@ -298,6 +322,8 @@ function promptForWorkflowAction(action: LauncherAction): string | undefined {
 			return "/opsx-propose ";
 		case "applyCandidate":
 			return action.change ? `/opsx-apply ${action.change} ` : undefined;
+		case "verifyCandidate":
+			return action.change ? `/opsx-verify ${action.change} ` : undefined;
 		case "archiveCandidate":
 			return action.change ? `/opsx-archive ${action.change} ` : undefined;
 		default:
@@ -312,30 +338,28 @@ async function prefillWorkflowPrompt(ctx: ExtensionContext, action: LauncherActi
 	ctx.ui.notify("OpenSpec prompt filled. Add details if needed, then press enter to run.", "info");
 }
 
-async function updateStageFromSubmittedPrompt(ctx: ExtensionContext, text: string): Promise<void> {
-	const root = await findOpenSpecRoot(ctx.cwd);
-	if (!root) return;
-
+export function stageUpdateFromSubmittedPrompt(text: string): { stage: WorkflowStage; lastChange?: string } | undefined {
 	const trimmed = text.trim();
-	if (/^\/opsx-explore(?:\s|$)/.test(trimmed)) {
-		await setRepositoryStage(root, "afterExplore");
-		return;
-	}
-	if (/^\/opsx-propose(?:\s|$)/.test(trimmed)) {
-		await setRepositoryStage(root, "afterPropose");
-		return;
-	}
+	if (/^\/opsx-explore(?:\s|$)/.test(trimmed)) return { stage: "afterExplore" };
+	if (/^\/opsx-propose(?:\s|$)/.test(trimmed)) return { stage: "afterPropose" };
 
 	const applyMatch = trimmed.match(/^\/opsx-apply\s+(\S+)/);
-	if (applyMatch) {
-		await setRepositoryStage(root, "afterApply", applyMatch[1]);
-		return;
-	}
+	if (applyMatch) return { stage: "afterApply", lastChange: applyMatch[1] };
+
+	const verifyMatch = trimmed.match(/^\/opsx-verify\s+(\S+)/);
+	if (verifyMatch) return { stage: "afterVerify", lastChange: verifyMatch[1] };
 
 	const archiveMatch = trimmed.match(/^\/opsx-archive\s+(\S+)/);
-	if (archiveMatch) {
-		await setRepositoryStage(root, "initial", archiveMatch[1]);
-	}
+	if (archiveMatch) return { stage: "initial", lastChange: archiveMatch[1] };
+	return undefined;
+}
+
+async function updateStageFromSubmittedPrompt(ctx: ExtensionContext, text: string): Promise<void> {
+	const update = stageUpdateFromSubmittedPrompt(text);
+	if (!update) return;
+	const root = await findOpenSpecRoot(ctx.cwd);
+	if (!root) return;
+	await setRepositoryStage(root, update.stage, update.lastChange);
 }
 
 async function dispatchAction(pi: ExtensionAPI, ctx: ExtensionContext, _root: string | undefined, action: LauncherAction): Promise<void> {
@@ -343,14 +367,17 @@ async function dispatchAction(pi: ExtensionAPI, ctx: ExtensionContext, _root: st
 		case "explore":
 		case "propose":
 		case "applyCandidate":
+		case "verifyCandidate":
 		case "archiveCandidate":
 			await prefillWorkflowPrompt(ctx, action);
 			return;
 		case "applyGroup":
+		case "verifyGroup":
 		case "archiveGroup": {
 			const candidates = action.candidates ?? [];
 			if (candidates.length === 0) return;
-			const candidate = await selectCandidateAction(ctx, action.kind === "applyGroup" ? "applyCandidate" : "archiveCandidate", candidates);
+			const kind = action.kind === "applyGroup" ? "applyCandidate" : action.kind === "verifyGroup" ? "verifyCandidate" : "archiveCandidate";
+			const candidate = await selectCandidateAction(ctx, kind, candidates);
 			if (candidate) await prefillWorkflowPrompt(ctx, candidate);
 			return;
 		}
@@ -385,9 +412,20 @@ async function openLauncher(pi: ExtensionAPI, ctx: ExtensionContext, options: { 
 	}
 
 	const stage = await getRepositoryStage(root);
-	const action = await selectLauncherAction(ctx, `OpenSpec (${stage})`, buildInitializedActions(stage, changes));
+	const verifierPoliciesExist = await hasVerifierPolicies(root);
+	const action = await selectLauncherAction(ctx, `OpenSpec (${stage})`, buildInitializedActions(stage, changes, verifierPoliciesExist));
 	if (action) await dispatchAction(pi, ctx, root, action);
 }
+
+export const __openspecLauncherTest = {
+	buildInitializedActions,
+	getApplyCandidates,
+	getArchiveCandidates,
+	getVerifyCandidates,
+	groupedAction,
+	hasVerifierPolicies,
+	promptForWorkflowAction,
+};
 
 export default function (pi: ExtensionAPI) {
 	pi.registerCommand("openspec", {

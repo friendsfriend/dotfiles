@@ -106,8 +106,8 @@ All artifacts complete. All tasks complete.
 
 **Memory Integration**
 - If a repo memory card is injected, use it only as orientation for possible active changes or prior decisions.
-- Do not archive, sync, or report exact status from memory alone; verify with OpenSpec CLI output and exact file reads.
-- If memory conflicts with current files or CLI output, current files and CLI output win.
+- Use `openspec_context` when available for fresh OpenSpec readiness/context, but do not archive, sync, or report exact status from memory or context output alone; verify with OpenSpec CLI output and exact file reads.
+- If memory or context output conflicts with current files or CLI output, current files and CLI output win.
 
 **Guardrails**
 - Always prompt for change selection if not provided

@@ -40,7 +40,7 @@ Depending on what the user brings, you might:
 
 **Investigate the codebase**
 - Map existing architecture relevant to the discussion
-- When available, use `repo_graph` before broad exploratory grep/find/bash discovery to identify likely architecture and integration points
+- When available, use `openspec_context` for OpenSpec workflow/artifact context and `repo_graph` before broad exploratory grep/find/bash discovery to identify non-OpenSpec architecture and integration points
 - Read exact files before making exact claims about their contents
 - Use grep/equivalent exact search when you need literal string occurrences
 - Find integration points
@@ -84,7 +84,7 @@ You have full context of the OpenSpec system. Use it naturally, don't force it.
 
 ### Check for context
 
-At the start, quickly check what exists:
+At the start, quickly check what exists with `openspec_context` when available, or the OpenSpec CLI otherwise:
 ```bash
 openspec list --json
 ```
@@ -93,6 +93,8 @@ This tells you:
 - If there are active changes
 - Their names, schemas, and status
 - What the user might be working on
+
+Use `openspec_context` for change/task/capability/artifact context. Do not ask `repo_graph` for OpenSpec changes, specs, tasks, or capabilities.
 
 ### When no change exists
 
@@ -293,5 +295,5 @@ But this summary is optional. Sometimes the thinking IS the value.
 - **Don't force structure** - Let patterns emerge naturally
 - **Don't auto-capture** - Offer to save insights, don't just do it
 - **Do visualize** - A good diagram is worth many paragraphs
-- **Do explore the codebase** - Ground discussions in reality; prefer `repo_graph` for initial navigation when available, then `read` exact files for authority
+- **Do explore the codebase** - Ground discussions in reality; prefer `openspec_context` for OpenSpec workflow context and `repo_graph` for non-OpenSpec implementation navigation when available, then `read` exact files for authority
 - **Do question assumptions** - Including the user's and your own

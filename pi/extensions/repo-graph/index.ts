@@ -25,6 +25,7 @@ const BUILTIN_IGNORES = new Set([
 	".turbo",
 	".venv",
 	"__pycache__",
+	"openspec",
 ]);
 
 function StringEnum<T extends readonly string[]>(values: T, options?: { description?: string; default?: T[number] }) {
@@ -72,10 +73,6 @@ type NodeKind =
 	| "file-type"
 	| "markdown-heading"
 	| "markdown-link"
-	| "openspec-change"
-	| "openspec-artifact"
-	| "openspec-capability"
-	| "openspec-task"
 	| "symbol"
 	| "package-script"
 	| "config-key";
@@ -88,10 +85,7 @@ type EdgeKind =
 	| "references"
 	| "imports"
 	| "exports"
-	| "modifies"
 	| "relates-to"
-	| "has-task"
-	| "has-artifact"
 	| "has-script";
 
 interface FileSummaryAnnotation {
@@ -158,13 +152,13 @@ interface RepoGraphParams {
 
 const repoGraphParameters = Type.Object({
 	mode: StringEnum(["overview", "search", "neighbors", "reverse-deps", "symbols", "openspec-change", "task-context", "capability"] as const, {
-		description: "Graph query mode.",
+		description: "Graph query mode. OpenSpec modes are deprecated and return guidance to use openspec_context.",
 	}),
 	query: Type.Optional(Type.String({ description: "Search text or symbol filter, depending on mode." })),
 	target: Type.Optional(Type.String({ description: "Path, node id, symbol, capability, or change to inspect." })),
-	change: Type.Optional(Type.String({ description: "OpenSpec change name for openspec-change or task-context mode." })),
-	task: Type.Optional(Type.String({ description: "OpenSpec task id or task text for task-context mode." })),
-	capability: Type.Optional(Type.String({ description: "OpenSpec capability name for capability mode." })),
+	change: Type.Optional(Type.String({ description: "Deprecated: OpenSpec change name. Use openspec_context instead." })),
+	task: Type.Optional(Type.String({ description: "Deprecated: OpenSpec task id/text. Use openspec_context instead." })),
+	capability: Type.Optional(Type.String({ description: "Deprecated: OpenSpec capability name. Use openspec_context instead." })),
 	depth: Type.Optional(Type.Number({ description: "Bounded graph depth for neighbor modes. Defaults to 1, max 4." })),
 	limit: Type.Optional(Type.Number({ description: "Maximum number of returned items. Defaults to 10, max 50." })),
 });
@@ -365,73 +359,6 @@ async function scanMarkdown(root: string, graph: RepoGraph, files: string[]): Pr
 	}
 }
 
-function artifactKind(path: string): string | undefined {
-	const base = path.split("/").pop() ?? path;
-	if (base === "proposal.md") return "proposal";
-	if (base === "design.md") return "design";
-	if (base === "tasks.md") return "tasks";
-	if (base === "spec.md") return "spec";
-	return undefined;
-}
-
-async function scanOpenSpec(root: string, graph: RepoGraph, files: string[]): Promise<void> {
-	for (const fullPath of files) {
-		const path = rel(root, fullPath);
-		const parts = path.split("/");
-		if (parts[0] !== "openspec") continue;
-		const fileId = nodeId("file", path);
-		const capabilityIndex = parts.indexOf("capabilities");
-		const changeIndex = parts.indexOf("changes");
-
-		if (parts[1] === "specs" && parts.length > 2) {
-			const capability = parts[2];
-			const capNode = addNode(graph, { id: nodeId("openspec-capability", capability), kind: "openspec-capability", label: capability, path: parts.slice(0, 3).join("/"), searchText: `openspec capability ${capability}` });
-			addEdge(graph, { from: capNode.id, to: fileId, kind: "references", reason: "stable spec" });
-		}
-
-		if (changeIndex >= 0 && parts.length > changeIndex + 1) {
-			const archived = parts[changeIndex + 1] === "archive" && parts.length > changeIndex + 2;
-			const change = archived ? parts[changeIndex + 2] : parts[changeIndex + 1];
-			const changePathEnd = archived ? changeIndex + 3 : changeIndex + 2;
-			const changeNode = addNode(graph, { id: nodeId("openspec-change", change), kind: "openspec-change", label: change, path: parts.slice(0, changePathEnd).join("/"), metadata: archived ? { archived: true } : undefined, searchText: `openspec change ${change}` });
-			addEdge(graph, { from: changeNode.id, to: fileId, kind: "has-artifact" });
-			const artifact = artifactKind(path);
-			if (artifact) {
-				const artifactNode = addNode(graph, { id: nodeId("openspec-artifact", `${change}:${artifact}`), kind: "openspec-artifact", label: `${change} ${artifact}`, path, searchText: `openspec ${change} ${artifact} ${path}` });
-				addEdge(graph, { from: changeNode.id, to: artifactNode.id, kind: "has-artifact" });
-				addEdge(graph, { from: artifactNode.id, to: fileId, kind: "references" });
-			}
-			const specIndex = parts.indexOf("specs");
-			if (specIndex >= 0 && parts.length > specIndex + 1) {
-				const capability = parts[specIndex + 1];
-				const capNode = addNode(graph, { id: nodeId("openspec-capability", capability), kind: "openspec-capability", label: capability, path: parts.slice(0, specIndex + 2).join("/"), searchText: `openspec capability ${capability}` });
-				addEdge(graph, { from: changeNode.id, to: capNode.id, kind: "modifies", reason: "delta spec capability" });
-				addEdge(graph, { from: capNode.id, to: fileId, kind: "references", reason: "delta spec" });
-			}
-			if (parts[parts.length - 1] === "tasks.md") {
-				const content = await safeReadText(fullPath, graph.warnings);
-				if (content) {
-					content.split(/\r?\n/).forEach((line, index) => {
-						const task = line.match(/^- \[[ xX]\]\s+(.+)$/);
-						if (!task) return;
-						const label = task[1].trim();
-						const id = nodeId("openspec-task", `${change}:${index + 1}`);
-						addNode(graph, { id, kind: "openspec-task", label, path, metadata: { line: index + 1 }, searchText: `openspec task ${change} ${label}` });
-						addEdge(graph, { from: changeNode.id, to: id, kind: "has-task" });
-						addEdge(graph, { from: id, to: fileId, kind: "references", reason: `tasks.md line ${index + 1}` });
-					});
-				}
-			}
-		}
-
-		if (capabilityIndex >= 0 && parts.length > capabilityIndex + 1) {
-			const capability = parts[capabilityIndex + 1];
-			const capNode = addNode(graph, { id: nodeId("openspec-capability", capability), kind: "openspec-capability", label: capability, path: parts.slice(0, capabilityIndex + 2).join("/"), searchText: `openspec capability ${capability}` });
-			addEdge(graph, { from: capNode.id, to: fileId, kind: "references", reason: "stable spec" });
-		}
-	}
-}
-
 function resolveImportPath(root: string, fromFile: string, specifier: string): string | undefined {
 	if (!specifier.startsWith(".")) return undefined;
 	const base = resolve(dirname(fromFile), specifier);
@@ -520,8 +447,6 @@ function deterministicFileSummary(graph: RepoGraph, node: GraphNode): string | u
 	if (node.kind !== "file" || !node.path) return undefined;
 	const path = node.path;
 	const base = node.label;
-	const artifact = artifactKind(path);
-	if (artifact) return compactSummary(`${base} is an OpenSpec ${artifact} artifact.`);
 	const outgoing = graph.outgoing.get(node.id) ?? [];
 	const headings = outgoing.map((edge) => graph.nodes.get(edge.to)).filter((child): child is GraphNode => child?.kind === "markdown-heading").slice(0, 2).map((child) => child.label);
 	if (headings.length) return compactSummary(`${base} documents ${headings.join(" and ")}.`);
@@ -567,7 +492,6 @@ async function buildGraph(root: string): Promise<RepoGraph> {
 	const graph: RepoGraph = { root, nodes: new Map(), edges: [], outgoing: new Map(), incoming: new Map(), warnings: [], fileCount: 0 };
 	const files = await walkFilesystem(root, graph);
 	await scanMarkdown(root, graph, files);
-	await scanOpenSpec(root, graph, files);
 	await scanSourceAndConfig(root, graph, files);
 	await attachFileSummaries(graph);
 	return graph;
@@ -620,8 +544,6 @@ function findNode(graph: RepoGraph, target: string | undefined): GraphNode | und
 	const candidates = [
 		nodeId("file", normalized),
 		nodeId("directory", normalized),
-		nodeId("openspec-change", normalized),
-		nodeId("openspec-capability", normalized),
 	];
 	for (const id of candidates) {
 		const node = graph.nodes.get(id);
@@ -652,23 +574,17 @@ function safetyFooter(reads: string[]): string {
 function queryOverview(graph: RepoGraph, limit: number): string {
 	const dirs = [...graph.nodes.values()].filter((node) => node.kind === "directory" && node.path && !node.path.includes("/") && node.path !== ".").map((node) => node.path!).sort().slice(0, limit);
 	const configs = [...graph.nodes.values()].filter((node) => node.kind === "file" && /(^|\/)(package\.json|.*config.*|.*\.toml|.*\.ya?ml|.*\.jsonc?)$/i.test(node.path ?? "")).sort((a, b) => (a.path ?? "").localeCompare(b.path ?? "")).slice(0, limit);
-	const changes = [...graph.nodes.values()].filter((node) => node.kind === "openspec-change").sort((a, b) => a.label.localeCompare(b.label)).slice(0, limit);
-	const capabilities = [...graph.nodes.values()].filter((node) => node.kind === "openspec-capability").sort((a, b) => a.label.localeCompare(b.label)).slice(0, limit);
-	const piResources = [...graph.nodes.values()].filter((node) => node.kind === "file" && (node.path?.startsWith(".pi/") ?? false)).sort((a, b) => (a.path ?? "").localeCompare(b.path ?? "")).slice(0, limit);
+	const piResources = [...graph.nodes.values()].filter((node) => node.kind === "file" && (node.path?.startsWith(".pi/") || node.path?.startsWith("pi/"))).sort((a, b) => (a.path ?? "").localeCompare(b.path ?? "")).slice(0, limit);
 
 	const lines = [
 		`Repository graph overview for ${graph.root}`,
 		`Scanned ${graph.fileCount} filesystem entries, ${graph.nodes.size} nodes, ${graph.edges.length} edges.`,
 		"",
-		"Major directories:",
+		"Major non-OpenSpec directories:",
 		...(dirs.length ? dirs.map((path) => `- ${path}`) : ["- none detected"]),
 		"",
 		"Recognized project/config files:",
 		...(configs.length ? configs.map((node) => `- ${node.path}`) : ["- none detected"]),
-		"",
-		"OpenSpec:",
-		...(changes.length ? changes.map((node) => `- change: ${node.label}`) : [existsSync(join(graph.root, "openspec", "config.yaml")) ? "- OpenSpec config present; no changes scanned" : "- not detected"]),
-		...(capabilities.length ? capabilities.map((node) => `- capability: ${node.label}`) : []),
 		"",
 		"Pi resources:",
 		...(piResources.length ? piResources.map((node) => `- ${node.path}`) : ["- none detected"]),
@@ -734,58 +650,12 @@ function relatedImplementationSearch(graph: RepoGraph, text: string, limit: numb
 	return rankedSearch(graph, terms.join(" "), limit, new Set(["file", "symbol", "package-script", "config-key", "markdown-heading"]));
 }
 
-function queryOpenSpecChange(graph: RepoGraph, change: string | undefined, limit: number): string {
-	const changeNode = findNode(graph, change ? nodeId("openspec-change", change) : undefined) ?? findNode(graph, change);
-	if (!changeNode || changeNode.kind !== "openspec-change") return "openspec-change mode requires an active change name." + safetyFooter([]);
-	const outgoing = (graph.outgoing.get(changeNode.id) ?? []).slice().sort((a, b) => a.kind.localeCompare(b.kind)).slice(0, limit * 2);
-	const related = outgoing.map((edge) => graph.nodes.get(edge.to)).filter((node): node is GraphNode => Boolean(node));
-	const impl = relatedImplementationSearch(graph, changeNode.label.replace(/-/g, " "), Math.max(3, Math.floor(limit / 2)));
-	const lines = [`OpenSpec change ${changeNode.label}:`];
-	for (const edge of outgoing) {
-		const node = graph.nodes.get(edge.to);
-		if (node) lines.push(`- ${edge.kind}: ${formatNode(node)}${edge.reason ? ` (${edge.reason})` : ""}`);
-	}
-	if (impl.length) {
-		lines.push("", "Likely related implementation files:");
-		impl.forEach((item, index) => lines.push(`${index + 1}. ${formatNode(item.node)} — ${item.reasons.join("; ") || "name match"}`));
-	}
-	return lines.join("\n") + safetyFooter(suggestedReads([...related, ...impl.map((item) => item.node)]));
-}
-
-function queryTaskContext(graph: RepoGraph, change: string | undefined, task: string | undefined, limit: number): string {
-	const tasks = [...graph.nodes.values()].filter((node) => node.kind === "openspec-task" && (!change || node.id.startsWith(`openspec-task:${change}:`)));
-	const rankedTasks = task?.trim() ? tasks.map((node) => scoreNode(node, task)).filter((item): item is RankedNode => Boolean(item)).sort((a, b) => b.score - a.score) : tasks.slice(0, 1).map((node) => ({ node, score: 1, reasons: ["first task for change"] }));
-	const selected = rankedTasks[0]?.node;
-	if (!selected) return "task-context mode requires a change with scanned tasks and optionally a task id/text." + safetyFooter([]);
-	const context = relatedImplementationSearch(graph, selected.label, limit);
-	const lines = [`Task context for ${selected.label}:`, `Task node: ${formatNode(selected)}`, "", "Likely relevant context:"];
-	context.forEach((item, index) => {
-		lines.push(`${index + 1}. ${formatNode(item.node)}`);
-		lines.push(`   reason: ${item.reasons.join("; ") || "task text match"}`);
-	});
-	if (!context.length) lines.push("- No deterministic implementation files discovered from task text; use overview/search or exact grep next.");
-	return lines.join("\n") + safetyFooter(suggestedReads([selected, ...context.map((item) => item.node)]));
-}
-
-function queryCapability(graph: RepoGraph, capability: string | undefined, limit: number): string {
-	const capNode = findNode(graph, capability ? nodeId("openspec-capability", capability) : undefined) ?? findNode(graph, capability);
-	if (!capNode || capNode.kind !== "openspec-capability") return "capability mode requires a capability name." + safetyFooter([]);
-	const outgoing = graph.outgoing.get(capNode.id) ?? [];
-	const incoming = graph.incoming.get(capNode.id) ?? [];
-	const edges = [...outgoing, ...incoming].slice(0, limit);
-	const nodes = edges.map((edge) => graph.nodes.get(edge.from === capNode.id ? edge.to : edge.from)).filter((node): node is GraphNode => Boolean(node));
-	const impl = relatedImplementationSearch(graph, capNode.label.replace(/-/g, " "), Math.max(3, Math.floor(limit / 2)));
-	const lines = [`Capability ${capNode.label}:`];
-	for (const edge of edges) {
-		const direction = edge.from === capNode.id ? "->" : "<-";
-		const node = graph.nodes.get(edge.from === capNode.id ? edge.to : edge.from);
-		if (node) lines.push(`- ${direction} ${edge.kind}: ${formatNode(node)}${edge.reason ? ` (${edge.reason})` : ""}`);
-	}
-	if (impl.length) {
-		lines.push("", "Likely related implementation files:");
-		impl.forEach((item, index) => lines.push(`${index + 1}. ${formatNode(item.node)} — ${item.reasons.join("; ") || "name match"}`));
-	}
-	return lines.join("\n") + safetyFooter(suggestedReads([...nodes, ...impl.map((item) => item.node)]));
+function deprecatedOpenSpecMode(mode: "openspec-change" | "task-context" | "capability"): string {
+	return [
+		`${mode} is no longer served by repo_graph.`,
+		"Use openspec_context for OpenSpec changes, specs, tasks, capabilities, and apply/archive readiness.",
+		"Then use repo_graph only for implementation/source/config navigation outside openspec/.",
+	].join("\n") + safetyFooter([]);
 }
 
 async function runRepoGraph(root: string, params: RepoGraphParams): Promise<string> {
@@ -803,11 +673,9 @@ async function runRepoGraph(root: string, params: RepoGraphParams): Promise<stri
 		case "symbols":
 			return querySymbols(graph, params.query ?? params.target, limit);
 		case "openspec-change":
-			return queryOpenSpecChange(graph, params.change ?? params.target ?? params.query, limit);
 		case "task-context":
-			return queryTaskContext(graph, params.change, params.task ?? params.query ?? params.target, limit);
 		case "capability":
-			return queryCapability(graph, params.capability ?? params.target ?? params.query, limit);
+			return deprecatedOpenSpecMode(params.mode);
 	}
 }
 
@@ -820,10 +688,11 @@ export default function repoGraphExtension(pi: ExtensionAPI) {
 	pi.registerTool({
 		name: "repo_graph",
 		label: "Repo Graph",
-		description: "Build a fresh deterministic repository graph and query structure, symbols, OpenSpec artifacts, and relationships.",
-		promptSnippet: "Fresh repo graph navigation over files, symbols, configs, and OpenSpec relationships",
+		description: "Build a fresh deterministic repository graph for non-OpenSpec implementation, source, configuration, documentation, and Pi resource navigation.",
+		promptSnippet: "Fresh repo graph navigation over non-OpenSpec files, symbols, configs, docs, and Pi resources",
 		promptGuidelines: [
-			"Use repo_graph after reading required task context and before broad exploratory grep/find/bash discovery when locating repository structure or implementation files.",
+			"Use repo_graph after OpenSpec context/artifacts are known and before broad exploratory grep/find/bash discovery when locating non-OpenSpec implementation, source, configuration, documentation, or Pi resource files.",
+			"Do not use repo_graph for OpenSpec changes, specs, tasks, capabilities, or artifact paths; use openspec_context for that workflow state.",
 			"Treat repo_graph as a fresh navigation aid, not authority: always use read for exact file contents before editing.",
 			"Use grep or equivalent exact search for exact string occurrences even when repo_graph is available.",
 		],

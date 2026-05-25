@@ -1,12 +1,13 @@
 ## Purpose
-Define behavior for the Pi repository graph tooling that helps agents navigate repository structure, OpenSpec artifacts, symbols, and relationships while preserving freshness and exact-file verification.
+Define behavior for the Pi repository graph tooling that helps agents navigate repository implementation, source, configuration, documentation, and Pi resource structure outside `openspec/` while preserving freshness and exact-file verification.
+
 ## Requirements
 ### Requirement: Fresh deterministic graph queries
 The system SHALL compute repository graph query results from the current filesystem for each graph tool call and SHALL NOT return stale graph data.
 
 #### Scenario: File changes before graph query
 - **WHEN** a repository file changes before the agent invokes the graph tool
-- **THEN** the graph result reflects the changed filesystem state
+- **THEN** the graph result reflects the changed filesystem
 - **AND** the result is not based on an unvalidated stale persisted graph
 
 ### Requirement: Graph is not durable memory
@@ -17,41 +18,42 @@ The system SHALL NOT persist repository graph data as semantic memory.
 - **THEN** any graph data built for the query is discarded or retained only as an implementation cache that preserves freshness semantics
 - **AND** the graph data is not injected as durable memory in later turns
 
+### Requirement: OpenSpec directory exclusion
+The repo graph tool SHALL ignore the `openspec/` directory completely during graph construction.
+
+#### Scenario: Repository contains OpenSpec artifacts
+- **WHEN** the agent invokes any repo graph query mode
+- **THEN** the graph construction excludes all files and directories under `openspec/`
+- **AND** results do not include OpenSpec changes, artifacts, tasks, capabilities, specs, headings, summaries, or paths from `openspec/`
+
+#### Scenario: Agent needs OpenSpec workflow state
+- **WHEN** the agent needs active changes, task progress, artifact paths, or capability spec context
+- **THEN** the agent uses the dedicated OpenSpec context tool instead of `repo_graph`
+
 ### Requirement: Repository overview query
-The system SHALL provide a graph query mode that returns a compact overview of repository structure.
+The system SHALL provide a graph query mode that returns a compact overview of repository implementation, source, configuration, documentation, and Pi resource structure outside `openspec/`.
 
 #### Scenario: Agent requests overview
 - **WHEN** the agent invokes the graph tool in overview mode
-- **THEN** the result includes major directories, recognized project systems, OpenSpec presence, pi resources, and notable config/script areas within a bounded output size
+- **THEN** the result includes major non-OpenSpec directories, recognized project systems, pi resources, and notable config/script areas within a bounded output size
+- **AND** the result excludes OpenSpec presence, OpenSpec changes, OpenSpec capabilities, and all paths under `openspec/`
 
 ### Requirement: Search and neighbor queries
-The system SHALL provide graph query modes for matching nodes and exploring connected nodes, and SHALL include compact file-summary annotations in results when summaries are available and fresh.
+The system SHALL provide graph query modes for matching nodes and exploring connected non-OpenSpec nodes, and SHALL include compact file-summary annotations in results when summaries are available and fresh.
 
 #### Scenario: Agent searches for a concept
 - **WHEN** the agent invokes graph search with a query string
-- **THEN** the result returns ranked matching files, symbols, OpenSpec artifacts, skills, prompts, or config nodes
+- **THEN** the result returns ranked matching files, symbols, skills, prompts, or config nodes outside `openspec/`
 - **AND** each result includes a deterministic reason when available
 - **AND** file results include a one-line summary when a read-derived hash-valid summary or deterministic fallback summary is available
+- **AND** results exclude OpenSpec artifacts, changes, tasks, capabilities, specs, and paths under `openspec/`
 
 #### Scenario: Agent explores neighbors
-- **WHEN** the agent asks for neighbors of a file, symbol, capability, or change
+- **WHEN** the agent asks for neighbors of a file or symbol outside `openspec/`
 - **THEN** the result returns connected nodes up to the requested bounded depth
-- **AND** the output identifies edge types such as imports, contains, defines, references, modifies, or relates-to when available
+- **AND** the output identifies edge types such as imports, contains, defines, references, or relates-to when available
 - **AND** file nodes include a one-line summary when a read-derived hash-valid summary or deterministic fallback summary is available
-
-### Requirement: OpenSpec graph queries
-The system SHALL provide OpenSpec-aware graph queries for changes, capabilities, specs, and tasks, and SHALL use file summaries as navigation hints when suggesting files or artifacts.
-
-#### Scenario: Agent queries an active change
-- **WHEN** the agent invokes an OpenSpec change graph query for a change name
-- **THEN** the result includes that change's proposal, design, tasks, delta specs, affected capabilities, and likely related stable specs
-- **AND** file and artifact results include compact summaries when available
-
-#### Scenario: Agent queries task context
-- **WHEN** the agent invokes a task-context query for an OpenSpec task
-- **THEN** the result suggests likely relevant implementation files, specs, prompts, skills, or configuration files when deterministically discoverable
-- **AND** the result recommends exact files to read next
-- **AND** one-line file summaries may be used as navigation labels and ranking inputs only when current or hash-valid
+- **AND** returned nodes exclude OpenSpec artifacts, changes, tasks, capabilities, specs, and paths under `openspec/`
 
 ### Requirement: Source and configuration relationships
 The system SHALL include deterministic source and configuration relationships where feasible.
@@ -65,12 +67,13 @@ The system SHALL include deterministic source and configuration relationships wh
 - **THEN** the graph includes nodes or metadata for scripts and their referenced commands when deterministically extractable
 
 ### Requirement: Graph before broad discovery guidance
-The system SHALL instruct the agent to prefer the graph tool before broad exploratory grep/find/bash searches.
+The system SHALL instruct the agent to prefer the graph tool before broad exploratory grep/find/bash searches for implementation, source, configuration, documentation, or Pi resource discovery outside OpenSpec artifacts.
 
 #### Scenario: Agent is in an OpenSpec apply workflow
-- **WHEN** the agent has read required OpenSpec context files and needs to locate implementation files
+- **WHEN** the agent has read required OpenSpec context and exact OpenSpec artifact files and needs to locate implementation files
 - **THEN** the agent uses the graph tool before broad grep/find/bash discovery when the graph tool is available
-- **AND** the agent reads exact files before editing
+- **AND** the graph query is derived from OpenSpec task or design context rather than from scanning `openspec/`
+- **AND** the agent reads exact implementation files before editing
 
 ### Requirement: Exact tools remain authoritative
 The system SHALL preserve `read` as authoritative for exact file contents and `grep` as appropriate for exact text searches.
@@ -95,7 +98,7 @@ The graph tool SHALL annotate file nodes with compact one-line summaries that he
 #### Scenario: No valid read summary exists
 - **WHEN** no read-derived summary exists for a file or the stored summary is stale
 - **THEN** graph results SHALL use a deterministic fallback summary when the scanner can derive one from current filesystem data
-- **AND** deterministic fallback summaries SHALL be derived from current path, file type, OpenSpec artifact role, Markdown headings, symbols, imports, scripts, or config keys
+- **AND** deterministic fallback summaries SHALL be derived from current path, file type, Markdown headings, symbols, imports, scripts, or config keys
 
 #### Scenario: Summary cannot be derived safely
 - **WHEN** neither a hash-valid read summary nor a safe deterministic fallback summary is available
@@ -109,7 +112,7 @@ The graph tool SHALL use only current deterministic summaries or hash-valid read
 - **WHEN** a query term matches a current or hash-valid file summary
 - **THEN** the graph search MAY use that match as one ranking signal
 - **AND** the result reason SHALL identify that the summary contributed to the match when practical
-- **AND** summary matches SHALL NOT override stronger exact path, symbol, heading, OpenSpec, or relationship matches by default
+- **AND** summary matches SHALL NOT override stronger exact path, symbol, heading, or relationship matches by default
 
 #### Scenario: Stored summary is stale
 - **WHEN** a stored read-derived file summary does not match the current file hash
@@ -128,4 +131,3 @@ The graph tool SHALL keep file summaries bounded, non-authoritative, and separat
 - **WHEN** the graph tool finishes a query
 - **THEN** the graph result MAY include summaries for returned nodes
 - **AND** those summaries SHALL NOT be injected as durable prompt memory by the graph tool
-

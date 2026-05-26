@@ -124,3 +124,14 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # bun completions
 [ -s "/Users/fabiankellner/.bun/_bun" ] && source "/Users/fabiankellner/.bun/_bun"
+
+# pnpm
+export PNPM_HOME="/Users/fabiankellner/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+# Pi
+export PATH="/opt/homebrew/bin:$PATH"

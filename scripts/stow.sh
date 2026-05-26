@@ -92,6 +92,38 @@ stow_file() {
     ln -s "$source" "$target"
 }
 
+link_voxtype_macos_config() {
+    if [[ "$(uname -s)" != "Darwin" ]]; then
+        return 0
+    fi
+
+    local source="$HOME/.config/voxtype/config.toml"
+    local target_dir="$HOME/Library/Application Support/voxtype"
+    local target="$target_dir/config.toml"
+
+    mkdir -p "$target_dir"
+
+    if [[ -L "$target" ]]; then
+        if [[ "$(readlink "$target")" == "$source" ]]; then
+            echo "Voxtype macOS config symlink already exists. Skipping..."
+            return 0
+        fi
+
+        echo "Updating Voxtype macOS config symlink from $target to $source"
+        ln -sfn "$source" "$target"
+        return 0
+    fi
+
+    if [[ -e "$target" ]]; then
+        local backup="$target.backup.$(date +%Y%m%d-%H%M%S)"
+        echo "Backing up existing Voxtype macOS config to $backup"
+        mv "$target" "$backup"
+    fi
+
+    echo "Creating Voxtype macOS config symlink from $target to $source"
+    ln -s "$source" "$target"
+}
+
 # Stow links the folders in the repository to the specified config locations so that the system finds them
 
 cd ~/dotfiles || exit
@@ -111,6 +143,8 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/.config/sesh/ sesh
         stow_folder "$HOME"/.config/btop/ btop
         stow_pi_agent_assets
+        stow_folder "$HOME"/.config/voxtype/ voxtype
+        link_voxtype_macos_config
         ;;
     work)
         stow_folder "$HOME"/.config/fastfetch/ fastfetch
@@ -131,6 +165,8 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/ ataman
         cd ~/dotfiles || exit
         stow_pi_agent_assets
+        stow_folder "$HOME"/.config/voxtype/ voxtype
+        link_voxtype_macos_config
         ;;
     omarchy)
         stow_folder "$HOME"/.config/hypr/ hyprland

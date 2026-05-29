@@ -1,16 +1,16 @@
 # Graph Report - dotfiles  (2026-05-29)
 
 ## Corpus Check
-- 267 files · ~104,719 words
+- 262 files · ~96,698 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 3388 nodes · 3936 edges · 392 communities (342 shown, 50 thin omitted)
+- 3677 nodes · 4219 edges · 392 communities (342 shown, 50 thin omitted)
 - Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 195 edges (avg confidence: 0.7)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `ed8b00e0`
+- Built from commit: `7382cdde`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -367,8 +367,8 @@
 6. `scripts Specification` - 33 edges
 7. `My personal dotfiles` - 28 edges
 8. `Install` - 28 edges
-9. `terminal-tools Specification` - 25 edges
-10. `Design` - 25 edges
+9. `REMOVED Requirements` - 26 edges
+10. `terminal-tools Specification` - 25 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `My personal dotfiles` --semantically_similar_to--> `NOTE: GlazeWM does not have an accordion layout. The default tiling behaviour`  [INFERRED] [semantically similar]
@@ -524,16 +524,16 @@
 ## Communities (392 total, 50 thin omitted)
 
 ### Community 0 - "Community 0"
-Cohesion: 0.04
-Nodes (47): ADDED Requirements, MODIFIED Requirements, Requirement: Candidate filtering, Requirement: Post-apply verifier prompt integration, Requirement: Verify candidate picker, Requirement: Workflow actions in initialized projects, Requirement: Workflow-aware ordering, Requirement: Workflow prompt tracking avoids unrelated input discovery (+39 more)
+Cohesion: 0.11
+Nodes (18): Requirement: Workflow actions in initialized projects, Scenario: Apply action selected, Scenario: Apply group displayed, Scenario: Archive action selected, Scenario: Archive group displayed, Scenario: Explore action selected, Scenario: Explore remains available after previous exploration, Scenario: Explore remains available after proposal or implementation work (+10 more)
 
 ### Community 1 - "Community 1"
-Cohesion: 0.06
-Nodes (35): ADDED Requirements, Requirement: Candidate filtering, Requirement: Keyboard navigation, Requirement: OpenSpec command launcher, Requirement: OpenSpec initialization option, Requirement: Per-repository launcher state, Requirement: Startup launcher trigger, Requirement: Workflow actions in initialized projects (+27 more)
+Cohesion: 0.04
+Nodes (47): ADDED Requirements, Requirement: Candidate filtering, Requirement: Keyboard navigation, Requirement: OpenSpec command launcher, Requirement: OpenSpec initialization option, Requirement: Per-repository launcher state, Requirement: Startup launcher trigger, Requirement: Workflow actions in initialized projects (+39 more)
 
 ### Community 2 - "Community 2"
-Cohesion: 0.14
-Nodes (13): Requirement: Apply and archive candidate pickers, Requirement: Candidate filtering, Requirement: Keyboard navigation, Requirement: OpenSpec command launcher, Requirement: OpenSpec initialization option, Requirement: Per-repository launcher state, Requirement: Post-apply verifier prompt integration, Requirement: Startup launcher trigger (+5 more)
+Cohesion: 0.07
+Nodes (25): Requirement: Apply and archive candidate pickers, Requirement: Candidate filtering, Requirement: Keyboard navigation, Requirement: OpenSpec command launcher, Requirement: OpenSpec initialization option, Requirement: Per-repository launcher state, Requirement: Post-apply verifier prompt integration, Requirement: Startup launcher trigger (+17 more)
 
 ### Community 3 - "Community 3"
 Cohesion: 0.08
@@ -548,16 +548,16 @@ Cohesion: 0.10
 Nodes (33): cleanup_temp_files(), COLOR_BLUE, COLOR_GRAY, COLOR_GREEN, COLOR_RED, COLOR_RESET, COLOR_YELLOW, create_issue_comment() (+25 more)
 
 ### Community 6 - "Community 6"
-Cohesion: 0.06
-Nodes (39): Shell, Terminal, Zsh, Design, Context, Decision: Keep specs behavioral, not implementation-prescriptive, Decision: Organize specs by repository area, Decision: Use baseline ADDED requirements (+31 more)
+Cohesion: 0.05
+Nodes (43): Terminal, Zsh, Design, Context, Decision: Keep specs behavioral, not implementation-prescriptive, Decision: Organize specs by repository area, Decision: Use baseline ADDED requirements, Decisions (+35 more)
 
 ### Community 7 - "Community 7"
 Cohesion: 0.09
 Nodes (24): Aerospace Area, Aerospace, Aerospace, Aerospace, aerospace Specification, aerospace Specification, Purpose, Requirement: macOS tiling window manager configuration (+16 more)
 
 ### Community 8 - "Community 8"
-Cohesion: 0.22
-Nodes (9): pi-memory-health Specification, pi-memory-health Specification, Purpose, Requirement: Memory deduplication, Requirement: Memory entry quality classification, Requirement: Memory health diagnostics, Requirement: Memory lifecycle controls, Requirement: Memory storage recovery (+1 more)
+Cohesion: 0.12
+Nodes (17): pi-memory-health Specification, pi-memory-health Specification, Purpose, Requirement: Memory deduplication, Requirement: Memory entry quality classification, Requirement: Memory health diagnostics, Requirement: Memory lifecycle controls, Requirement: Memory storage recovery (+9 more)
 
 ### Community 9 - "Community 9"
 Cohesion: 0.06
@@ -568,56 +568,56 @@ Cohesion: 0.06
 Nodes (33): Requirement: Bounded verifier feedback loop, Requirement: Global verifier agent, Requirement: Machine-detectable verifier verdict, Requirement: OpenSpec verify workflow command, Requirement: Post-apply verification prompt, Requirement: Project verifier policy loading, Requirement: Verification context packet, Requirement: Verification pass staleness (+25 more)
 
 ### Community 11 - "Community 11"
-Cohesion: 0.08
-Nodes (36): Glazewm Area, Keyboard-Layouts Area, Linux-Audio Area, Zebar Area, Keyboard, Linux, Macos, Powershell (+28 more)
+Cohesion: 0.10
+Nodes (24): Linux-Audio Area, Linux, Scarlett, Scarlett 4i4 setup for Linux, Scarlett 4i4 setup for Linux, Spec, ADDED Requirements, Requirement: Custom US international layout behavior (+16 more)
 
 ### Community 12 - "Community 12"
-Cohesion: 0.12
-Nodes (29): Hyprland Area, Scripts Area, Hyprland, Neovim, Sketchybar, Stow, Tmux, Yazi (+21 more)
+Cohesion: 0.10
+Nodes (36): Hyprland Area, Scripts Area, Hyprland, Neovim, Sketchybar, Stow, Tmux, Yazi (+28 more)
 
 ### Community 13 - "Community 13"
 Cohesion: 0.11
 Nodes (19): Automation, Design, Context, Decisions, Goals / Non-Goals, Inject bounded memory cards, Store memory locally in inspectable files, Treat memory as orientation, not authority (+11 more)
 
 ### Community 14 - "Community 14"
-Cohesion: 0.07
-Nodes (40): Ideavim Area, Nvim Area, Waybar Area, Configuration, Neovim, Plugin, IntelliJ setup, IntelliJ setup (+32 more)
+Cohesion: 0.05
+Nodes (53): Ideavim Area, Nvim Area, Waybar Area, Configuration, Neovim, Plugin, IntelliJ setup, IntelliJ setup (+45 more)
 
 ### Community 15 - "Community 15"
-Cohesion: 0.06
-Nodes (31): ADDED Requirements, Requirement: Baseline versus memory-assisted benchmark, Requirement: Benchmark model selection, Requirement: Benchmark progress and UI feedback, Requirement: Benchmark report storage, Requirement: Benchmark suite, Requirement: Estimated memory savings, Requirement: Memory statistics command (+23 more)
+Cohesion: 0.05
+Nodes (37): ADDED Requirements, Requirement: Baseline versus memory-assisted benchmark, Requirement: Benchmark model selection, Requirement: Benchmark progress and UI feedback, Requirement: Benchmark report storage, Requirement: Benchmark suite, Requirement: Estimated memory savings, Requirement: Memory statistics command (+29 more)
 
 ### Community 16 - "Community 16"
-Cohesion: 0.07
-Nodes (27): Openspec Area, .Openspec, .Openspec, .Openspec, .Openspec, .Openspec, .Openspec, Spec (+19 more)
+Cohesion: 0.08
+Nodes (24): REMOVED Requirements, Requirement: Bounded memory injection, Requirement: Durable memory retention during pruning, Requirement: Effective-intent memory selection, Requirement: File summary cache storage, Requirement: Guarded startup memory refresh, Requirement: Hot and cold memory separation, Requirement: Hybrid memory scopes (+16 more)
 
 ### Community 17 - "Community 17"
 Cohesion: 0.06
 Nodes (41): Pi Area, Opsx Apply, Completed This Session, Implementation Complete, Implementation Paused, Implementing: <change-name> schema: <schema-name>, Issue Encountered, Opsx Archive (+33 more)
 
 ### Community 18 - "Community 18"
-Cohesion: 0.20
-Nodes (9): Requirement: Bounded verifier feedback loop, Requirement: Verification pass staleness, Scenario: Git diff changes after pass, Scenario: Maximum rounds reached, Scenario: No git diff hash is available, Scenario: Policy files change after pass, Scenario: Verifier fails with remaining rounds, Scenario: Verifier passes after fixes (+1 more)
+Cohesion: 0.11
+Nodes (17): Requirement: Bounded verifier feedback loop, Requirement: Verification pass staleness, Scenario: Git diff changes after pass, Scenario: Maximum rounds reached, Scenario: No git diff hash is available, Scenario: Policy files change after pass, Scenario: Verifier fails with remaining rounds, Scenario: Verifier passes after fixes (+9 more)
 
 ### Community 19 - "Community 19"
 Cohesion: 0.22
 Nodes (9): Design, Allow cache only as invisible optimization, Context, Decisions, Goals / Non-Goals, Keep query modes explicit, Model graph as multiple deterministic subgraphs, Recompute graph on every tool call (+1 more)
 
 ### Community 20 - "Community 20"
-Cohesion: 0.08
-Nodes (27): Wezterm, Proposal, Capabilities, Impact, Modified Capabilities, New Capabilities, What Changes, Why (+19 more)
+Cohesion: 0.10
+Nodes (22): Wezterm, Spec, ADDED Requirements, Requirement: Existing target protection, Requirement: Windows dotfile linking, Requirement: Windows symbolic link option, terminal-tools Specification, Purpose (+14 more)
 
 ### Community 21 - "Community 21"
-Cohesion: 0.22
-Nodes (9): terminal-tools Specification, Purpose, Requirement: Additional supporting tool assets, Requirement: btop configuration, Requirement: Common terminal tool configurations, Requirement: fastfetch configuration, Requirement: session and terminal multiplexer support, Requirements (+1 more)
+Cohesion: 0.12
+Nodes (15): graphify-context-tooling Specification, Purpose, Requirements, Requirement: Graphify authority boundaries, Requirement: Graphify-backed repository navigation, Requirement: Graphify update guidance, Requirement: Token-reduction reporting, Scenario: Apply or archive changes repository context (+7 more)
 
 ### Community 22 - "Community 22"
-Cohesion: 0.22
-Nodes (9): Spec, Purpose, Requirement: Capability context queries, Requirement: Change context queries, Requirement: Fresh OpenSpec context queries, Requirement: OpenSpec context authority boundaries, Requirement: OpenSpec context is not durable memory, Requirement: Task context queries (+1 more)
+Cohesion: 0.08
+Nodes (27): Spec, Purpose, Requirement: Capability context queries, Requirement: Change context queries, Requirement: Fresh OpenSpec context queries, Requirement: OpenSpec context authority boundaries, Requirement: OpenSpec context is not durable memory, Requirement: Task context queries (+19 more)
 
 ### Community 23 - "Community 23"
-Cohesion: 0.12
-Nodes (16): Design, Context, Decisions, Goals / Non-Goals, Keep stage-specific priorities, Risks / Trade-offs, Treat Explore as always available in initialized projects, Update the spec before implementation (+8 more)
+Cohesion: 0.13
+Nodes (15): hyprland Specification, hyprland Specification, Purpose, Requirement: Omarchy Hyprland override configuration, Requirement: Path of Exile price-check helper, Requirement: Split Hyprland configuration ownership, Requirements, sketchybar Specification (+7 more)
 
 ### Community 24 - "Community 24"
 Cohesion: 0.12
@@ -628,48 +628,48 @@ Cohesion: 0.06
 Nodes (31): Requirement: Bounded verifier feedback loop, Requirement: Global verifier agent, Requirement: Machine-detectable verifier verdict, Requirement: OpenSpec verify workflow command, Requirement: Post-apply verification prompt, Requirement: Project verifier policy loading, Requirement: Verification context packet, Requirement: Verification pass staleness (+23 more)
 
 ### Community 26 - "Community 26"
-Cohesion: 0.06
-Nodes (30): ADDED Requirements, MODIFIED Requirements, Requirement: Apply and archive candidate pickers, Requirement: Candidate filtering, Requirement: Workflow actions in initialized projects, Requirement: Workflow-aware ordering, Scenario: After apply ordering, Scenario: After archive reset (+22 more)
+Cohesion: 0.05
+Nodes (36): ADDED Requirements, MODIFIED Requirements, Requirement: Apply and archive candidate pickers, Requirement: Candidate filtering, Requirement: Workflow actions in initialized projects, Requirement: Workflow-aware ordering, Scenario: After apply ordering, Scenario: After archive reset (+28 more)
 
 ### Community 27 - "Community 27"
-Cohesion: 0.14
-Nodes (15): Mise, Design, Context, Decisions, Goals / Non-Goals, Risks / Trade-offs, Design, Context (+7 more)
+Cohesion: 0.09
+Nodes (24): Mise, Design, Context, Decisions, Goals / Non-Goals, Risks / Trade-offs, Design, Apply pi asset linking consistently across relevant profiles (+16 more)
 
 ### Community 28 - "Community 28"
 Cohesion: 0.13
 Nodes (15): Spec, ADDED Requirements, MODIFIED Requirements, Requirement: Bounded memory injection, Requirement: Hybrid memory scopes, Requirement: Local memory migration, Requirement: Repo-scoped memory storage, Requirement: Repository memory partition identity (+7 more)
 
 ### Community 29 - "Community 29"
-Cohesion: 0.07
-Nodes (29): Requirement: Global pi agent asset linking, Requirement: Platform dependency installation, Requirement: Profile-based bootstrap, Requirement: Repository bootstrap location, Requirement: Source-controlled pi asset layout, Requirement: Stow-managed linking, Requirement: Windows link installation, Scenario: Default Windows installation (+21 more)
+Cohesion: 0.06
+Nodes (33): Requirement: Global pi agent asset linking, Requirement: Pi asset installation remains valid after context tool removal, Requirement: Platform dependency installation, Requirement: Profile-based bootstrap, Requirement: Repository bootstrap location, Requirement: Source-controlled pi asset layout, Requirement: Stow-managed linking, Requirement: Windows link installation (+25 more)
 
 ### Community 30 - "Community 30"
-Cohesion: 0.07
-Nodes (28): ADDED Requirements, MODIFIED Requirements, Requirement: Bounded memory injection, Requirement: Hybrid memory scopes, Requirement: Local memory migration, Requirement: Repo-scoped memory storage, Requirement: Repository memory partition identity, Requirement: User memory controls (+20 more)
+Cohesion: 0.05
+Nodes (41): ADDED Requirements, MODIFIED Requirements, Requirement: Bounded memory injection, Requirement: Hybrid memory scopes, Requirement: Local memory migration, Requirement: Repo-scoped memory storage, Requirement: Repository memory partition identity, Requirement: User memory controls (+33 more)
 
 ### Community 31 - "Community 31"
-Cohesion: 0.07
-Nodes (27): ADDED Requirements, MODIFIED Requirements, Requirement: Bounded memory injection, Requirement: File summary cache storage, Requirement: Memory write points, Requirement: Tool-queried memory access, Requirement: User memory controls, Scenario: Agent does not need history (+19 more)
+Cohesion: 0.06
+Nodes (32): ADDED Requirements, MODIFIED Requirements, Requirement: Bounded memory injection, Requirement: File summary cache storage, Requirement: Memory write points, Requirement: Tool-queried memory access, Requirement: User memory controls, Scenario: Agent does not need history (+24 more)
 
 ### Community 32 - "Community 32"
-Cohesion: 0.08
-Nodes (30): Sketchybar Area, Install, Package, Design, Apply pi asset linking consistently across relevant profiles, Context, Decisions, Goals / Non-Goals (+22 more)
+Cohesion: 0.18
+Nodes (12): Package, Proposal, Capabilities, Impact, Modified Capabilities, New Capabilities, What Changes, Why (+4 more)
 
 ### Community 33 - "Community 33"
 Cohesion: 0.07
 Nodes (26): Requirement: Benchmark run browser, Requirement: Dashboard keyboard navigation, Requirement: Dashboard overview view, Requirement: Dashboard responsive rendering, Requirement: Dashboard safe actions, Requirement: Interactive memory dashboard command, Requirement: Memory entry browser, Requirement: Recent turn browser (+18 more)
 
 ### Community 34 - "Community 34"
-Cohesion: 0.07
-Nodes (26): ADDED Requirements, MODIFIED Requirements, REMOVED Requirements, Requirement: Hot and cold memory separation, Requirement: Memory command completions include dashboard, Requirement: Memory dashboard command surface, Requirement: Memory footer activity counters, Requirement: Memory status includes observability summary (+18 more)
+Cohesion: 0.06
+Nodes (34): ADDED Requirements, MODIFIED Requirements, REMOVED Requirements, Requirement: Hot and cold memory separation, Requirement: Memory command completions include dashboard, Requirement: Memory dashboard command surface, Requirement: Memory footer activity counters, Requirement: Memory status includes observability summary (+26 more)
 
 ### Community 35 - "Community 35"
 Cohesion: 0.20
 Nodes (9): ALERT_PURPLE, ALERT_RED, ALERT_YELLOW, BAR_COLOR, FONT_COLOR, ITEM_BACKGROUND, ITEM_BACKGROUND_BORDER_COLOR, WHITE (+1 more)
 
 ### Community 36 - "Community 36"
-Cohesion: 0.10
-Nodes (26): Keybinding, Window, Spec, ADDED Requirements, Requirement: macOS tiling window manager configuration, Requirement: Monitor-aware workspace assignment, Requirement: Workspace keybindings, Spec (+18 more)
+Cohesion: 0.06
+Nodes (51): Glazewm Area, Keyboard-Layouts Area, Sketchybar Area, Zebar Area, Install, Keybinding, Macos, Powershell (+43 more)
 
 ### Community 37 - "Community 37"
 Cohesion: 0.22
@@ -704,20 +704,20 @@ Cohesion: 0.22
 Nodes (9): Spec, ADDED Requirements, MODIFIED Requirements, Requirement: Hybrid-memory storage compatibility, Requirement: JSON memory import, Requirement: Repo-scoped memory storage, Requirement: SQLite-backed memory storage, Requirement: SQLite memory inspection and export (+1 more)
 
 ### Community 45 - "Community 45"
-Cohesion: 0.09
-Nodes (21): ADDED Requirements, Requirement: Exact tools remain authoritative, Requirement: Fresh deterministic graph queries, Requirement: Graph before broad discovery guidance, Requirement: Graph is not durable memory, Requirement: OpenSpec graph queries, Requirement: Repository overview query, Requirement: Search and neighbor queries (+13 more)
+Cohesion: 0.07
+Nodes (26): ADDED Requirements, Requirement: Exact tools remain authoritative, Requirement: Fresh deterministic graph queries, Requirement: Graph before broad discovery guidance, Requirement: Graph is not durable memory, Requirement: OpenSpec graph queries, Requirement: Repository overview query, Requirement: Search and neighbor queries (+18 more)
 
 ### Community 46 - "Community 46"
-Cohesion: 0.10
-Nodes (20): Requirement: Memory deduplication, Requirement: Memory entry quality classification, Requirement: Memory health diagnostics, Requirement: Memory lifecycle controls, Requirement: Memory storage recovery, Scenario: Duplicate entries exist, Scenario: Duplicate pinned preferences exist, Scenario: Entries are written (+12 more)
+Cohesion: 0.06
+Nodes (34): Requirement: Memory deduplication, Requirement: Memory entry quality classification, Requirement: Memory health diagnostics, Requirement: Memory lifecycle controls, Requirement: Memory storage recovery, Scenario: Duplicate entries exist, Scenario: Duplicate pinned preferences exist, Scenario: Entries are written (+26 more)
 
 ### Community 47 - "Community 47"
 Cohesion: 0.22
 Nodes (9): Design, Context, Decisions, Goals / Non-Goals, Introduce a storage abstraction before rewriting callers deeply, Model entries relationally with JSON escape hatches, Prefer node:sqlite before external dependencies, Use SQLite as the canonical memory store (+1 more)
 
 ### Community 48 - "Community 48"
-Cohesion: 0.10
-Nodes (19): ADDED Requirements, MODIFIED Requirements, Requirement: Hybrid-memory storage compatibility, Requirement: JSON memory import, Requirement: Repo-scoped memory storage, Requirement: SQLite-backed memory storage, Requirement: SQLite memory inspection and export, Requirement: Transactional memory writes (+11 more)
+Cohesion: 0.07
+Nodes (26): ADDED Requirements, MODIFIED Requirements, Requirement: Hybrid-memory storage compatibility, Requirement: JSON memory import, Requirement: Repo-scoped memory storage, Requirement: SQLite-backed memory storage, Requirement: SQLite memory inspection and export, Requirement: Transactional memory writes (+18 more)
 
 ### Community 49 - "Community 49"
 Cohesion: 0.22
@@ -732,8 +732,8 @@ Cohesion: 0.22
 Nodes (9): Tasks, 1. Storage Resilience, 2. Health Diagnostics, 3. Entry Metadata and Deduplication, 4. Inferred Memory Quality Pipeline, 5. Freshness and Staleness, 6. Relevance-Based Injection, 7. Integration and Compatibility (+1 more)
 
 ### Community 52 - "Community 52"
-Cohesion: 0.10
-Nodes (18): Spec, ADDED Requirements, MODIFIED Requirements, REMOVED Requirements, Requirement: Graph before broad discovery guidance, Requirement: OpenSpec directory exclusion, Requirement: OpenSpec graph queries, Requirement: Repository overview query (+10 more)
+Cohesion: 0.22
+Nodes (9): Project context (optional), Add your tech stack, conventions, style guides, domain knowledge, etc., context: |, Domain: e-commerce platform, Example:, Project context optional, Tech stack: TypeScript, React, Node.js, This is shown to AI when creating artifacts. (+1 more)
 
 ### Community 53 - "Community 53"
 Cohesion: 0.22
@@ -748,8 +748,8 @@ Cohesion: 0.08
 Nodes (26): Theme, Design, Build a list/detail dashboard first, Context, Decisions, Degrade gracefully when data is missing, Goals / Non-Goals, Keep actions safe and inspectable (+18 more)
 
 ### Community 56 - "Community 56"
-Cohesion: 0.10
-Nodes (19): ADDED Requirements, MODIFIED Requirements, Requirement: Bounded memory injection, Requirement: Effective-intent memory selection, Requirement: Hot and cold memory separation, Requirement: Memory write points, Scenario: Agent turn completes with a design decision, Scenario: Agent turn includes low-quality memory candidates (+11 more)
+Cohesion: 0.09
+Nodes (21): ADDED Requirements, MODIFIED Requirements, Requirement: Bounded memory injection, Requirement: Effective-intent memory selection, Requirement: Hot and cold memory separation, Requirement: Memory write points, Scenario: Agent turn completes with a design decision, Scenario: Agent turn includes low-quality memory candidates (+13 more)
 
 ### Community 57 - "Community 57"
 Cohesion: 0.22
@@ -760,20 +760,20 @@ Cohesion: 0.22
 Nodes (9): Spec, ADDED Requirements, Requirement: Candidate filtering, Requirement: OpenSpec command launcher, Requirement: OpenSpec initialization option, Requirement: Per-repository launcher state, Requirement: Startup launcher trigger, Requirement: Workflow actions in initialized projects (+1 more)
 
 ### Community 59 - "Community 59"
-Cohesion: 0.22
-Nodes (9): Spec, REMOVED Requirements, Requirement: Dashboard keyboard navigation, Requirement: Dashboard overview view, Requirement: Dashboard responsive rendering, Requirement: Dashboard safe actions, Requirement: Interactive memory dashboard command, Requirement: Memory entry browser (+1 more)
+Cohesion: 0.08
+Nodes (26): Keyboard, Tasks, 1. Extension Structure, 2. State and OpenSpec Discovery, 3. Launcher UI, 4. Command and Startup Integration, 5. Action Dispatch, 6. Validation (+18 more)
 
 ### Community 60 - "Community 60"
-Cohesion: 0.22
-Nodes (9): Spec, Purpose, Requirement: Apply and archive candidate pickers, Requirement: Candidate filtering, Requirement: OpenSpec command launcher, Requirement: OpenSpec initialization option, Requirement: Startup launcher trigger, Requirement: Workflow actions in initialized projects (+1 more)
+Cohesion: 0.13
+Nodes (15): Requirement: Candidate filtering, Scenario: Apply candidates are listed, Scenario: Archive candidates are listed, Scenario: Changes with all implementation tasks complete are excluded from apply candidates, Scenario: Changes with no implementation tasks are excluded from apply candidates, Scenario: Changes with no implementation tasks are excluded from archive candidates, Scenario: Changes with no implementation tasks are excluded from verify candidates, Scenario: Changes with unfinished implementation tasks are excluded from archive candidates (+7 more)
 
 ### Community 61 - "Community 61"
 Cohesion: 0.22
 Nodes (9): Design, Context, Decision 1: Remove the slash command rather than shrinking it, Decision 2: Use extension footer status, not a custom footer, Decision 3: Keep counters session-local and in memory, Decision 4: Increment counters inside the shared tool helpers, Decision 5: Preserve telemetry where still useful but decouple it from removed s, Decisions (+1 more)
 
 ### Community 62 - "Community 62"
-Cohesion: 0.67
-Nodes (9): Opencode Area, Agent, Claude, Git, Ableton Beat, Ableton Memory, Ableton Mix, Ableton Session (+1 more)
+Cohesion: 0.10
+Nodes (32): Opencode Area, Agent, Claude, Git, Ableton, Automation Phase after writing notes, before mixing, Critical device loading rules:, Mandatory Track Health Checks (+24 more)
 
 ### Community 63 - "Community 63"
 Cohesion: 0.10
@@ -800,8 +800,8 @@ Cohesion: 0.25
 Nodes (8): Spec, ADDED Requirements, MODIFIED Requirements, Requirement: Bounded memory injection, Requirement: File summary cache storage, Requirement: Memory write points, Requirement: Tool-queried memory access, Requirement: User memory controls
 
 ### Community 69 - "Community 69"
-Cohesion: 0.11
-Nodes (18): ADDED Requirements, MODIFIED Requirements, Requirement: File summary graph annotations, Requirement: Graph summary boundaries, Requirement: OpenSpec graph queries, Requirement: Search and neighbor queries, Requirement: Summary freshness and ranking, Scenario: Agent explores neighbors (+10 more)
+Cohesion: 0.08
+Nodes (24): ADDED Requirements, MODIFIED Requirements, Requirement: File summary graph annotations, Requirement: Graph summary boundaries, Requirement: OpenSpec graph queries, Requirement: Search and neighbor queries, Requirement: Summary freshness and ranking, Scenario: Agent explores neighbors (+16 more)
 
 ### Community 70 - "Community 70"
 Cohesion: 0.29
@@ -840,8 +840,8 @@ Cohesion: 0.29
 Nodes (7): Proposal, Capabilities, Impact, Modified Capabilities, New Capabilities, What Changes, Why
 
 ### Community 79 - "Community 79"
-Cohesion: 0.29
-Nodes (7): Tasks, 1. Extension Foundation, 2. User Commands, 3. OpenSpec and Repo Orientation, 4. Memory Injection, 5. Session Memory and Compaction, 6. Workflow Integration and Validation
+Cohesion: 0.14
+Nodes (13): REMOVED Requirements, Requirement: Exact tools remain authoritative, Requirement: File summary graph annotations, Requirement: Fresh deterministic graph queries, Requirement: Graph before broad discovery guidance, Requirement: Graph is not durable memory, Requirement: Graph summary boundaries, Requirement: OpenSpec directory exclusion (+5 more)
 
 ### Community 80 - "Community 80"
 Cohesion: 0.29
@@ -880,16 +880,16 @@ Cohesion: 0.11
 Nodes (18): Requirement: Estimated memory savings, Requirement: Footer memory activity observability, Requirement: Memory telemetry persistence, Requirement: Provider usage and cost telemetry, Requirement: Tool and latency telemetry, Scenario: Assistant message includes usage, Scenario: Estimated savings are displayed, Scenario: Footer activity is displayed (+10 more)
 
 ### Community 89 - "Community 89"
-Cohesion: 0.11
-Nodes (17): Requirement: Codex usage indicator appears only for OpenAI Codex models, Requirement: Extension handles failures safely, Requirement: Usage data refreshes for active Codex sessions, Requirement: Usage indicator is compact and understandable, Scenario: Codex model selected during model change, Scenario: Codex remains selected, Scenario: Model changes away from Codex, Scenario: Non-Codex model is selected (+9 more)
+Cohesion: 0.07
+Nodes (29): Requirement: Codex usage indicator appears only for OpenAI Codex models, Requirement: Extension handles failures safely, Requirement: Usage data refreshes for active Codex sessions, Requirement: Usage indicator is compact and understandable, Scenario: Codex model selected during model change, Scenario: Codex remains selected, Scenario: Model changes away from Codex, Scenario: Non-Codex model is selected (+21 more)
 
 ### Community 90 - "Community 90"
 Cohesion: 0.29
 Nodes (7): Proposal, Capabilities, Impact, Modified Capabilities, New Capabilities, What Changes, Why
 
 ### Community 91 - "Community 91"
-Cohesion: 0.11
-Nodes (17): ADDED Requirements, Requirement: Bounded memory injection, Requirement: Memory is orientation not authority, Requirement: Memory write points, Requirement: OpenSpec-aware compaction, Requirement: Repo-scoped memory storage, Requirement: Staleness visibility, Requirement: User memory controls (+9 more)
+Cohesion: 0.10
+Nodes (19): ADDED Requirements, Requirement: Bounded memory injection, Requirement: Memory is orientation not authority, Requirement: Memory write points, Requirement: OpenSpec-aware compaction, Requirement: Repo-scoped memory storage, Requirement: Staleness visibility, Requirement: User memory controls (+11 more)
 
 ### Community 92 - "Community 92"
 Cohesion: 0.29
@@ -912,8 +912,8 @@ Cohesion: 0.11
 Nodes (17): MODIFIED Requirements, Requirement: Workflow actions in initialized projects, Requirement: Workflow-aware ordering, Scenario: After apply ordering, Scenario: After archive reset, Scenario: After explore ordering, Scenario: After propose ordering, Scenario: Apply action selected (+9 more)
 
 ### Community 97 - "Community 97"
-Cohesion: 0.29
-Nodes (7): Tasks, 1. Extension Structure, 2. State and OpenSpec Discovery, 3. Launcher UI, 4. Command and Startup Integration, 5. Action Dispatch, 6. Validation
+Cohesion: 0.17
+Nodes (11): Context, Decisions, Goals / Non-Goals, Graphify update is explicit and workflow-aware, Installation links only active Pi assets, Keep OpenSpec context separate from graphify, Remove launcher and Codex usage extensions/specs, Remove memory tools and automatic memory boot context (+3 more)
 
 ### Community 98 - "Community 98"
 Cohesion: 0.29
@@ -928,8 +928,8 @@ Cohesion: 0.29
 Nodes (6): description, name, $schema, tags, version, widgets
 
 ### Community 101 - "Community 101"
-Cohesion: 0.33
-Nodes (6): Spec, ADDED Requirements, Requirement: Codex usage indicator appears only for OpenAI Codex models, Requirement: Extension handles failures safely, Requirement: Usage data refreshes for active Codex sessions, Requirement: Usage indicator is compact and understandable
+Cohesion: 0.16
+Nodes (11): Spec, ADDED Requirements, Requirement: Codex usage indicator appears only for OpenAI Codex models, Requirement: Extension handles failures safely, Requirement: Usage data refreshes for active Codex sessions, Requirement: Usage indicator is compact and understandable, Spec, ADDED Requirements (+3 more)
 
 ### Community 102 - "Community 102"
 Cohesion: 0.33
@@ -940,8 +940,8 @@ Cohesion: 0.33
 Nodes (6): Tasks, 1. OpenSpec Context Tool Foundation, 2. OpenSpec Context Queries, 3. Repo Graph Boundary Cleanup, 4. Guidance and Workflow Updates, 5. Validation
 
 ### Community 104 - "Community 104"
-Cohesion: 0.11
-Nodes (17): MODIFIED Requirements, Requirement: Bounded memory injection, Requirement: Memory write points, Requirement: Staleness visibility, Requirement: User memory controls, Scenario: Agent turn completes with a design decision, Scenario: Agent turn includes low-quality memory candidates, Scenario: Command-derived memory changes after refresh (+9 more)
+Cohesion: 0.10
+Nodes (19): MODIFIED Requirements, Requirement: Bounded memory injection, Requirement: Memory write points, Requirement: Staleness visibility, Requirement: User memory controls, Scenario: Agent turn completes with a design decision, Scenario: Agent turn includes low-quality memory candidates, Scenario: Command-derived memory changes after refresh (+11 more)
 
 ### Community 105 - "Community 105"
 Cohesion: 0.33
@@ -952,28 +952,28 @@ Cohesion: 0.33
 Nodes (6): Tasks, 1. Remove Memory Command Surface, 2. Add Footer Activity Counters, 3. Wire Counters to Explicit Tools, 4. Preserve Supported Memory Behavior, 5. Validation
 
 ### Community 107 - "Community 107"
-Cohesion: 0.11
-Nodes (17): Purpose, Requirements, Requirement: Capability context queries, Requirement: Change context queries, Requirement: Fresh OpenSpec context queries, Requirement: OpenSpec context authority boundaries, Requirement: OpenSpec context is not durable memory, Requirement: Task context queries (+9 more)
+Cohesion: 0.10
+Nodes (20): Purpose, Requirements, Requirement: Capability context queries, Requirement: Change context queries, Requirement: Fresh OpenSpec context queries, Requirement: Graphify handoff guidance, Requirement: OpenSpec context authority boundaries, Requirement: OpenSpec context is not durable memory (+12 more)
 
 ### Community 108 - "Community 108"
 Cohesion: 0.12
 Nodes (16): ADDED Requirements, Requirement: Platform dependency installation, Requirement: Profile-based bootstrap, Requirement: Repository bootstrap location, Requirement: Stow-managed linking, Requirement: Windows link installation, Scenario: Default Windows installation, Scenario: macOS profile configs are linked (+8 more)
 
 ### Community 109 - "Community 109"
-Cohesion: 0.43
-Nodes (6): cleanup_removed_pi_agent_assets(), link_pi_agent_asset_items(), remove_stale_pi_agent_asset_symlink(), stow_folder(), stow_pi_agent_assets(), stow.sh script
+Cohesion: 0.39
+Nodes (7): cleanup_removed_pi_agent_assets(), link_pi_agent_asset_items(), link_voxtype_macos_config(), remove_stale_pi_agent_asset_symlink(), stow_folder(), stow_pi_agent_assets(), stow.sh script
 
 ### Community 110 - "Community 110"
 Cohesion: 0.12
 Nodes (16): ADDED Requirements, Requirement: Capability context queries, Requirement: Change context queries, Requirement: Fresh OpenSpec context queries, Requirement: OpenSpec context authority boundaries, Requirement: OpenSpec context is not durable memory, Requirement: Task context queries, Scenario: Agent queries a capability (+8 more)
 
 ### Community 111 - "Community 111"
-Cohesion: 0.40
-Nodes (5): Tasks, 1. Candidate Model, 2. Grouped Launcher Actions, 3. Candidate Picker Flow, 4. Validation
+Cohesion: 0.18
+Nodes (11): Requirement: Workflow-aware ordering, Scenario: After apply ordering with verifier policies, Scenario: After apply ordering without verifier policies, Scenario: After archive reset, Scenario: After explore ordering, Scenario: After propose ordering, Scenario: After verify ordering, Scenario: Initial ordering (+3 more)
 
 ### Community 112 - "Community 112"
-Cohesion: 0.08
-Nodes (26): Pi, Spec, ADDED Requirements, Requirement: Memory command completions include dashboard, Requirement: Memory dashboard command surface, .Openspec, .Openspec, Spec (+18 more)
+Cohesion: 0.04
+Nodes (63): Openspec Area, Pi, .Openspec, .Openspec, .Openspec, Spec, ADDED Requirements, Requirement: Memory command completions include dashboard (+55 more)
 
 ### Community 113 - "Community 113"
 Cohesion: 0.12
@@ -984,8 +984,8 @@ Cohesion: 0.12
 Nodes (15): REMOVED Requirements, Requirement: Benchmark run browser, Requirement: Dashboard overview view, Requirement: Dashboard safe actions, Requirement: Interactive memory dashboard command, Requirement: Memory entry browser, Scenario: Destructive memory action is available, Scenario: Overview includes visual indicators (+7 more)
 
 ### Community 115 - "Community 115"
-Cohesion: 0.40
-Nodes (5): Spec, ADDED Requirements, Requirement: Durable memory retention during pruning, Requirement: Guarded startup memory refresh, Requirement: Memory store lifecycle cleanup
+Cohesion: 0.22
+Nodes (9): Spec, ADDED Requirements, MODIFIED Requirements, REMOVED Requirements, Requirement: Graph before broad discovery guidance, Requirement: OpenSpec directory exclusion, Requirement: OpenSpec graph queries, Requirement: Repository overview query (+1 more)
 
 ### Community 116 - "Community 116"
 Cohesion: 0.13
@@ -996,8 +996,8 @@ Cohesion: 0.70
 Nodes (4): install_brew(), install_packages(), install_packages_omarchy(), dependencies.sh script
 
 ### Community 118 - "Community 118"
-Cohesion: 0.13
-Nodes (14): ADDED Requirements, MODIFIED Requirements, REMOVED Requirements, Requirement: Graph before broad discovery guidance, Requirement: OpenSpec directory exclusion, Requirement: OpenSpec graph queries, Requirement: Repository overview query, Requirement: Search and neighbor queries (+6 more)
+Cohesion: 0.12
+Nodes (16): ADDED Requirements, MODIFIED Requirements, REMOVED Requirements, Requirement: Graph before broad discovery guidance, Requirement: OpenSpec directory exclusion, Requirement: OpenSpec graph queries, Requirement: Repository overview query, Requirement: Search and neighbor queries (+8 more)
 
 ### Community 119 - "Community 119"
 Cohesion: 0.14
@@ -1032,8 +1032,8 @@ Cohesion: 0.67
 Nodes (3): Ghostty Area, Ghostty config, Ghostty config
 
 ### Community 129 - "Community 129"
-Cohesion: 0.14
-Nodes (13): ADDED Requirements, Requirement: Graphify authority boundaries, Requirement: Graphify-backed repository navigation, Requirement: Graphify update guidance, Requirement: Token-reduction reporting, Scenario: Apply or archive changes repository context, Scenario: Benchmark is unavailable, Scenario: Code-only changes are updated (+5 more)
+Cohesion: 0.07
+Nodes (25): ADDED Requirements, Requirement: Graphify authority boundaries, Requirement: Graphify-backed repository navigation, Requirement: Graphify update guidance, Requirement: Token-reduction reporting, Scenario: Apply or archive changes repository context, Scenario: Benchmark is unavailable, Scenario: Code-only changes are updated (+17 more)
 
 ### Community 130 - "Community 130"
 Cohesion: 0.14
@@ -1060,8 +1060,8 @@ Cohesion: 0.15
 Nodes (12): code:text (mem q2/r5/w1), Context, Decision 1: Remove the slash command rather than shrinking it, Decision 2: Use extension footer status, not a custom footer, Decision 3: Keep counters session-local and in memory, Decision 4: Increment counters inside the shared tool helpers, Decision 5: Preserve telemetry where still useful but decouple it from removed surfaces, Decisions (+4 more)
 
 ### Community 216 - "Community 216"
-Cohesion: 0.15
-Nodes (13): Spec, ADDED Requirements, Requirement: Platform dependency installation, Requirement: Profile-based bootstrap, Requirement: Repository bootstrap location, Requirement: Stow-managed linking, Requirement: Windows link installation, Spec (+5 more)
+Cohesion: 0.25
+Nodes (7): ADDED Requirements, MODIFIED Requirements, Requirement: Workflow prompt tracking avoids unrelated input discovery, Scenario: User submits unrelated input, Scenario: User submits verify workflow input, Scenario: User submits workflow input, Scenario: User submits verify workflow input
 
 ### Community 217 - "Community 217"
 Cohesion: 0.15
@@ -1108,8 +1108,8 @@ Cohesion: 0.17
 Nodes (11): MODIFIED Requirements, REMOVED Requirements, Requirement: Benchmark telemetry is isolated from durable session memory, Requirement: Memory injection measurement control, Requirement: Memory status includes observability summary, Requirement: Memory write points, Scenario: Agent explicitly saves a design decision, Scenario: Agent turn completes without explicit save (+3 more)
 
 ### Community 228 - "Community 228"
-Cohesion: 0.17
-Nodes (11): ADDED Requirements, REMOVED Requirements, Requirement: Estimated memory savings, Requirement: Footer memory activity observability, Requirement: Memory statistics command, Scenario: Estimated savings are displayed, Scenario: Footer activity is displayed, Scenario: Memory hit has an estimated savings value (+3 more)
+Cohesion: 0.12
+Nodes (15): ADDED Requirements, REMOVED Requirements, Requirement: Estimated memory savings, Requirement: Footer memory activity observability, Requirement: Memory statistics command, Scenario: Estimated savings are displayed, Scenario: Footer activity is displayed, Scenario: Memory hit has an estimated savings value (+7 more)
 
 ### Community 229 - "Community 229"
 Cohesion: 0.17
@@ -1117,7 +1117,7 @@ Nodes (11): Purpose, Requirements, Requirement: OpenSpec command launcher, Requi
 
 ### Community 230 - "Community 230"
 Cohesion: 0.17
-Nodes (11): Requirement: Hybrid-memory storage compatibility, Requirement: Memory is orientation not authority, Requirement: OpenSpec-aware compaction, Requirement: Transactional memory writes, Scenario: Agent prepares to edit a file mentioned in memory, Scenario: Later global memory design builds on SQLite, Scenario: Memory mutation fails, Scenario: Parallel tool results record memory (+3 more)
+Nodes (11): Requirement: Hybrid-memory storage compatibility, Requirement: JSON memory import, Requirement: Memory is orientation not authority, Requirement: OpenSpec-aware compaction, Scenario: Agent prepares to edit a file mentioned in memory, Scenario: Existing JSON memory is corrupt, Scenario: Existing JSON memory is detected, Scenario: Later global memory design builds on SQLite (+3 more)
 
 ### Community 231 - "Community 231"
 Cohesion: 0.18
@@ -1156,8 +1156,8 @@ Cohesion: 0.18
 Nodes (10): Requirement: Item and plugin script organization, Requirement: macOS status bar configuration, Requirement: Profile-specific entrypoints, Requirement: Zscaler resource support, Scenario: Dynamic bar item updates, Scenario: Minimal setup selects minimal bar, Scenario: SketchyBar config is linked, Scenario: Work setup selects work bar (+2 more)
 
 ### Community 240 - "Community 240"
-Cohesion: 0.18
-Nodes (10): ADDED Requirements, Requirement: Durable memory retention during pruning, Requirement: Guarded startup memory refresh, Requirement: Memory store lifecycle cleanup, Scenario: Memory is queried after reload, Scenario: Pruning runs with protected memory entries, Scenario: Refresh is needed later, Scenario: Session shuts down after memory store use (+2 more)
+Cohesion: 0.12
+Nodes (16): ADDED Requirements, Requirement: Durable memory retention during pruning, Requirement: Guarded startup memory refresh, Requirement: Memory store lifecycle cleanup, Scenario: Memory is queried after reload, Scenario: Pruning runs with protected memory entries, Scenario: Refresh is needed later, Scenario: Session shuts down after memory store use (+8 more)
 
 ### Community 241 - "Community 241"
 Cohesion: 0.17
@@ -1248,8 +1248,8 @@ Cohesion: 0.25
 Nodes (8): Tasks, 1. SQLite Runtime and Store Setup, 2. Storage Abstraction, 3. Migrate Existing JSON Memory, 4. Update Memory Callers, 5. Inspection, Health, and Export, 6. Compatibility with Hybrid Global Memory, 7. Validation
 
 ### Community 263 - "Community 263"
-Cohesion: 0.25
-Nodes (8): Spec, Purpose, Requirement: Estimated memory savings, Requirement: Footer memory activity observability, Requirement: Memory telemetry persistence, Requirement: Provider usage and cost telemetry, Requirement: Tool and latency telemetry, Requirements
+Cohesion: 0.29
+Nodes (6): Capabilities, Impact, Modified Capabilities, New Capabilities, What Changes, Why
 
 ### Community 264 - "Community 264"
 Cohesion: 0.25
@@ -1264,8 +1264,8 @@ Cohesion: 0.25
 Nodes (7): nvim Specification, Purpose, Requirements, Requirement: Friendsfriend module loading, Requirement: Neovim configuration entrypoint, Scenario: Neovim starts with repository config, Scenario: Supported profile links Neovim
 
 ### Community 267 - "Community 267"
-Cohesion: 0.25
-Nodes (7): ADDED Requirements, Requirement: Task context queries, Scenario: Agent queries task context, MODIFIED Requirements, Requirement: Graphify handoff guidance, Scenario: Graphify is unavailable, Scenario: OpenSpec context suggests next reads
+Cohesion: 0.13
+Nodes (13): ADDED Requirements, Requirement: Graphify handoff guidance, Requirement: Task context queries, Scenario: Agent queries task context, Scenario: Graphify is unavailable, Scenario: OpenSpec context suggests next reads, ADDED Requirements, Requirement: Task context queries (+5 more)
 
 ### Community 268 - "Community 268"
 Cohesion: 0.25
@@ -1408,8 +1408,8 @@ Cohesion: 0.29
 Nodes (6): Capabilities, Impact, Modified Capabilities, New Capabilities, What Changes, Why
 
 ### Community 303 - "Community 303"
-Cohesion: 0.29
-Nodes (6): Requirement: Memory deduplication, Requirement: Memory entry quality classification, Requirement: Memory health diagnostics, Requirement: Memory lifecycle controls, Requirement: Memory storage recovery, REMOVED Requirements
+Cohesion: 0.15
+Nodes (11): Requirement: Memory deduplication, Requirement: Memory entry quality classification, Requirement: Memory health diagnostics, Requirement: Memory lifecycle controls, Requirement: Memory storage recovery, Requirement: Memory deduplication, Requirement: Memory entry quality classification, Requirement: Memory health diagnostics (+3 more)
 
 ### Community 304 - "Community 304"
 Cohesion: 0.29
@@ -1504,8 +1504,8 @@ Cohesion: 0.40
 Nodes (4): ADDED Requirements, Requirement: Workflow prompt tracking avoids unrelated input discovery, Scenario: User submits unrelated input, Scenario: User submits workflow input
 
 ### Community 327 - "Community 327"
-Cohesion: 0.40
-Nodes (4): ADDED Requirements, Requirement: Per-call graph scan caching, Scenario: File changes between graph queries, Scenario: One graph query scans a file in multiple phases
+Cohesion: 0.29
+Nodes (6): ADDED Requirements, Requirement: Per-call graph scan caching, Scenario: File changes between graph queries, Scenario: One graph query scans a file in multiple phases, Scenario: File changes between graph queries, Scenario: One graph query scans a file in multiple phases
 
 ### Community 328 - "Community 328"
 Cohesion: 0.40
@@ -1608,8 +1608,8 @@ Cohesion: 0.67
 Nodes (3): Requirement: Guarded startup memory refresh, Scenario: Refresh is needed later, Scenario: Startup has no OpenSpec project
 
 ### Community 354 - "Community 354"
-Cohesion: 0.67
-Nodes (3): Requirement: JSON memory import, Scenario: Existing JSON memory is corrupt, Scenario: Existing JSON memory is detected
+Cohesion: 0.29
+Nodes (6): 1. Remove legacy context extensions, 2. Add graphify-centered guidance, 3. Update OpenSpec context integration, 4. Installation and asset linking, 5. Spec and documentation cleanup, 6. Validation
 
 ### Community 355 - "Community 355"
 Cohesion: 0.67
@@ -1624,8 +1624,8 @@ Cohesion: 0.67
 Nodes (3): Requirement: Tool-queried memory access, Scenario: Agent does not need history, Scenario: Agent needs prior decisions
 
 ### Community 375 - "Community 375"
-Cohesion: 0.22
-Nodes (9): Ableton, Automation Phase after writing notes, before mixing, Critical device loading rules:, Mandatory Track Health Checks, Step 1: Spectral Diagnosis, Step 2: Per-Track Analysis, Step 3: Write Automation perception-action loop, Step 4: Spatial Design (+1 more)
+Cohesion: 0.29
+Nodes (7): Requirement: Post-apply verifier prompt integration, Scenario: Apply prompt submitted, Scenario: Archive remains available, Scenario: Verify passes, Scenario: Apply prompt submitted, Scenario: Archive remains available, Scenario: Verify passes
 
 ### Community 376 - "Community 376"
 Cohesion: 0.22
@@ -1640,16 +1640,16 @@ Cohesion: 0.22
 Nodes (9): Spec, ADDED Requirements, Requirement: Baseline versus memory-assisted benchmark, Requirement: Benchmark suite, Requirement: Estimated memory savings, Requirement: Memory statistics command, Requirement: Memory telemetry persistence, Requirement: Provider usage and cost telemetry (+1 more)
 
 ### Community 379 - "Community 379"
-Cohesion: 0.22
-Nodes (9): Spec, ADDED Requirements, Requirement: Bounded verifier feedback loop, Requirement: Global verifier agent, Requirement: Machine-detectable verifier verdict, Requirement: OpenSpec verify workflow command, Requirement: Post-apply verification prompt, Requirement: Project verifier policy loading (+1 more)
+Cohesion: 0.29
+Nodes (7): Requirement: Verify candidate picker, Scenario: User cancels verify candidate picker, Scenario: User searches verify candidate list, Scenario: User selects grouped verify action, Scenario: User cancels verify candidate picker, Scenario: User searches verify candidate list, Scenario: User selects grouped verify action
 
 ### Community 380 - "Community 380"
-Cohesion: 0.22
-Nodes (9): openspec-verification Specification, openspec-verification Specification, Purpose, Requirement: Global verifier agent, Requirement: Machine-detectable verifier verdict, Requirement: OpenSpec verify workflow command, Requirement: Project verifier policy loading, Requirement: Verification context packet (+1 more)
+Cohesion: 0.29
+Nodes (6): REMOVED Requirements, Requirement: Estimated memory savings, Requirement: Footer memory activity observability, Requirement: Memory telemetry persistence, Requirement: Provider usage and cost telemetry, Requirement: Tool and latency telemetry
 
 ### Community 381 - "Community 381"
-Cohesion: 0.22
-Nodes (9): Spec, Purpose, Requirement: Hybrid-memory storage compatibility, Requirement: JSON memory import, Requirement: Repo-scoped memory storage, Requirement: SQLite-backed memory storage, Requirement: SQLite memory inspection and export, Requirement: Transactional memory writes (+1 more)
+Cohesion: 0.33
+Nodes (5): ADDED Requirements, Requirement: Pi asset installation remains valid after context tool removal, Scenario: Pi asset source directory is empty, Scenario: Removed extension symlink exists, Scenario: Stow links active Pi assets
 
 ### Community 382 - "Community 382"
 Cohesion: 0.29
@@ -1668,8 +1668,8 @@ Cohesion: 0.29
 Nodes (7): Proposal, Capabilities, Impact, Modified Capabilities, New Capabilities, What Changes, Why
 
 ### Community 386 - "Community 386"
-Cohesion: 0.33
-Nodes (5): Requirement: Codex usage indicator appears only for OpenAI Codex models, Requirement: Extension handles failures safely, Requirement: Usage data refreshes for active Codex sessions, Requirement: Usage indicator is compact and understandable, REMOVED Requirements
+Cohesion: 0.18
+Nodes (9): Requirement: Codex usage indicator appears only for OpenAI Codex models, Requirement: Extension handles failures safely, Requirement: Usage data refreshes for active Codex sessions, Requirement: Usage indicator is compact and understandable, Requirement: Codex usage indicator appears only for OpenAI Codex models, Requirement: Extension handles failures safely, Requirement: Usage data refreshes for active Codex sessions, Requirement: Usage indicator is compact and understandable (+1 more)
 
 ### Community 387 - "Community 387"
 Cohesion: 0.40
@@ -1677,7 +1677,7 @@ Nodes (5): Tasks, 1. Research and Setup, 2. Extension Implementation, 3. UI Beha
 
 ### Community 388 - "Community 388"
 Cohesion: 0.40
-Nodes (5): Spec, ADDED Requirements, Requirement: Benchmark telemetry is isolated from durable session memory, Requirement: Memory injection measurement control, Requirement: Memory status includes observability summary
+Nodes (5): Shell, Tasks, 1. Review Baseline Coverage, 2. Validate OpenSpec Artifacts, 3. Archive Baseline Specs
 
 ### Community 389 - "Community 389"
 Cohesion: 0.40
@@ -1685,31 +1685,31 @@ Nodes (5): Tasks, 1. Remove Benchmark Command Surface, 2. Delete Benchmark Execu
 
 ### Community 390 - "Community 390"
 Cohesion: 0.40
-Nodes (5): Tasks, 1. Verify Dead-Code Candidates, 2. Remove Obsolete Memory Helpers, 3. Remove Obsolete Repo Graph Helper, 4. Validate Behavior Preservation
+Nodes (5): Tasks, 1. Source Layout Migration, 2. Stow Installation, 3. Reference Updates, 4. Validation
 
 ### Community 391 - "Community 391"
-Cohesion: 0.50
-Nodes (4): Spec, Purpose, Requirement: Dead-code cleanup preserves extension behavior, Requirements
+Cohesion: 0.67
+Nodes (3): Requirement: Transactional memory writes, Scenario: Memory mutation fails, Scenario: Parallel tool results record memory
 
 ## Knowledge Gaps
-- **1438 isolated node(s):** `diagnostics.globals`, `install.sh script`, `poe-price-check.sh script`, `colors.sh script`, `WHITE` (+1433 more)
+- **1685 isolated node(s):** `diagnostics.globals`, `install.sh script`, `poe-price-check.sh script`, `colors.sh script`, `WHITE` (+1680 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **50 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Openspec Area` connect `Community 16` to `Community 6`, `Community 7`, `Community 8`, `Community 11`, `Community 12`, `Community 13`, `Community 14`, `Community 19`, `Community 20`, `Community 21`, `Community 22`, `Community 23`, `Community 24`, `Community 27`, `Community 28`, `Community 32`, `Community 36`, `Community 37`, `Community 38`, `Community 40`, `Community 41`, `Community 43`, `Community 44`, `Community 47`, `Community 49`, `Community 50`, `Community 51`, `Community 52`, `Community 53`, `Community 54`, `Community 55`, `Community 57`, `Community 58`, `Community 59`, `Community 60`, `Community 61`, `Community 64`, `Community 65`, `Community 66`, `Community 67`, `Community 68`, `Community 70`, `Community 71`, `Community 72`, `Community 73`, `Community 74`, `Community 75`, `Community 77`, `Community 78`, `Community 79`, `Community 80`, `Community 81`, `Community 82`, `Community 83`, `Community 84`, `Community 85`, `Community 86`, `Community 87`, `Community 90`, `Community 92`, `Community 93`, `Community 94`, `Community 95`, `Community 97`, `Community 98`, `Community 99`, `Community 101`, `Community 102`, `Community 103`, `Community 105`, `Community 106`, `Community 111`, `Community 112`, `Community 115`, `Community 216`, `Community 250`, `Community 262`, `Community 263`, `Community 298`, `Community 376`, `Community 377`, `Community 378`, `Community 379`, `Community 380`, `Community 381`, `Community 382`, `Community 383`, `Community 384`, `Community 385`, `Community 387`, `Community 388`, `Community 389`, `Community 390`, `Community 391`?**
+- **Why does `Openspec Area` connect `Community 112` to `Community 6`, `Community 7`, `Community 8`, `Community 11`, `Community 12`, `Community 13`, `Community 14`, `Community 19`, `Community 20`, `Community 22`, `Community 23`, `Community 24`, `Community 27`, `Community 28`, `Community 32`, `Community 36`, `Community 37`, `Community 38`, `Community 40`, `Community 41`, `Community 43`, `Community 44`, `Community 47`, `Community 49`, `Community 50`, `Community 51`, `Community 52`, `Community 53`, `Community 54`, `Community 55`, `Community 57`, `Community 58`, `Community 59`, `Community 61`, `Community 62`, `Community 64`, `Community 65`, `Community 66`, `Community 67`, `Community 68`, `Community 70`, `Community 71`, `Community 72`, `Community 73`, `Community 74`, `Community 75`, `Community 77`, `Community 78`, `Community 80`, `Community 81`, `Community 82`, `Community 83`, `Community 84`, `Community 85`, `Community 86`, `Community 87`, `Community 90`, `Community 92`, `Community 93`, `Community 94`, `Community 95`, `Community 98`, `Community 99`, `Community 101`, `Community 102`, `Community 103`, `Community 105`, `Community 106`, `Community 115`, `Community 250`, `Community 262`, `Community 298`, `Community 376`, `Community 377`, `Community 378`, `Community 382`, `Community 383`, `Community 384`, `Community 385`, `Community 387`, `Community 388`, `Community 389`, `Community 390`?**
   _High betweenness centrality (0.048) - this node is a cross-community bridge._
-- **Why does `Pi` connect `Community 112` to `Community 8`, `Community 11`, `Community 12`, `Community 13`, `Community 16`, `Community 17`, `Community 19`, `Community 22`, `Community 23`, `Community 24`, `Community 27`, `Community 28`, `Community 32`, `Community 37`, `Community 38`, `Community 40`, `Community 41`, `Community 43`, `Community 44`, `Community 47`, `Community 49`, `Community 50`, `Community 51`, `Community 52`, `Community 53`, `Community 54`, `Community 55`, `Community 57`, `Community 58`, `Community 59`, `Community 60`, `Community 61`, `Community 62`, `Community 65`, `Community 66`, `Community 67`, `Community 68`, `Community 70`, `Community 71`, `Community 72`, `Community 73`, `Community 74`, `Community 75`, `Community 77`, `Community 78`, `Community 79`, `Community 80`, `Community 81`, `Community 82`, `Community 83`, `Community 84`, `Community 85`, `Community 86`, `Community 87`, `Community 90`, `Community 92`, `Community 93`, `Community 94`, `Community 95`, `Community 97`, `Community 98`, `Community 99`, `Community 101`, `Community 102`, `Community 105`, `Community 106`, `Community 111`, `Community 115`, `Community 250`, `Community 262`, `Community 263`, `Community 298`, `Community 375`, `Community 376`, `Community 377`, `Community 378`, `Community 379`, `Community 380`, `Community 381`, `Community 382`, `Community 383`, `Community 384`, `Community 385`, `Community 387`, `Community 388`, `Community 389`, `Community 390`, `Community 391`?**
-  _High betweenness centrality (0.035) - this node is a cross-community bridge._
-- **Why does `Agent` connect `Community 62` to `Community 384`, `Community 388`, `Community 262`, `Community 263`, `Community 8`, `Community 12`, `Community 13`, `Community 17`, `Community 19`, `Community 22`, `Community 24`, `Community 27`, `Community 28`, `Community 32`, `Community 38`, `Community 40`, `Community 41`, `Community 43`, `Community 47`, `Community 49`, `Community 50`, `Community 51`, `Community 52`, `Community 54`, `Community 55`, `Community 57`, `Community 59`, `Community 60`, `Community 61`, `Community 64`, `Community 66`, `Community 67`, `Community 68`, `Community 77`, `Community 78`, `Community 79`, `Community 80`, `Community 81`, `Community 82`, `Community 83`, `Community 84`, `Community 85`, `Community 86`, `Community 87`, `Community 90`, `Community 92`, `Community 93`, `Community 95`, `Community 103`, `Community 105`, `Community 106`, `Community 250`, `Community 112`, `Community 115`, `Community 375`, `Community 376`, `Community 377`, `Community 378`, `Community 379`, `Community 380`, `Community 381`, `Community 383`?**
-  _High betweenness centrality (0.012) - this node is a cross-community bridge._
+- **Why does `Pi` connect `Community 112` to `Community 6`, `Community 8`, `Community 11`, `Community 12`, `Community 13`, `Community 14`, `Community 17`, `Community 19`, `Community 22`, `Community 24`, `Community 27`, `Community 28`, `Community 32`, `Community 36`, `Community 37`, `Community 38`, `Community 40`, `Community 41`, `Community 43`, `Community 44`, `Community 47`, `Community 49`, `Community 50`, `Community 51`, `Community 53`, `Community 54`, `Community 55`, `Community 57`, `Community 58`, `Community 59`, `Community 61`, `Community 62`, `Community 65`, `Community 66`, `Community 67`, `Community 68`, `Community 70`, `Community 71`, `Community 72`, `Community 73`, `Community 74`, `Community 75`, `Community 77`, `Community 78`, `Community 80`, `Community 81`, `Community 82`, `Community 83`, `Community 84`, `Community 85`, `Community 86`, `Community 87`, `Community 90`, `Community 92`, `Community 93`, `Community 94`, `Community 95`, `Community 98`, `Community 99`, `Community 101`, `Community 102`, `Community 105`, `Community 106`, `Community 115`, `Community 250`, `Community 262`, `Community 298`, `Community 376`, `Community 377`, `Community 378`, `Community 382`, `Community 383`, `Community 384`, `Community 385`, `Community 387`, `Community 389`, `Community 390`?**
+  _High betweenness centrality (0.024) - this node is a cross-community bridge._
+- **Why does `Tasks` connect `Community 51` to `Community 112`, `Community 62`?**
+  _High betweenness centrality (0.007) - this node is a cross-community bridge._
 - **Are the 18 inferred relationships involving `Proposal` (e.g. with `Design` and `Spec`) actually correct?**
   _`Proposal` has 18 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `diagnostics.globals`, `install.sh script`, `poe-price-check.sh script` to the rest of the system?**
-  _2307 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _2554 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
-  _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.1111111111111111 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
-  _Cohesion score 0.05555555555555555 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._

@@ -1,6 +1,5 @@
 ## Purpose
 Define behavior for the Pi OpenSpec context tooling that gives agents fresh workflow and artifact context while keeping exact OpenSpec file reads authoritative.
-
 ## Requirements
 ### Requirement: Fresh OpenSpec context queries
 The system SHALL provide a dedicated Pi tool for querying current OpenSpec workflow and artifact context.
@@ -36,8 +35,8 @@ The OpenSpec context tool SHALL provide task-focused context without searching i
 #### Scenario: Agent queries task context
 - **WHEN** the agent invokes task context mode for a change and task id or task text
 - **THEN** the result includes the matched task, completion status when available, task file path, and related OpenSpec artifacts
-- **AND** the result may suggest a follow-up `repo_graph` implementation query derived from the task text
-- **AND** the result SHALL NOT depend on `repo_graph` scanning `openspec/`
+- **AND** the result may suggest a follow-up graphify query derived from the task text when graph-backed implementation navigation would help
+- **AND** the result SHALL NOT depend on graphify to determine OpenSpec task state or artifact paths
 
 ### Requirement: Capability context queries
 The OpenSpec context tool SHALL provide capability-focused context for stable specs and change delta specs.
@@ -67,3 +66,18 @@ The OpenSpec context tool SHALL NOT persist OpenSpec workflow context as semanti
 - **WHEN** the OpenSpec context tool finishes a query
 - **THEN** any context assembled for the query is discarded or retained only as an implementation cache that preserves freshness semantics
 - **AND** the context is not injected as durable memory in later turns
+
+### Requirement: Graphify handoff guidance
+The OpenSpec context tool SHALL describe graphify as the follow-up navigation layer for implementation/source/configuration/history context while preserving OpenSpec context as the workflow state source.
+
+#### Scenario: OpenSpec context suggests next reads
+- **WHEN** the OpenSpec context tool returns change, task, capability, or readiness context
+- **THEN** it SHALL recommend exact OpenSpec artifact files to read for authoritative artifact contents
+- **AND** it MAY recommend a graphify query for related implementation files, prior archived changes, or cross-document relationships
+- **AND** it SHALL NOT recommend `repo_graph`
+
+#### Scenario: Graphify is unavailable
+- **WHEN** graphify is unavailable or no `graphify-out/graph.json` exists
+- **THEN** the OpenSpec context tool SHALL still return current OpenSpec workflow context
+- **AND** follow-up guidance SHALL fall back to exact file reads and targeted grep/find/bash discovery
+

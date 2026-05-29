@@ -40,9 +40,9 @@
     "semantic_hash": "ed1aeb56b71b81f8ff61f6983d4f5e64"
   },
   "/Users/fabiankellner/dotfiles/sketchybar/plugins/next_meeting.sh": {
-    "mtime": 1779604890.876283,
-    "ast_hash": "1d08161bba6561b878edad753dbfad3e",
-    "semantic_hash": "1d08161bba6561b878edad753dbfad3e"
+    "mtime": 1780071846.8570719,
+    "ast_hash": "fa07f5c493e8423ae974760ca8510477",
+    "semantic_hash": ""
   },
   "/Users/fabiankellner/dotfiles/sketchybar/plugins/front_app.sh": {
     "mtime": 1741634894.841458,
@@ -415,17 +415,17 @@
     "semantic_hash": "bf1c16bbee2fcb5b541372170a58d3b1"
   },
   "/Users/fabiankellner/dotfiles/pi/extensions/openspec-verifier/index.ts": {
-    "mtime": 1780071691.2829072,
+    "mtime": 1780071846.9013093,
     "ast_hash": "1c1956f84fa03defe88716eda25d46a7",
     "semantic_hash": ""
   },
   "/Users/fabiankellner/dotfiles/pi/extensions/openspec-context/openspec-context.test.ts": {
-    "mtime": 1780071325.8046463,
+    "mtime": 1780071846.9011981,
     "ast_hash": "2909aa077a7b95ff5b616bd2b15bba1e",
     "semantic_hash": ""
   },
   "/Users/fabiankellner/dotfiles/pi/extensions/openspec-context/index.ts": {
-    "mtime": 1780071322.528797,
+    "mtime": 1780071846.901116,
     "ast_hash": "2c5d4486fa38bf595d15077569063853",
     "semantic_hash": ""
   },
@@ -450,8 +450,8 @@
     "semantic_hash": "7162add7cb51919e7858673b18dc5e01"
   },
   "/Users/fabiankellner/dotfiles/scripts/stow.sh": {
-    "mtime": 1780071629.8356452,
-    "ast_hash": "2e9f5a323ca788f94443f2d32d770945",
+    "mtime": 1780071846.9021049,
+    "ast_hash": "622385fac7671e51c2d72391c5b1e1f8",
     "semantic_hash": ""
   },
   "/Users/fabiankellner/dotfiles/scripts/sonar-plugin.sh": {
@@ -475,7 +475,7 @@
     "semantic_hash": "15e4df251b28b848397164023dd0bd5a"
   },
   "/Users/fabiankellner/dotfiles/README.md": {
-    "mtime": 1780071343.7251058,
+    "mtime": 1780071846.8650708,
     "ast_hash": "b18749d97e6012fe268d29e5cc906f10",
     "semantic_hash": ""
   },
@@ -530,32 +530,32 @@
     "semantic_hash": "a42edd1e30a70a689d737cb574f2893a"
   },
   "/Users/fabiankellner/dotfiles/pi/prompts/opsx-propose.md": {
-    "mtime": 1780071272.1024125,
+    "mtime": 1780071846.9016285,
     "ast_hash": "29fdea2dc89b86bcdc3139cfb17aa974",
     "semantic_hash": ""
   },
   "/Users/fabiankellner/dotfiles/pi/prompts/opsx-apply.md": {
-    "mtime": 1780071272.1026323,
+    "mtime": 1780071846.9013906,
     "ast_hash": "4d321b97019b0e94c5ffaa3a6edc34aa",
     "semantic_hash": ""
   },
   "/Users/fabiankellner/dotfiles/pi/prompts/opsx-archive.md": {
-    "mtime": 1780071285.8568769,
+    "mtime": 1780071846.901463,
     "ast_hash": "9eff14694e178099303f1c5659318bd8",
     "semantic_hash": ""
   },
   "/Users/fabiankellner/dotfiles/pi/prompts/opsx-explore.md": {
-    "mtime": 1780071274.6045098,
+    "mtime": 1780071846.9015348,
     "ast_hash": "d70b119f386290aa60b17c747998b584",
     "semantic_hash": ""
   },
   "/Users/fabiankellner/dotfiles/pi/skills/openspec-apply-change/SKILL.md": {
-    "mtime": 1780071272.1032567,
+    "mtime": 1780071846.901713,
     "ast_hash": "20cbe38300215f966fcca3f59f1ca7e8",
     "semantic_hash": ""
   },
   "/Users/fabiankellner/dotfiles/pi/skills/openspec-explore/SKILL.md": {
-    "mtime": 1780071276.7616777,
+    "mtime": 1780071846.9018962,
     "ast_hash": "a381ef8cf26dd6e3384c34091d21a9f8",
     "semantic_hash": ""
   },
@@ -565,12 +565,12 @@
     "semantic_hash": "93c86a05d12f18ca9aff00de07c3e737"
   },
   "/Users/fabiankellner/dotfiles/pi/skills/openspec-archive-change/SKILL.md": {
-    "mtime": 1780071289.7652497,
+    "mtime": 1780071846.9018,
     "ast_hash": "a79eaff7d8d704a238f32f5f7a7764f6",
     "semantic_hash": ""
   },
   "/Users/fabiankellner/dotfiles/pi/skills/openspec-propose/SKILL.md": {
-    "mtime": 1780071272.1039011,
+    "mtime": 1780071846.901984,
     "ast_hash": "d69e082ded2fee4e5e2caafc4874d902",
     "semantic_hash": ""
   },
@@ -644,11 +644,6 @@
     "ast_hash": "d5fa9fd71a385e25c59af1037cb82bb8",
     "semantic_hash": "d5fa9fd71a385e25c59af1037cb82bb8"
   },
-  "/Users/fabiankellner/dotfiles/openspec/specs/pi-codex-usage-limits-ui/spec.md": {
-    "mtime": 1779621490.5773077,
-    "ast_hash": "bc76a0bda07ec000d8af81cd94ab66ae",
-    "semantic_hash": "bc76a0bda07ec000d8af81cd94ab66ae"
-  },
   "/Users/fabiankellner/dotfiles/openspec/specs/nvim/spec.md": {
     "mtime": 1779605971.8390462,
     "ast_hash": "a4086166b3971dbeb8a0265766c0497c",
@@ -664,15 +659,10 @@
     "ast_hash": "a5a9dccb238fcf305ded550b95ba90ec",
     "semantic_hash": "a5a9dccb238fcf305ded550b95ba90ec"
   },
-  "/Users/fabiankellner/dotfiles/openspec/specs/pi-memory-system/spec.md": {
-    "mtime": 1779716564.0400715,
-    "ast_hash": "71e5e3425dbc48e0ed4d2ca4d429e5e7",
-    "semantic_hash": "71e5e3425dbc48e0ed4d2ca4d429e5e7"
-  },
   "/Users/fabiankellner/dotfiles/openspec/specs/openspec-context-tooling/spec.md": {
-    "mtime": 1779695736.0759683,
-    "ast_hash": "e4753333b2c3f21c7b8e6628db63590e",
-    "semantic_hash": "e4753333b2c3f21c7b8e6628db63590e"
+    "mtime": 1780071880.9167137,
+    "ast_hash": "aa87e95253b6769c2d43c9ae8b7240a5",
+    "semantic_hash": ""
   },
   "/Users/fabiankellner/dotfiles/openspec/specs/waybar/spec.md": {
     "mtime": 1779605971.8399127,
@@ -680,24 +670,14 @@
     "semantic_hash": "69812cd0056eae9f4ec1dbd45f46cca9"
   },
   "/Users/fabiankellner/dotfiles/openspec/specs/openspec-verification/spec.md": {
-    "mtime": 1779723103.1781504,
-    "ast_hash": "e0e7622ff541f60533d3f085019a92ca",
-    "semantic_hash": "e0e7622ff541f60533d3f085019a92ca"
-  },
-  "/Users/fabiankellner/dotfiles/openspec/specs/openspec-pi-launcher/spec.md": {
-    "mtime": 1779723103.177582,
-    "ast_hash": "cee209ab025c6f2ed20defd4e45dda9d",
-    "semantic_hash": "cee209ab025c6f2ed20defd4e45dda9d"
+    "mtime": 1780071922.7939975,
+    "ast_hash": "973a8da71c711baa904129cc6266f937",
+    "semantic_hash": ""
   },
   "/Users/fabiankellner/dotfiles/openspec/specs/scripts/spec.md": {
-    "mtime": 1779622797.0696545,
-    "ast_hash": "2b97faf3fed87dba1eae6ddec006bad6",
-    "semantic_hash": "2b97faf3fed87dba1eae6ddec006bad6"
-  },
-  "/Users/fabiankellner/dotfiles/openspec/specs/pi-memory-health/spec.md": {
-    "mtime": 1779621155.389588,
-    "ast_hash": "fef7e1c3ed0504c68d0f8a21afc6fcaa",
-    "semantic_hash": "fef7e1c3ed0504c68d0f8a21afc6fcaa"
+    "mtime": 1780071931.820341,
+    "ast_hash": "2bccc9519ebd7b6cef6a8ab88146aa83",
+    "semantic_hash": ""
   },
   "/Users/fabiankellner/dotfiles/openspec/specs/ideavim/spec.md": {
     "mtime": 1779605971.8383727,
@@ -719,20 +699,10 @@
     "ast_hash": "6e0a2611de1aef83ca8e92954431c3bb",
     "semantic_hash": "6e0a2611de1aef83ca8e92954431c3bb"
   },
-  "/Users/fabiankellner/dotfiles/openspec/specs/pi-memory-observability/spec.md": {
-    "mtime": 1779694625.8583364,
-    "ast_hash": "b69b98bf174f7c0ff45afcc9a9f92ee8",
-    "semantic_hash": "b69b98bf174f7c0ff45afcc9a9f92ee8"
-  },
   "/Users/fabiankellner/dotfiles/openspec/specs/ghostty/spec.md": {
     "mtime": 1779605971.8376386,
     "ast_hash": "9cee78e9b3ddd53a2cbe80b3997c9b37",
     "semantic_hash": "9cee78e9b3ddd53a2cbe80b3997c9b37"
-  },
-  "/Users/fabiankellner/dotfiles/openspec/specs/repo-graph-tooling/spec.md": {
-    "mtime": 1779716564.0401971,
-    "ast_hash": "c82cbd05d16b615bc222ce2b8717154b",
-    "semantic_hash": "c82cbd05d16b615bc222ce2b8717154b"
   },
   "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-24-add-sqlite-memory-storage/.openspec.yaml": {
     "mtime": 1779621385.2236397,
@@ -1414,74 +1384,79 @@
     "ast_hash": "9298599d4aca8a68b2b7c40ff18ae2f3",
     "semantic_hash": "9298599d4aca8a68b2b7c40ff18ae2f3"
   },
-  "/Users/fabiankellner/dotfiles/openspec/changes/replace-context-tools-with-graphify/.openspec.yaml": {
-    "mtime": 1780070926.932884,
+  "/Users/fabiankellner/dotfiles/openspec/specs/graphify-context-tooling/spec.md": {
+    "mtime": 1780071880.9164023,
+    "ast_hash": "90d16eeebcd43b5b3bf1ca8c3fe69991",
+    "semantic_hash": ""
+  },
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/.openspec.yaml": {
+    "mtime": 1780071846.899993,
     "ast_hash": "59cc35661f8e7cd9ef8ca0082302edb4",
     "semantic_hash": ""
   },
-  "/Users/fabiankellner/dotfiles/openspec/changes/replace-context-tools-with-graphify/tasks.md": {
-    "mtime": 1780071711.350004,
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/tasks.md": {
+    "mtime": 1780071846.9010155,
     "ast_hash": "55d01fd82dc9a76a5b14aca59eb73eb3",
     "semantic_hash": ""
   },
-  "/Users/fabiankellner/dotfiles/openspec/changes/replace-context-tools-with-graphify/design.md": {
-    "mtime": 1780071617.0181262,
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/design.md": {
+    "mtime": 1780071846.9000537,
     "ast_hash": "608ff7194189df73a741b806d4c68759",
     "semantic_hash": ""
   },
-  "/Users/fabiankellner/dotfiles/openspec/changes/replace-context-tools-with-graphify/proposal.md": {
-    "mtime": 1780071707.6786792,
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/proposal.md": {
+    "mtime": 1780071846.9001112,
     "ast_hash": "3aa13c6ccc9239b9c17588b529a7333c",
     "semantic_hash": ""
   },
-  "/Users/fabiankellner/dotfiles/openspec/changes/replace-context-tools-with-graphify/specs/graphify-context-tooling/spec.md": {
-    "mtime": 1780071013.5226846,
-    "ast_hash": "1d29147faa557e431e586116e70b7e5a",
-    "semantic_hash": ""
-  },
-  "/Users/fabiankellner/dotfiles/openspec/changes/replace-context-tools-with-graphify/specs/pi-memory-system/spec.md": {
-    "mtime": 1780071032.470597,
-    "ast_hash": "6b883bf8cd10f35961288191dfc82be7",
-    "semantic_hash": ""
-  },
-  "/Users/fabiankellner/dotfiles/openspec/changes/replace-context-tools-with-graphify/specs/openspec-context-tooling/spec.md": {
-    "mtime": 1780071021.4738402,
-    "ast_hash": "03aabb34537a972c2099208a8c864ef2",
-    "semantic_hash": ""
-  },
-  "/Users/fabiankellner/dotfiles/openspec/changes/replace-context-tools-with-graphify/specs/scripts/spec.md": {
-    "mtime": 1780071623.9008834,
-    "ast_hash": "c7f3b3242a1ec42c391d51225f47b2de",
-    "semantic_hash": ""
-  },
-  "/Users/fabiankellner/dotfiles/openspec/changes/replace-context-tools-with-graphify/specs/pi-memory-health/spec.md": {
-    "mtime": 1780071032.4707298,
-    "ast_hash": "b34b71495dce607f4a61eb99d002f918",
-    "semantic_hash": ""
-  },
-  "/Users/fabiankellner/dotfiles/openspec/changes/replace-context-tools-with-graphify/specs/pi-memory-observability/spec.md": {
-    "mtime": 1780071032.4708467,
-    "ast_hash": "2a063f4363a86062cdf0fe028e9eeaa7",
-    "semantic_hash": ""
-  },
-  "/Users/fabiankellner/dotfiles/openspec/changes/replace-context-tools-with-graphify/specs/repo-graph-tooling/spec.md": {
-    "mtime": 1780071032.470383,
-    "ast_hash": "0752bf3cf51726e81d41bbc557a3d9c5",
-    "semantic_hash": ""
-  },
-  "/Users/fabiankellner/dotfiles/openspec/changes/replace-context-tools-with-graphify/specs/pi-codex-usage-limits-ui/spec.md": {
-    "mtime": 1780071592.0963964,
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/specs/pi-codex-usage-limits-ui/spec.md": {
+    "mtime": 1780071846.9005594,
     "ast_hash": "2fc5e9849a3224aa1dfac56dd47004db",
     "semantic_hash": ""
   },
-  "/Users/fabiankellner/dotfiles/openspec/changes/replace-context-tools-with-graphify/specs/openspec-verification/spec.md": {
-    "mtime": 1780071702.245668,
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/specs/graphify-context-tooling/spec.md": {
+    "mtime": 1780071846.9002247,
+    "ast_hash": "1d29147faa557e431e586116e70b7e5a",
+    "semantic_hash": ""
+  },
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/specs/pi-memory-system/spec.md": {
+    "mtime": 1780071846.9007936,
+    "ast_hash": "6b883bf8cd10f35961288191dfc82be7",
+    "semantic_hash": ""
+  },
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/specs/openspec-context-tooling/spec.md": {
+    "mtime": 1780071846.9003036,
+    "ast_hash": "03aabb34537a972c2099208a8c864ef2",
+    "semantic_hash": ""
+  },
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/specs/openspec-verification/spec.md": {
+    "mtime": 1780071846.9004805,
     "ast_hash": "c4ea509d38ab551f637fec40cac78467",
     "semantic_hash": ""
   },
-  "/Users/fabiankellner/dotfiles/openspec/changes/replace-context-tools-with-graphify/specs/openspec-pi-launcher/spec.md": {
-    "mtime": 1780071592.0962322,
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/specs/openspec-pi-launcher/spec.md": {
+    "mtime": 1780071846.90039,
     "ast_hash": "9ec29ee54cd67091632576c4fcf758ec",
+    "semantic_hash": ""
+  },
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/specs/scripts/spec.md": {
+    "mtime": 1780071846.900957,
+    "ast_hash": "c7f3b3242a1ec42c391d51225f47b2de",
+    "semantic_hash": ""
+  },
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/specs/pi-memory-health/spec.md": {
+    "mtime": 1780071846.9006345,
+    "ast_hash": "b34b71495dce607f4a61eb99d002f918",
+    "semantic_hash": ""
+  },
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/specs/pi-memory-observability/spec.md": {
+    "mtime": 1780071846.9007113,
+    "ast_hash": "2a063f4363a86062cdf0fe028e9eeaa7",
+    "semantic_hash": ""
+  },
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/specs/repo-graph-tooling/spec.md": {
+    "mtime": 1780071846.90088,
+    "ast_hash": "0752bf3cf51726e81d41bbc557a3d9c5",
     "semantic_hash": ""
   }
 }

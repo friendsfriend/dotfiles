@@ -98,7 +98,7 @@ The verifier workflow SHALL feed verifier failures back to the main agent and co
 #### Scenario: Verifier passes after fixes
 - **WHEN** a verifier rerun returns `VERDICT: PASS`
 - **THEN** the system SHALL stop the verification loop
-- **AND** it SHALL mark the OpenSpec workflow stage as verified for the repository when launcher state is available
+- **AND** it SHALL record verifier pass state for the current verification context without writing OpenSpec launcher state
 
 #### Scenario: Maximum rounds reached
 - **WHEN** verification still fails after the configured maximum number of rounds
@@ -131,12 +131,12 @@ The verifier workflow SHALL avoid treating stale verification results as current
 #### Scenario: Git diff changes after pass
 - **WHEN** verification has passed for a change in a git repository
 - **AND** the current git diff hash differs from the diff hash recorded at pass time
-- **THEN** the system SHALL treat the previous pass as stale for launcher/archive guidance
+- **THEN** the system SHALL treat the previous pass as stale for verification/archive guidance
 
 #### Scenario: Policy files change after pass
 - **WHEN** verification has passed for a change
 - **AND** the loaded `.pi/verifier/*.md` policy bundle hash differs from the hash recorded at pass time
-- **THEN** the system SHALL treat the previous pass as stale for launcher/archive guidance
+- **THEN** the system SHALL treat the previous pass as stale for verification/archive guidance
 
 #### Scenario: No git diff hash is available
 - **WHEN** verification passes outside a usable git diff context

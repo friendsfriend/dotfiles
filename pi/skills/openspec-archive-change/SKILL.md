@@ -56,6 +56,10 @@ Archive a completed change in the experimental workflow.
 
 5. **Assess delta spec sync state**
 
+   Use OpenSpec CLI/`openspec_context` for fresh archive readiness and artifact context when available. If repository/history/source/configuration navigation is needed while assessing sync or archive impact, load or follow the graphify skill when `graphify-out/graph.json` exists or graphify is otherwise available. Graphify can suggest related archived changes or files, but it is advisory only and never replaces OpenSpec CLI output, exact task/spec reads, or exact command output for archive decisions.
+
+   If graph metadata appears stale (for example, graph report commit differs from current `git rev-parse HEAD`) or freshness cannot be determined, treat graph results as potentially stale and recommend `/graphify . --update` when navigation quality matters. Do not block archive solely because graphify is unavailable or stale.
+
    Check for delta specs at `openspec/changes/<name>/specs/`. If none exist, proceed without sync prompt.
 
    **If delta specs exist:**
@@ -88,7 +92,9 @@ Archive a completed change in the experimental workflow.
 
 7. **Update graphify when available**
 
-   If `graphify-out/graph.json` exists, recommend `/graphify . --update` after archive so graph-backed navigation reflects moved OpenSpec artifacts and any synced specs. This is advisory maintenance; do not treat graph update as archive validation.
+   If `graphify-out/graph.json` exists, run `/graphify . --update` or an equivalent graphify update command after archive so graph-backed navigation reflects moved OpenSpec artifacts and any synced specs. This is required archive maintenance when a graph exists, but it is not archive validation and is not evidence that archive/sync was correct.
+
+   If the graphify update fails, report the failure clearly and keep the archive result intact; do not move the archived change back or claim graph navigation is current.
 
 8. **Display summary**
 
@@ -97,7 +103,8 @@ Archive a completed change in the experimental workflow.
    - Schema that was used
    - Archive location
    - Whether specs were synced (if applicable)
-   - Note about any warnings (incomplete artifacts/tasks)
+   - Graphify update status when `graphify-out/graph.json` exists
+   - Note about any warnings (incomplete artifacts/tasks or graphify update failure)
 
 **Output On Success**
 
@@ -113,9 +120,11 @@ All artifacts complete. All tasks complete.
 ```
 
 **Context Integration**
+- Use OpenSpec CLI/`openspec_context` for fresh workflow, readiness, artifact, and task state before graph-backed repository navigation.
+- When repository/history/source/configuration navigation is needed, load or follow the graphify skill if graphify is available; use it before broad exploratory filesystem discovery.
 - Graphify output is advisory navigation only and may help identify related archived changes or graph context.
-- Use `openspec_context` when available for fresh OpenSpec readiness/context, but do not archive, sync, or report exact status from graphify or context output alone; verify with OpenSpec CLI output and exact file reads.
-- If graphify or context output conflicts with current files or CLI output, current files and CLI output win.
+- Do not archive, sync, or report exact status from graphify or context output alone; verify with OpenSpec CLI output and exact file reads.
+- If graphify appears stale, graph freshness cannot be determined, or graphify/context output conflicts with current files or CLI output, current files and CLI output win. Run `/graphify . --update` after archive when `graphify-out/graph.json` exists.
 
 **Guardrails**
 - Always prompt for change selection if not provided
@@ -125,3 +134,4 @@ All artifacts complete. All tasks complete.
 - Show clear summary of what happened
 - If sync is requested, use openspec-sync-specs approach (agent-driven)
 - If delta specs exist, always run the sync assessment and show the combined summary before prompting
+- If `graphify-out/graph.json` exists after archive, run graphify update instead of only recommending it

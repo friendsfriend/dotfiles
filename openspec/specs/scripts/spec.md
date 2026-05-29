@@ -101,7 +101,6 @@ The repository SHALL maintain source-controlled pi agent assets under a visible 
 - **WHEN** generated pi memory, health, backup, quarantine, or session data exists
 - **THEN** it SHALL NOT be stored under the source-controlled `pi/` asset layout as part of this change
 
-
 ### Requirement: Pi asset installation remains valid after context tool removal
 The dotfiles installation scripts SHALL continue to install or link remaining Pi agent assets after the repo graph, memory, OpenSpec launcher, and Codex usage limits extensions are removed.
 
@@ -118,3 +117,21 @@ The dotfiles installation scripts SHALL continue to install or link remaining Pi
 #### Scenario: Pi asset source directory is empty
 - **WHEN** a Pi asset source directory contains no children after removal cleanup
 - **THEN** the installation script SHALL complete without failing solely because there are no assets to link
+
+### Requirement: Stow installation coverage verification
+The scripts area SHALL be protected by repository verifier policy so changed installable dotfile assets are checked for coverage in `scripts/stow.sh` before an OpenSpec change is considered verified.
+
+#### Scenario: Verifier checks stow-managed asset coverage
+- **WHEN** an OpenSpec verifier run evaluates a change that adds or materially changes an installable dotfile asset
+- **THEN** repository verifier policy SHALL require confirmation that `scripts/stow.sh` installs or links the asset for the relevant supported setup profile
+
+#### Scenario: Verifier accepts explicit non-installable rationale
+- **WHEN** an OpenSpec verifier run evaluates an asset-like changed path that is intentionally not installed by `scripts/stow.sh`
+- **AND** the change artifacts document why the path is not an installable user-facing asset
+- **THEN** repository verifier policy SHALL allow the scripts coverage check to pass without requiring a stow script reference
+
+#### Scenario: Repository verifier policy is not globally installed
+- **WHEN** `scripts/stow.sh` installs repository-managed Pi assets
+- **THEN** it SHALL NOT link `.pi/verifier/*.md` files into global Pi agent configuration
+- **AND** it SHALL remove repository-managed stale symlinks for the repository-local stow installation verifier policy when encountered
+

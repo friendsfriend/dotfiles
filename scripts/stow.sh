@@ -60,33 +60,7 @@ link_pi_agent_asset_items() {
     shopt -u nullglob
 }
 
-remove_stale_pi_agent_asset_symlink() {
-    local target_path="$1"
-    local expected_repo_fragment="$2"
-
-    if [[ -L "$target_path" ]]; then
-        local link_target
-        link_target="$(readlink "$target_path")"
-        if [[ "$link_target" == *"$expected_repo_fragment"* || ! -e "$target_path" ]]; then
-            echo "Removing stale pi agent asset symlink $target_path"
-            rm "$target_path"
-        else
-            echo "Pi agent asset symlink '$target_path' is not repository-managed. Skipping..."
-        fi
-    elif [[ -e "$target_path" ]]; then
-        echo "Pi agent asset '$target_path' is not a symlink. Skipping stale cleanup..."
-    fi
-}
-
-cleanup_removed_pi_agent_assets() {
-    remove_stale_pi_agent_asset_symlink "$HOME"/.pi/agent/extensions/repo-graph "dotfiles/pi/extensions/repo-graph"
-    remove_stale_pi_agent_asset_symlink "$HOME"/.pi/agent/extensions/memory-system "dotfiles/pi/extensions/memory-system"
-    remove_stale_pi_agent_asset_symlink "$HOME"/.pi/agent/extensions/openspec-launcher "dotfiles/pi/extensions/openspec-launcher"
-    remove_stale_pi_agent_asset_symlink "$HOME"/.pi/agent/extensions/codex-usage-limits "dotfiles/pi/extensions/codex-usage-limits"
-}
-
 stow_pi_agent_assets() {
-    cleanup_removed_pi_agent_assets
     link_pi_agent_asset_items "$HOME"/.pi/agent/extensions pi/extensions
     link_pi_agent_asset_items "$HOME"/.pi/agent/prompts pi/prompts
     link_pi_agent_asset_items "$HOME"/.pi/agent/skills pi/skills

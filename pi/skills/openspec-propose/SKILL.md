@@ -49,7 +49,13 @@ When ready to implement, run /opsx-apply
 
 4. **Discover relevant context before writing artifacts**
 
-   When existing OpenSpec workflow/spec context matters, use `openspec_context` (if available) for current changes, capabilities, and artifact paths. When existing repository architecture, history, or integration points matter, query graphify when `graphify-out/graph.json` exists before broad exploratory `grep`/`find`/`bash` discovery to identify likely files, prompts, skills, and configuration areas to inspect. Treat OpenSpec context and graphify outputs as navigation only: `read` exact OpenSpec artifacts and implementation files before making claims in artifacts, and use grep/equivalent exact search for literal strings.
+   Use OpenSpec CLI and `openspec_context` (if available) first for current workflow state, active/archived changes, capabilities, and artifact paths. Read exact OpenSpec artifacts before making artifact-content claims.
+
+   When repository architecture, implementation, prompt, configuration, history, or cross-document relationship context matters, load or follow the graphify skill as the preferred advisory navigation layer when `graphify-out/graph.json` exists or graphify is otherwise available. Use graphify query/path/explain guidance before broad exploratory `grep`/`find`/`bash` discovery to identify likely files, prompts, skills, and configuration areas to inspect.
+
+   Graphify freshness is advisory: if graph metadata appears stale (for example, graph report commit differs from current `git rev-parse HEAD`) or freshness cannot be determined, treat graph results as potentially stale and recommend `/graphify . --update` when navigation quality matters. Do not block proposal creation solely because graphify is unavailable or stale.
+
+   Authority boundary: graphify output is a map, not proof. Read exact OpenSpec artifacts and implementation/configuration files before making claims in artifacts, and use grep/equivalent exact search when literal occurrences matter.
 
 5. **Create artifacts in sequence until apply-ready**
 
@@ -107,10 +113,11 @@ After completing all artifacts, summarize:
   - These guide what you write, but should never appear in the output
 
 **Context Integration**
-- Graphify output is advisory navigation only, not authority.
-- Do not copy graphify output into artifacts as fact without checking current files or OpenSpec CLI output.
+- Use OpenSpec CLI/`openspec_context` for fresh workflow and artifact state before graph-backed repository navigation.
+- When repository/history/source/configuration navigation is needed, load or follow the graphify skill if graphify is available; use it before broad exploratory filesystem discovery.
+- Graphify output is advisory navigation only, not authority. Do not copy graphify output into artifacts as fact without checking current files or OpenSpec CLI output.
 - Read exact current files before making exact claims or basing artifact content on existing source/artifacts.
-- If `openspec_context` or graphify is available, use `openspec_context` for OpenSpec workflow context and graphify for advisory implementation/history navigation before broad discovery, not as authority.
+- If graph metadata appears stale or freshness cannot be determined, say so and recommend `/graphify . --update` when navigation quality matters; continue with exact reads and targeted search.
 
 **Guardrails**
 - Create ALL artifacts needed for implementation (as defined by schema's `apply.requires`)

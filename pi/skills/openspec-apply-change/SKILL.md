@@ -64,16 +64,18 @@ Implement tasks from an OpenSpec change.
    - Remaining tasks overview
    - Dynamic instruction from CLI
 
-6. **Use OpenSpec context, then graphify before broad discovery (when available)**
+6. **Use OpenSpec context, then graphify skill before broad discovery (when available)**
 
-   Use `openspec_context` for OpenSpec workflow state, task/capability context, artifact paths, and apply/archive readiness. Read exact OpenSpec artifact files before making exact claims or implementing from their contents.
+   Use OpenSpec CLI and `openspec_context` for fresh workflow state, task/capability context, artifact paths, and apply/archive readiness. Read exact OpenSpec artifact files before making exact claims or implementing from their contents.
 
-   After reading required OpenSpec context files and before broad exploratory `grep`/`find`/`bash` discovery, use graphify queries against `graphify-out/graph.json` to locate likely implementation files, relationships, prior archived changes, and cross-document context when the graph is available.
+   After reading required OpenSpec context files, if implementation/source/configuration/history or cross-document navigation is needed, load or follow the graphify skill when `graphify-out/graph.json` exists or graphify is otherwise available. Use graphify query/path/explain guidance before broad exploratory `grep`/`find`/`bash` discovery to locate likely implementation files, relationships, prior archived changes, and related context.
+
+   If graph metadata appears stale (for example, graph report commit differs from current `git rev-parse HEAD`) or freshness cannot be determined, treat graph results as potentially stale and recommend `/graphify . --update` when navigation quality matters. Do not block implementation solely because graphify is unavailable or stale; fall back to exact reads and targeted search.
 
    Remember the tool roles:
    - `openspec_context` tells you fresh OpenSpec workflow/artifact context.
    - Exact OpenSpec artifact reads tell you WHAT to do.
-   - graphify tells you WHERE to look in implementation/source/configuration/history, as advisory navigation.
+   - the graphify skill tells you WHERE to look in implementation/source/configuration/history, as advisory navigation.
    - `read` tells you WHAT IS EXACTLY THERE.
    - `edit` changes files.
 
@@ -154,10 +156,12 @@ What would you like to do?
 ```
 
 **Context Integration**
+- Use OpenSpec CLI/`openspec_context` for fresh workflow and artifact state before graph-backed repository navigation.
+- When implementation/history/source/configuration navigation is needed, load or follow the graphify skill if graphify is available; use it after exact OpenSpec artifact reads and before broad exploratory filesystem discovery.
 - Graphify output is advisory navigation only, not authority.
 - Graphify may help identify prior decisions, archived changes, related files, or cross-document context, but you MUST still run the OpenSpec CLI commands and read every context file from `contextFiles` before implementation.
 - Before editing or making exact claims about a file, read the exact current file contents even if graphify mentions it.
-- If `openspec_context` or graphify is available, they are orientation only: use `openspec_context` for workflow context and graphify for advisory implementation/history navigation after exact artifact reads, not as authority.
+- If graph metadata appears stale or freshness cannot be determined, say so and recommend `/graphify . --update` when navigation quality matters; continue with exact reads and targeted search.
 
 **Guardrails**
 - Keep going through tasks until done or blocked

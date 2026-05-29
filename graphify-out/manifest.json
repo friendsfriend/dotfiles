@@ -42,7 +42,7 @@
   "/Users/fabiankellner/dotfiles/sketchybar/plugins/next_meeting.sh": {
     "mtime": 1780071846.8570719,
     "ast_hash": "fa07f5c493e8423ae974760ca8510477",
-    "semantic_hash": ""
+    "semantic_hash": "fa07f5c493e8423ae974760ca8510477"
   },
   "/Users/fabiankellner/dotfiles/sketchybar/plugins/front_app.sh": {
     "mtime": 1741634894.841458,
@@ -417,17 +417,17 @@
   "/Users/fabiankellner/dotfiles/pi/extensions/openspec-verifier/index.ts": {
     "mtime": 1780071846.9013093,
     "ast_hash": "1c1956f84fa03defe88716eda25d46a7",
-    "semantic_hash": ""
+    "semantic_hash": "1c1956f84fa03defe88716eda25d46a7"
   },
   "/Users/fabiankellner/dotfiles/pi/extensions/openspec-context/openspec-context.test.ts": {
     "mtime": 1780071846.9011981,
     "ast_hash": "2909aa077a7b95ff5b616bd2b15bba1e",
-    "semantic_hash": ""
+    "semantic_hash": "2909aa077a7b95ff5b616bd2b15bba1e"
   },
   "/Users/fabiankellner/dotfiles/pi/extensions/openspec-context/index.ts": {
     "mtime": 1780071846.901116,
     "ast_hash": "2c5d4486fa38bf595d15077569063853",
-    "semantic_hash": ""
+    "semantic_hash": "2c5d4486fa38bf595d15077569063853"
   },
   "/Users/fabiankellner/dotfiles/zebar/zpack.json": {
     "mtime": 1779604890.8776755,
@@ -450,9 +450,9 @@
     "semantic_hash": "7162add7cb51919e7858673b18dc5e01"
   },
   "/Users/fabiankellner/dotfiles/scripts/stow.sh": {
-    "mtime": 1780071846.9021049,
-    "ast_hash": "622385fac7671e51c2d72391c5b1e1f8",
-    "semantic_hash": ""
+    "mtime": 1780072789.3223643,
+    "ast_hash": "e765aa42400c8718de47f688ca24380d",
+    "semantic_hash": "e765aa42400c8718de47f688ca24380d"
   },
   "/Users/fabiankellner/dotfiles/scripts/sonar-plugin.sh": {
     "mtime": 1771712658.5555692,
@@ -477,7 +477,7 @@
   "/Users/fabiankellner/dotfiles/README.md": {
     "mtime": 1780071846.8650708,
     "ast_hash": "b18749d97e6012fe268d29e5cc906f10",
-    "semantic_hash": ""
+    "semantic_hash": "b18749d97e6012fe268d29e5cc906f10"
   },
   "/Users/fabiankellner/dotfiles/keyboard-layouts/README.md": {
     "mtime": 1772312632.682402,
@@ -532,47 +532,47 @@
   "/Users/fabiankellner/dotfiles/pi/prompts/opsx-propose.md": {
     "mtime": 1780071846.9016285,
     "ast_hash": "29fdea2dc89b86bcdc3139cfb17aa974",
-    "semantic_hash": ""
+    "semantic_hash": "29fdea2dc89b86bcdc3139cfb17aa974"
   },
   "/Users/fabiankellner/dotfiles/pi/prompts/opsx-apply.md": {
     "mtime": 1780071846.9013906,
     "ast_hash": "4d321b97019b0e94c5ffaa3a6edc34aa",
-    "semantic_hash": ""
+    "semantic_hash": "4d321b97019b0e94c5ffaa3a6edc34aa"
   },
   "/Users/fabiankellner/dotfiles/pi/prompts/opsx-archive.md": {
     "mtime": 1780071846.901463,
     "ast_hash": "9eff14694e178099303f1c5659318bd8",
-    "semantic_hash": ""
+    "semantic_hash": "9eff14694e178099303f1c5659318bd8"
   },
   "/Users/fabiankellner/dotfiles/pi/prompts/opsx-explore.md": {
     "mtime": 1780071846.9015348,
     "ast_hash": "d70b119f386290aa60b17c747998b584",
-    "semantic_hash": ""
+    "semantic_hash": "d70b119f386290aa60b17c747998b584"
   },
   "/Users/fabiankellner/dotfiles/pi/skills/openspec-apply-change/SKILL.md": {
-    "mtime": 1780071846.901713,
-    "ast_hash": "20cbe38300215f966fcca3f59f1ca7e8",
-    "semantic_hash": ""
+    "mtime": 1780073270.5278587,
+    "ast_hash": "724688077a8d0426bc5c3add0c384e92",
+    "semantic_hash": "724688077a8d0426bc5c3add0c384e92"
   },
   "/Users/fabiankellner/dotfiles/pi/skills/openspec-explore/SKILL.md": {
-    "mtime": 1780071846.9018962,
-    "ast_hash": "a381ef8cf26dd6e3384c34091d21a9f8",
-    "semantic_hash": ""
+    "mtime": 1780073307.1871157,
+    "ast_hash": "83012419ecac9434077836e7890ff37c",
+    "semantic_hash": "83012419ecac9434077836e7890ff37c"
   },
   "/Users/fabiankellner/dotfiles/pi/skills/openspec-verify-change/SKILL.md": {
-    "mtime": 1779722804.0731828,
-    "ast_hash": "93c86a05d12f18ca9aff00de07c3e737",
-    "semantic_hash": "93c86a05d12f18ca9aff00de07c3e737"
+    "mtime": 1780073333.3815322,
+    "ast_hash": "760c17c5b0ab3327edf90df87c363e68",
+    "semantic_hash": "760c17c5b0ab3327edf90df87c363e68"
   },
   "/Users/fabiankellner/dotfiles/pi/skills/openspec-archive-change/SKILL.md": {
-    "mtime": 1780071846.9018,
-    "ast_hash": "a79eaff7d8d704a238f32f5f7a7764f6",
-    "semantic_hash": ""
+    "mtime": 1780073568.918935,
+    "ast_hash": "ad2778d5e279361caaad6023feeef2a3",
+    "semantic_hash": "ad2778d5e279361caaad6023feeef2a3"
   },
   "/Users/fabiankellner/dotfiles/pi/skills/openspec-propose/SKILL.md": {
-    "mtime": 1780071846.901984,
-    "ast_hash": "d69e082ded2fee4e5e2caafc4874d902",
-    "semantic_hash": ""
+    "mtime": 1780073251.8806927,
+    "ast_hash": "bbb39a9af1ed4758b3b4ea9c48dd6bda",
+    "semantic_hash": "bbb39a9af1ed4758b3b4ea9c48dd6bda"
   },
   "/Users/fabiankellner/dotfiles/zebar/bar.html": {
     "mtime": 1779604890.8775187,
@@ -660,9 +660,9 @@
     "semantic_hash": "a5a9dccb238fcf305ded550b95ba90ec"
   },
   "/Users/fabiankellner/dotfiles/openspec/specs/openspec-context-tooling/spec.md": {
-    "mtime": 1780071880.9167137,
-    "ast_hash": "aa87e95253b6769c2d43c9ae8b7240a5",
-    "semantic_hash": ""
+    "mtime": 1780073448.7995296,
+    "ast_hash": "da71c326d76bd31d9d3fa28260085bbd",
+    "semantic_hash": "da71c326d76bd31d9d3fa28260085bbd"
   },
   "/Users/fabiankellner/dotfiles/openspec/specs/waybar/spec.md": {
     "mtime": 1779605971.8399127,
@@ -670,14 +670,14 @@
     "semantic_hash": "69812cd0056eae9f4ec1dbd45f46cca9"
   },
   "/Users/fabiankellner/dotfiles/openspec/specs/openspec-verification/spec.md": {
-    "mtime": 1780071922.7939975,
-    "ast_hash": "973a8da71c711baa904129cc6266f937",
-    "semantic_hash": ""
+    "mtime": 1780073458.3265145,
+    "ast_hash": "e547eda65e528f6a607a841d4dfc4ec4",
+    "semantic_hash": "e547eda65e528f6a607a841d4dfc4ec4"
   },
   "/Users/fabiankellner/dotfiles/openspec/specs/scripts/spec.md": {
-    "mtime": 1780071931.820341,
-    "ast_hash": "2bccc9519ebd7b6cef6a8ab88146aa83",
-    "semantic_hash": ""
+    "mtime": 1780072849.4290926,
+    "ast_hash": "576c040f91dc313dd4b1a971bb122d92",
+    "semantic_hash": "576c040f91dc313dd4b1a971bb122d92"
   },
   "/Users/fabiankellner/dotfiles/openspec/specs/ideavim/spec.md": {
     "mtime": 1779605971.8383727,
@@ -1385,78 +1385,153 @@
     "semantic_hash": "9298599d4aca8a68b2b7c40ff18ae2f3"
   },
   "/Users/fabiankellner/dotfiles/openspec/specs/graphify-context-tooling/spec.md": {
-    "mtime": 1780071880.9164023,
-    "ast_hash": "90d16eeebcd43b5b3bf1ca8c3fe69991",
-    "semantic_hash": ""
+    "mtime": 1780073578.1314404,
+    "ast_hash": "4f59bb6e405c4ac52f088d1dbf6503eb",
+    "semantic_hash": "4f59bb6e405c4ac52f088d1dbf6503eb"
   },
   "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/.openspec.yaml": {
     "mtime": 1780071846.899993,
     "ast_hash": "59cc35661f8e7cd9ef8ca0082302edb4",
-    "semantic_hash": ""
+    "semantic_hash": "59cc35661f8e7cd9ef8ca0082302edb4"
   },
   "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/tasks.md": {
     "mtime": 1780071846.9010155,
     "ast_hash": "55d01fd82dc9a76a5b14aca59eb73eb3",
-    "semantic_hash": ""
+    "semantic_hash": "55d01fd82dc9a76a5b14aca59eb73eb3"
   },
   "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/design.md": {
     "mtime": 1780071846.9000537,
     "ast_hash": "608ff7194189df73a741b806d4c68759",
-    "semantic_hash": ""
+    "semantic_hash": "608ff7194189df73a741b806d4c68759"
   },
   "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/proposal.md": {
     "mtime": 1780071846.9001112,
     "ast_hash": "3aa13c6ccc9239b9c17588b529a7333c",
-    "semantic_hash": ""
+    "semantic_hash": "3aa13c6ccc9239b9c17588b529a7333c"
   },
   "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/specs/pi-codex-usage-limits-ui/spec.md": {
     "mtime": 1780071846.9005594,
     "ast_hash": "2fc5e9849a3224aa1dfac56dd47004db",
-    "semantic_hash": ""
+    "semantic_hash": "2fc5e9849a3224aa1dfac56dd47004db"
   },
   "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/specs/graphify-context-tooling/spec.md": {
     "mtime": 1780071846.9002247,
     "ast_hash": "1d29147faa557e431e586116e70b7e5a",
-    "semantic_hash": ""
+    "semantic_hash": "1d29147faa557e431e586116e70b7e5a"
   },
   "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/specs/pi-memory-system/spec.md": {
     "mtime": 1780071846.9007936,
     "ast_hash": "6b883bf8cd10f35961288191dfc82be7",
-    "semantic_hash": ""
+    "semantic_hash": "6b883bf8cd10f35961288191dfc82be7"
   },
   "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/specs/openspec-context-tooling/spec.md": {
     "mtime": 1780071846.9003036,
     "ast_hash": "03aabb34537a972c2099208a8c864ef2",
-    "semantic_hash": ""
+    "semantic_hash": "03aabb34537a972c2099208a8c864ef2"
   },
   "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/specs/openspec-verification/spec.md": {
     "mtime": 1780071846.9004805,
     "ast_hash": "c4ea509d38ab551f637fec40cac78467",
-    "semantic_hash": ""
+    "semantic_hash": "c4ea509d38ab551f637fec40cac78467"
   },
   "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/specs/openspec-pi-launcher/spec.md": {
     "mtime": 1780071846.90039,
     "ast_hash": "9ec29ee54cd67091632576c4fcf758ec",
-    "semantic_hash": ""
+    "semantic_hash": "9ec29ee54cd67091632576c4fcf758ec"
   },
   "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/specs/scripts/spec.md": {
     "mtime": 1780071846.900957,
     "ast_hash": "c7f3b3242a1ec42c391d51225f47b2de",
-    "semantic_hash": ""
+    "semantic_hash": "c7f3b3242a1ec42c391d51225f47b2de"
   },
   "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/specs/pi-memory-health/spec.md": {
     "mtime": 1780071846.9006345,
     "ast_hash": "b34b71495dce607f4a61eb99d002f918",
-    "semantic_hash": ""
+    "semantic_hash": "b34b71495dce607f4a61eb99d002f918"
   },
   "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/specs/pi-memory-observability/spec.md": {
     "mtime": 1780071846.9007113,
     "ast_hash": "2a063f4363a86062cdf0fe028e9eeaa7",
-    "semantic_hash": ""
+    "semantic_hash": "2a063f4363a86062cdf0fe028e9eeaa7"
   },
   "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-replace-context-tools-with-graphify/specs/repo-graph-tooling/spec.md": {
     "mtime": 1780071846.90088,
     "ast_hash": "0752bf3cf51726e81d41bbc557a3d9c5",
-    "semantic_hash": ""
+    "semantic_hash": "0752bf3cf51726e81d41bbc557a3d9c5"
+  },
+  "/Users/fabiankellner/dotfiles/openspec/specs/dotfiles-verifier-policies/spec.md": {
+    "mtime": 1780072849.428462,
+    "ast_hash": "1ae0d3206b9325d544fb478e948858fa",
+    "semantic_hash": "1ae0d3206b9325d544fb478e948858fa"
+  },
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-add-asset-focused-stow-verifier-policy/.openspec.yaml": {
+    "mtime": 1780072420.315979,
+    "ast_hash": "59cc35661f8e7cd9ef8ca0082302edb4",
+    "semantic_hash": "59cc35661f8e7cd9ef8ca0082302edb4"
+  },
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-add-asset-focused-stow-verifier-policy/tasks.md": {
+    "mtime": 1780072571.330626,
+    "ast_hash": "2da0973b320bd17aeec672ba9a2c8d1e",
+    "semantic_hash": "2da0973b320bd17aeec672ba9a2c8d1e"
+  },
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-add-asset-focused-stow-verifier-policy/design.md": {
+    "mtime": 1780072620.178176,
+    "ast_hash": "a0fc1ba5b5ba332cbc012860f740239a",
+    "semantic_hash": "a0fc1ba5b5ba332cbc012860f740239a"
+  },
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-add-asset-focused-stow-verifier-policy/proposal.md": {
+    "mtime": 1780072433.2019708,
+    "ast_hash": "2e54d2456cfae8e4b278d66af0acb50a",
+    "semantic_hash": "2e54d2456cfae8e4b278d66af0acb50a"
+  },
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-add-asset-focused-stow-verifier-policy/specs/scripts/spec.md": {
+    "mtime": 1780072690.930382,
+    "ast_hash": "2e5b745fc9ba36f052583b3d2ac70242",
+    "semantic_hash": "2e5b745fc9ba36f052583b3d2ac70242"
+  },
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-add-asset-focused-stow-verifier-policy/specs/dotfiles-verifier-policies/spec.md": {
+    "mtime": 1780072612.7932413,
+    "ast_hash": "15e8541684cfc3f79ab94fc9dfb2b669",
+    "semantic_hash": "15e8541684cfc3f79ab94fc9dfb2b669"
+  },
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-add-graphify-to-all-openspec-skills/.openspec.yaml": {
+    "mtime": 1780073089.6252258,
+    "ast_hash": "59cc35661f8e7cd9ef8ca0082302edb4",
+    "semantic_hash": "59cc35661f8e7cd9ef8ca0082302edb4"
+  },
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-add-graphify-to-all-openspec-skills/tasks.md": {
+    "mtime": 1780073374.2492661,
+    "ast_hash": "44d56313ba07d486508e46d76547db4a",
+    "semantic_hash": "44d56313ba07d486508e46d76547db4a"
+  },
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-add-graphify-to-all-openspec-skills/design.md": {
+    "mtime": 1780073136.5778434,
+    "ast_hash": "0f3f6814e4fe0f1a0631560afc6c9d5c",
+    "semantic_hash": "0f3f6814e4fe0f1a0631560afc6c9d5c"
+  },
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-add-graphify-to-all-openspec-skills/proposal.md": {
+    "mtime": 1780073111.7305808,
+    "ast_hash": "53ce57f28ea72509bace8b375a85bcdb",
+    "semantic_hash": "53ce57f28ea72509bace8b375a85bcdb"
+  },
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-add-graphify-to-all-openspec-skills/specs/graphify-context-tooling/spec.md": {
+    "mtime": 1780073154.891464,
+    "ast_hash": "e67364c9f3441463e40dd856835155fa",
+    "semantic_hash": "e67364c9f3441463e40dd856835155fa"
+  },
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-add-graphify-to-all-openspec-skills/specs/openspec-context-tooling/spec.md": {
+    "mtime": 1780073161.9740012,
+    "ast_hash": "e0fdbf908ef4e75ad7509b43c50372fd",
+    "semantic_hash": "e0fdbf908ef4e75ad7509b43c50372fd"
+  },
+  "/Users/fabiankellner/dotfiles/openspec/changes/archive/2026-05-29-add-graphify-to-all-openspec-skills/specs/openspec-verification/spec.md": {
+    "mtime": 1780073170.2721672,
+    "ast_hash": "ed36c5eb53383c9f52fb768bd9448789",
+    "semantic_hash": "ed36c5eb53383c9f52fb768bd9448789"
+  },
+  "/Users/fabiankellner/dotfiles/.pi/verifier/stow-installation.md": {
+    "mtime": 1780072602.870046,
+    "ast_hash": "759a55701a61ae085977432dd0ab3cd8",
+    "semantic_hash": "759a55701a61ae085977432dd0ab3cd8"
   }
 }

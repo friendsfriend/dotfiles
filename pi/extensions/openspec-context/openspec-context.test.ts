@@ -53,7 +53,9 @@ try {
 
 	const taskContext = await __openspecContextTest.runOpenSpecContext(root, { mode: "task-context", change: activeChange, task: "1.2" }, runner);
 	assert.match(taskContext, /1\.2 Implement task context search/, "task-context returns matched task");
-	assert.match(taskContext, /repo_graph search query suggestion/, "task-context suggests follow-up repo_graph query");
+	assert.match(taskContext, /graphify query suggestion/, "task-context suggests follow-up graphify query");
+	const removedToolName = ["repo", "graph"].join("_");
+	assert.equal(taskContext.includes(removedToolName), false, "task-context does not suggest removed graph tool");
 	assert.match(taskContext, /Related OpenSpec artifacts:/, "task-context includes related artifacts");
 
 	const capability = await __openspecContextTest.runOpenSpecContext(root, { mode: "capability", capability: "openspec-context-tooling", includeArchived: true }, runner);

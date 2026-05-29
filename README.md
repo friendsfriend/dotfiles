@@ -26,6 +26,10 @@ If add additional files to the dotfiles repo remember to run the stow script aga
 ./scripts/stow.sh
 ```
 
+### Pi agent assets and graphify
+
+The Pi agent assets in `pi/` are linked by `scripts/stow.sh`. Repository navigation/history context is provided by graphify (`graphify-out/graph.json`) rather than the previous Pi repo graph or memory extensions. Existing on-disk memory data is not deleted by the install script, but it is no longer read by these dotfiles' Pi agent setup after the memory extension is removed. Run `/graphify . --update` after substantial dotfiles, OpenSpec, prompt, or skill changes to keep graph-backed navigation fresh.
+
 If you want to use sketchybar with the zscaler plugin you have to run the following command
 
 ```bash

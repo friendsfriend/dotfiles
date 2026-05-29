@@ -253,10 +253,10 @@ function artifactReadAdvice(paths: string[]): string[] {
 	return paths.length ? ["", "Read exact artifact files next before making exact claims:", ...paths.map((path) => `- ${path}`)] : ["", "No artifact files were found to suggest for exact reads."];
 }
 
-function repoGraphSuggestion(text: string): string {
+function graphifySuggestion(text: string): string {
 	const stop = new Set(["the", "and", "with", "for", "from", "that", "this", "mode", "query", "tool", "task", "implement", "create", "update", "add"]);
 	const terms = text.toLowerCase().split(/[^a-z0-9_.-]+/).filter((term) => term.length > 2 && !stop.has(term)).slice(0, MAX_TASK_SUGGESTION_TERMS);
-	return terms.length ? `repo_graph search query suggestion: ${terms.join(" ")}` : "repo_graph search query suggestion: derive terms from the exact task/design text after reading artifacts.";
+	return terms.length ? `graphify query suggestion: ${terms.join(" ")}` : "graphify query suggestion: derive terms from the exact task/design text after reading artifacts.";
 }
 
 async function queryOverview(root: string, runner: ExecRunner, params: OpenSpecContextParams): Promise<string> {
@@ -275,7 +275,7 @@ async function queryOverview(root: string, runner: ExecRunner, params: OpenSpecC
 		lines.push("", "Archived changes:", ...(archived.length ? archived.slice(0, limit).map((change) => `- ${change.name} (${change.path})`) : ["- none"]));
 	}
 	lines.push("", "Stable capabilities:", ...(stableCaps.length ? stableCaps.slice(0, limit).map((cap) => `- ${cap.capability}: ${cap.path}`) : ["- none detected"]));
-	lines.push("", "Guidance: use openspec_context for workflow/artifact context, then read exact artifacts before claims or edits. Use repo_graph only for non-OpenSpec implementation navigation.");
+	lines.push("", "Guidance: use openspec_context for workflow/artifact context, then read exact artifacts before claims or edits. Use graphify for advisory implementation/source/configuration/history navigation when graphify-out/graph.json exists.");
 	return lines.join("\n");
 }
 
@@ -346,8 +346,8 @@ async function queryTaskContext(root: string, params: OpenSpecContextParams): Pr
 		"Related OpenSpec artifacts:",
 		...(artifacts.length ? artifacts.map((path) => `- ${path}`) : ["- none detected"]),
 		"",
-		repoGraphSuggestion(task.text),
-		"Use that follow-up repo_graph query only for implementation/source/config navigation outside openspec/.",
+		graphifySuggestion(task.text),
+		"Use that follow-up graphify query only as advisory navigation; read exact implementation/source/config files before claims or edits.",
 		...artifactReadAdvice(artifacts),
 	].join("\n");
 }
@@ -428,12 +428,12 @@ export default function openspecContextExtension(pi: ExtensionAPI) {
 	pi.registerTool({
 		name: "openspec_context",
 		label: "OpenSpec Context",
-		description: "Query fresh OpenSpec workflow, artifact, task, capability, and readiness context without using durable memory or repo graph scans.",
+		description: "Query fresh OpenSpec workflow, artifact, task, capability, and readiness context without depending on graphify.",
 		promptSnippet: "Fresh OpenSpec workflow context for changes, tasks, artifacts, capabilities, and apply/archive readiness.",
 		promptGuidelines: [
 			"Use openspec_context for OpenSpec workflow state, active/archived changes, artifact paths, task progress, capability specs, and apply/archive readiness.",
 			"Treat openspec_context as workflow context, not authority for artifact contents: read exact OpenSpec files before claims, edits, or implementation.",
-			"Do not use repo_graph for OpenSpec changes, specs, tasks, or capabilities; use repo_graph only afterward for implementation/source/config navigation outside openspec/.",
+			"Use graphify afterward for advisory implementation/source/configuration/history navigation when graphify-out/graph.json exists; read exact files before claims or edits.",
 			"If an OpenSpec CLI command fails, do not guess workflow state; surface the failure and ask for guidance.",
 		],
 		parameters: openspecContextParameters,

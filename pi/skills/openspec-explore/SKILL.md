@@ -40,7 +40,7 @@ Depending on what the user brings, you might:
 
 **Investigate the codebase**
 - Map existing architecture relevant to the discussion
-- When available, use `openspec_context` for OpenSpec workflow/artifact context and `repo_graph` before broad exploratory grep/find/bash discovery to identify non-OpenSpec architecture and integration points
+- When available, use `openspec_context` for OpenSpec workflow/artifact context and graphify before broad exploratory grep/find/bash discovery to identify architecture, history, and integration points
 - Read exact files before making exact claims about their contents
 - Use grep/equivalent exact search when you need literal string occurrences
 - Find integration points
@@ -94,7 +94,7 @@ This tells you:
 - Their names, schemas, and status
 - What the user might be working on
 
-Use `openspec_context` for change/task/capability/artifact context. Do not ask `repo_graph` for OpenSpec changes, specs, tasks, or capabilities.
+Use `openspec_context` for change/task/capability/artifact context. Use graphify only as advisory graph navigation; exact OpenSpec CLI output and artifact reads remain authoritative.
 
 ### When no change exists
 
@@ -281,11 +281,11 @@ But this summary is optional. Sometimes the thinking IS the value.
 
 ---
 
-## Memory Integration
+## Context Integration
 
-- If a repo memory card is injected, use it as orientation only: it can suggest active changes, prior decisions, or preferences.
-- Memory is not authority. Read exact current files before making exact claims, updating artifacts, or drawing conclusions that depend on file contents.
-- If memory appears stale or conflicts with files/CLI output, trust the current files and CLI output.
+- Graphify output is advisory navigation only: it can suggest related files, archived changes, prior decisions captured in the graph, or cross-document relationships.
+- Graphify is not authority. Read exact current files before making exact claims, updating artifacts, or drawing conclusions that depend on file contents.
+- If graphify appears stale or conflicts with files/CLI output, trust the current files and CLI output and run `/graphify . --update` when appropriate.
 
 ## Guardrails
 
@@ -295,5 +295,5 @@ But this summary is optional. Sometimes the thinking IS the value.
 - **Don't force structure** - Let patterns emerge naturally
 - **Don't auto-capture** - Offer to save insights, don't just do it
 - **Do visualize** - A good diagram is worth many paragraphs
-- **Do explore the codebase** - Ground discussions in reality; prefer `openspec_context` for OpenSpec workflow context and `repo_graph` for non-OpenSpec implementation navigation when available, then `read` exact files for authority
+- **Do explore the codebase** - Ground discussions in reality; prefer `openspec_context` for OpenSpec workflow context and graphify for advisory implementation/history navigation when available, then `read` exact files for authority
 - **Do question assumptions** - Including the user's and your own

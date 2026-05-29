@@ -58,16 +58,16 @@ Implement tasks from an OpenSpec change.
    - Remaining tasks overview
    - Dynamic instruction from CLI
 
-6. **Use OpenSpec context, then repo graph before broad discovery (when available)**
+6. **Use OpenSpec context, then graphify before broad discovery (when available)**
 
    Use `openspec_context` for OpenSpec workflow state, task/capability context, artifact paths, and apply/archive readiness. Read exact OpenSpec artifact files before making exact claims or implementing from their contents.
 
-   After reading required OpenSpec context files and before broad exploratory `grep`/`find`/`bash` discovery, use `repo_graph` to locate likely non-OpenSpec implementation files and relationships when the tool is available.
+   After reading required OpenSpec context files and before broad exploratory `grep`/`find`/`bash` discovery, use graphify queries against `graphify-out/graph.json` to locate likely implementation files, relationships, prior archived changes, and cross-document context when the graph is available.
 
    Remember the tool roles:
    - `openspec_context` tells you fresh OpenSpec workflow/artifact context.
    - Exact OpenSpec artifact reads tell you WHAT to do.
-   - `repo_graph` tells you WHERE to look in implementation/source/config outside `openspec/`.
+   - graphify tells you WHERE to look in implementation/source/configuration/history, as advisory navigation.
    - `read` tells you WHAT IS EXACTLY THERE.
    - `edit` changes files.
 
@@ -147,11 +147,11 @@ All tasks complete! If repository verifier policies exist under `.pi/verifier/*.
 What would you like to do?
 ```
 
-**Memory Integration**
-- If a repo memory card is injected, treat it as orientation only, not authority.
-- Memory may help identify active changes, prior decisions, or preferences, but you MUST still run the OpenSpec CLI commands and read every context file from `contextFiles` before implementation.
-- Before editing or making exact claims about a file, read the exact current file contents even if memory mentions it.
-- If `openspec_context` or `repo_graph` is available, they are orientation only: use `openspec_context` for workflow context and `repo_graph` for non-OpenSpec implementation navigation after exact artifact reads, not as authority.
+**Context Integration**
+- Graphify output is advisory navigation only, not authority.
+- Graphify may help identify prior decisions, archived changes, related files, or cross-document context, but you MUST still run the OpenSpec CLI commands and read every context file from `contextFiles` before implementation.
+- Before editing or making exact claims about a file, read the exact current file contents even if graphify mentions it.
+- If `openspec_context` or graphify is available, they are orientation only: use `openspec_context` for workflow context and graphify for advisory implementation/history navigation after exact artifact reads, not as authority.
 
 **Guardrails**
 - Keep going through tasks until done or blocked
@@ -162,7 +162,7 @@ What would you like to do?
 - Update task checkbox immediately after completing each task
 - Pause on errors, blockers, or unclear requirements - don't guess
 - Use contextFiles from CLI output, don't assume specific file names
-- Use `openspec_context` for OpenSpec workflow/task/capability context; prefer `repo_graph` before broad exploratory `grep`/`find`/`bash` discovery when locating non-OpenSpec implementation files, while keeping `read` authoritative and `grep` appropriate for exact string search
+- Use `openspec_context` for OpenSpec workflow/task/capability context; prefer graphify before broad exploratory `grep`/`find`/`bash` discovery when locating implementation files or prior context, while keeping `read` authoritative and `grep` appropriate for exact string search
 
 **Fluid Workflow Integration**
 

@@ -86,7 +86,11 @@ Archive a completed change in the experimental workflow.
    mv openspec/changes/<name> openspec/changes/archive/YYYY-MM-DD-<name>
    ```
 
-7. **Display summary**
+7. **Update graphify when available**
+
+   If `graphify-out/graph.json` exists, recommend `/graphify . --update` after archive so graph-backed navigation reflects moved OpenSpec artifacts and any synced specs. This is advisory maintenance; do not treat graph update as archive validation.
+
+8. **Display summary**
 
    Show archive completion summary including:
    - Change name
@@ -108,10 +112,10 @@ Archive a completed change in the experimental workflow.
 All artifacts complete. All tasks complete.
 ```
 
-**Memory Integration**
-- If a repo memory card is injected, use it only as orientation for possible active changes or prior decisions.
-- Use `openspec_context` when available for fresh OpenSpec readiness/context, but do not archive, sync, or report exact status from memory or context output alone; verify with OpenSpec CLI output and exact file reads.
-- If memory or context output conflicts with current files or CLI output, current files and CLI output win.
+**Context Integration**
+- Graphify output is advisory navigation only and may help identify related archived changes or graph context.
+- Use `openspec_context` when available for fresh OpenSpec readiness/context, but do not archive, sync, or report exact status from graphify or context output alone; verify with OpenSpec CLI output and exact file reads.
+- If graphify or context output conflicts with current files or CLI output, current files and CLI output win.
 
 **Guardrails**
 - Always prompt for change selection if not provided

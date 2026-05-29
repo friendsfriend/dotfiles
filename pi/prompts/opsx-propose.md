@@ -43,7 +43,7 @@ When ready to implement, run /opsx-apply
 
 4. **Discover relevant context before writing artifacts**
 
-   When existing OpenSpec workflow/spec context matters, use `openspec_context` (if available) for current changes, capabilities, and artifact paths. When existing repository architecture or integration points matter, use `repo_graph` (if available) before broad exploratory `grep`/`find`/`bash` discovery to identify likely non-OpenSpec files, prompts, skills, and configuration areas to inspect. Treat both tool outputs as navigation only: `read` exact OpenSpec artifacts and implementation files before making claims in artifacts, and use grep/equivalent exact search for literal strings.
+   When existing OpenSpec workflow/spec context matters, use `openspec_context` (if available) for current changes, capabilities, and artifact paths. When existing repository architecture, history, or integration points matter, query graphify when `graphify-out/graph.json` exists before broad exploratory `grep`/`find`/`bash` discovery to identify likely files, prompts, skills, and configuration areas to inspect. Treat OpenSpec context and graphify outputs as navigation only: `read` exact OpenSpec artifacts and implementation files before making claims in artifacts, and use grep/equivalent exact search for literal strings.
 
 5. **Create artifacts in sequence until apply-ready**
 
@@ -100,16 +100,16 @@ After completing all artifacts, summarize:
   - Do NOT copy `<context>`, `<rules>`, `<project_context>` blocks into the artifact
   - These guide what you write, but should never appear in the output
 
-**Memory Integration**
-- If a repo memory card is injected, use it only as orientation for preferences, prior decisions, or likely OpenSpec context.
-- Do not copy memory into artifacts as fact without checking current files or OpenSpec CLI output.
+**Context Integration**
+- Graphify output is advisory navigation only, not authority.
+- Do not copy graphify output into artifacts as fact without checking current files or OpenSpec CLI output.
 - Read exact current files before making exact claims or basing artifact content on existing source/artifacts.
-- If `openspec_context` or `repo_graph` is available, use `openspec_context` for OpenSpec workflow context and `repo_graph` for non-OpenSpec implementation navigation before broad discovery, not as authority.
+- If `openspec_context` or graphify is available, use `openspec_context` for OpenSpec workflow context and graphify for advisory implementation/history navigation before broad discovery, not as authority.
 
 **Guardrails**
 - Create ALL artifacts needed for implementation (as defined by schema's `apply.requires`)
 - Always read dependency artifacts before creating a new one
-- Use `openspec_context` for OpenSpec changes/specs/tasks/capabilities; prefer `repo_graph` before broad exploratory `grep`/`find`/`bash` discovery when locating non-OpenSpec architecture or integration points, while keeping `read` authoritative and `grep` appropriate for exact string search
+- Use `openspec_context` for OpenSpec changes/specs/tasks/capabilities; prefer graphify before broad exploratory `grep`/`find`/`bash` discovery when locating architecture, history, or integration points, while keeping `read` authoritative and `grep` appropriate for exact string search
 - If context is critically unclear, ask the user - but prefer making reasonable decisions to keep momentum
 - If a change with that name already exists, ask if user wants to continue it or create a new one
 - Verify each artifact file exists after writing before proceeding to next

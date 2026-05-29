@@ -299,13 +299,6 @@ async function isVerifierPassFresh(root: string, change: string, runner: ExecRun
 	return Boolean(packet.gitDiffHash) && existing.gitDiffHash === packet.gitDiffHash;
 }
 
-async function setLauncherAfterVerify(root: string, change: string): Promise<void> {
-	const statePath = join(homedir(), ".pi", "agent", "openspec-launcher-state.json");
-	const state = await readJsonFile<Record<string, { stage: string; lastChange?: string; updatedAt: string }>>(statePath, {});
-	state[root] = { stage: "afterVerify", lastChange: change, updatedAt: nowIso() };
-	await writeJsonFile(statePath, state);
-}
-
 function verifierFailureFollowUp(change: string, report: string, round: number): string {
 	return [
 		`The OpenSpec verifier failed for change \`${change}\` on round ${round}.`,
@@ -345,7 +338,6 @@ async function runVerifierWorkflow(pi: ExtensionAPI, ctx: ExtensionContext, root
 	const result = await runVerifierAgent(packet, ctx);
 	if (result.verdict === "pass") {
 		await recordVerifierPass(packet);
-		await setLauncherAfterVerify(root, change);
 		pendingVerifications.delete(stateKey(root, change));
 		ctx.ui.notify(`OpenSpec verification passed for ${change}.`, "info");
 		return result;

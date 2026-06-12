@@ -13,6 +13,7 @@ The global `openspec-verifier` extension owns verifier mechanics. When this prom
 
 1. If no change name was provided, run `openspec list --json` and use the AskUserQuestion tool to let the user select an active change.
 2. Verify the current directory is inside an initialized OpenSpec project (`openspec/config.yaml` exists in the current directory or an ancestor). If not, report that no OpenSpec project was found and do not run verification.
-3. Ask the user to run `/opsx-verify <change>` so the extension can execute the independent verifier agent, policy injection, verdict parsing, and bounded feedback loop.
+3. If the user wants verifier output in Hunk, ask them to open `hunk diff` in another terminal first; the extension will use the live Hunk session and add inline verifier comments.
+4. Ask the user to run `/opsx-verify <change>` so the extension can execute the independent verifier agent, policy injection, verdict parsing, Hunk comment publishing, and bounded feedback loop.
 
 Do not perform verification yourself from this prompt; the verifier step must use the independent verifier workflow.

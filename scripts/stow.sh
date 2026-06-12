@@ -149,6 +149,7 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/.config/btop/ btop
         stow_pi_agent_assets
         stow_folder "$HOME"/.config/voxtype/ voxtype
+        stow_folder "$HOME"/.config/hunk/ hunk
         link_voxtype_macos_config
         ;;
     work)
@@ -172,6 +173,7 @@ case "$DOTFILES_ENV" in
         stow_pi_agent_assets
         stow_folder "$HOME"/.config/voxtype/ voxtype
         link_voxtype_macos_config
+        stow_folder "$HOME"/.config/hunk/ hunk
         ;;
     omarchy)
         stow_folder "$HOME"/.config/hypr/ hyprland
@@ -186,6 +188,7 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/.config/opencode/ opencode
         stow_folder "$HOME"/ tmux
         stow_folder "$HOME"/.config/sesh/ sesh
+        stow_folder "$HOME"/.config/hunk/ hunk
         stow_pi_agent_assets
         hyprctl reload
 	;;

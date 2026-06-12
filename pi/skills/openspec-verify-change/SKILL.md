@@ -19,9 +19,10 @@ Run the OpenSpec verifier workflow for a selected active change.
 2. Select a change. If a name was not provided, prompt the user to choose an active change from `openspec list --json`.
 3. Use OpenSpec CLI/`openspec_context` as the fresh workflow and artifact state source for the selected change. If repository/history/source/configuration navigation is needed before or during verification, load or follow the graphify skill when `graphify-out/graph.json` exists or graphify is otherwise available. Graphify is advisory navigation only: verifier findings and verdicts must be confirmed against current OpenSpec CLI output, exact files, policy contents, diffs, or safe verification command output.
 4. If graph metadata appears stale (for example, graph report commit differs from current `git rev-parse HEAD`) or freshness cannot be determined, treat graph results as potentially stale and recommend `/graphify . --update` when navigation quality matters. Do not fail verification solely because graphify is unavailable or stale.
-5. Invoke the verifier workflow with `/opsx-verify <change>` so the global verifier extension can run the independent read-only verifier agent, inject `.pi/verifier/*.md` policies, parse `VERDICT: PASS` / `VERDICT: FAIL`, and manage the bounded feedback loop.
+5. If the user wants the verifier output in Hunk, ask them to keep a live Hunk session open in another terminal (for example `hunk diff`). The verifier extension will detect it, reload the current diff, and publish verifier findings as inline Hunk comments.
+6. Invoke the verifier workflow with `/opsx-verify <change>` so the global verifier extension can run the independent read-only verifier agent, inject `.pi/verifier/*.md` policies, parse `VERDICT: PASS` / `VERDICT: FAIL`, publish Hunk comments when possible, and manage the bounded feedback loop.
 
-Do not substitute main-agent review for the verifier workflow. Do not treat graphify-only output as pass/fail evidence.
+Do not run interactive `hunk diff` yourself from the agent. Do not substitute main-agent review for the verifier workflow. Do not treat graphify-only output as pass/fail evidence.
 
 **Context Integration**
 - OpenSpec CLI/`openspec_context` provide fresh workflow and artifact context for change selection and verification setup.

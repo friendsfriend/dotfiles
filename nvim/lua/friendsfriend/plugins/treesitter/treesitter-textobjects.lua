@@ -3,7 +3,7 @@ return {
 	lazy = true,
 	config = function()
 		---@diagnostic disable-next-line: missing-fields
-		require("nvim-treesitter.config").setup({
+		require("nvim-treesitter.configs").setup({
 			textobjects = {
 				select = {
 					enable = true,

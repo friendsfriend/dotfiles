@@ -80,26 +80,26 @@ async function chooseOpenSpecChange(
   return filtered[labels.indexOf(selected)]?.name;
 }
 
-export default function (pi: ExtensionAPI) {
+export default function(pi: ExtensionAPI) {
   pi.registerCommand("apply", {
-    description: "Pick an unfinished OpenSpec change and run /opsx-apply <change>",
+    description: "Pick an unfinished OpenSpec change and run /skill:openspec-apply-change <change>",
     handler: async (_args, ctx) => {
       const change = await chooseOpenSpecChange(ctx.cwd, "apply", ctx.ui);
       if (!change) return;
 
       await ctx.waitForIdle();
-      pi.sendUserMessage(`/opsx-apply ${change}`);
+      pi.sendUserMessage(`/skill:openspec-apply-change ${change}`);
     },
   });
 
   pi.registerCommand("archive", {
-    description: "Pick a finished OpenSpec change and run /opsx-archive <change> --sync-now",
+    description: "Pick a finished OpenSpec change and run /skill:openspec-archive-change <change> --sync-now",
     handler: async (_args, ctx) => {
       const change = await chooseOpenSpecChange(ctx.cwd, "archive", ctx.ui);
       if (!change) return;
 
       await ctx.waitForIdle();
-      pi.sendUserMessage(`/opsx-archive ${change} --sync-now`);
+      pi.sendUserMessage(`/skill:openspec-archive-change ${change} --sync-now`);
     },
   });
 }

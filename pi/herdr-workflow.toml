@@ -1,0 +1,27 @@
+[models]
+manager = "opencode/deepseek-v4-flash-free"
+planner = "openai-codex/gpt-5.6-sol"
+worker_default = "github-copilot/kimi-k2.7-code"
+worker_alternative = "openai-codex/gpt-5.6-luna"
+verifier = "github-copilot/claude-sonnet-5"
+archive = "github-copilot/kimi-k2.7-code"
+
+[thinking]
+manager = "low"
+planner = "high"
+worker_default = "low"
+verifier = "high"
+archive = "low"
+
+[workflow]
+max_verification_rounds = 3
+remote = "origin"
+branch_prefix = "feature/"
+worktree_directory = "~/.herdr/worktrees"
+
+[projects]
+root = "~/development"
+max_depth = 3
+
+[ui]
+selection_height = 10

@@ -1,0 +1,327 @@
+#!/usr/bin/env python3
+"""Small, explicit state machine for OpenSpec workspaces in Herdr."""
+
+import argparse
+import json
+import os
+import shlex
+import subprocess
+import sys
+import time
+import tomllib
+from datetime import datetime, timezone
+from pathlib import Path
+
+AGENT_DIR = Path.home() / ".pi" / "agent"
+CONFIG = Path(os.environ.get("HERDR_WORKFLOW_CONFIG", AGENT_DIR / "herdr-workflow.toml"))
+SKILLS = AGENT_DIR / "skills"
+
+
+def run(*args, cwd=None, capture=True):
+    result = subprocess.run(args, cwd=cwd, text=True, capture_output=capture, check=False)
+    if result.returncode:
+        detail = (result.stderr or result.stdout or "command failed").strip()
+        raise SystemExit(f"{' '.join(map(shlex.quote, args))}: {detail}")
+    return result.stdout.strip() if capture else ""
+
+
+def herdr(*args):
+    output = run("herdr", *args)
+    return json.loads(output)["result"] if output else {}
+
+
+def load_config():
+    with CONFIG.open("rb") as file:
+        return tomllib.load(file)
+
+
+def state_path(repo, change):
+    return Path(repo) / ".herdr-workflow" / change / "state.json"
+
+
+def load_state(repo, change):
+    path = state_path(repo, change)
+    if not path.exists():
+        raise SystemExit(f"workflow not found: {path}")
+    return json.loads(path.read_text())
+
+
+def save_state(state):
+    paths = {state_path(state["worktree"], state["changeId"]), state_path(state["repository"], state["changeId"])}
+    for path in paths:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(state, indent=2) + "\n")
+    return state_path(state["worktree"], state["changeId"])
+
+
+def ensure_clean(repo):
+    if run("git", "status", "--porcelain", cwd=repo):
+        raise SystemExit("working tree is dirty; commit or clean it first")
+    if not (Path(repo) / "openspec" / "config.yaml").exists():
+        raise SystemExit(f"OpenSpec project not found: {repo}/openspec/config.yaml")
+
+
+def role_prompt(role, change):
+    request = f".herdr-workflow/{change}/request.md"
+    return f"/skill:herdr-openspec-{role} Change: {change}. Workflow request: {request}"
+
+
+def pi_command(role, model, thinking, change):
+    skill = SKILLS / f"herdr-openspec-{role}" / "SKILL.md"
+    tools = {
+        "planner": "read,bash,edit,write",
+        "worker": "read,bash,edit,write",
+        "verifier": "read,bash",
+        "archive": "read,bash",
+    }[role]
+    parts = [
+        "env", f"HERDR_ROLE={role}", f"HERDR_CHANGE_ID={change}",
+        "pi", "--name", f"{change}-{role}", "--model", model,
+        "--thinking", thinking, "--tools", tools, "--no-extensions",
+        "--no-prompt-templates", "--no-skills", "--skill", str(skill),
+    ]
+    if role == "archive":
+        parts.append("--no-context-files")
+    return shlex.join(parts)
+
+
+def create_tab(workspace, label):
+    return herdr("tab", "create", "--workspace", workspace, "--label", label)["root_pane"]["pane_id"]
+
+
+def cmd_start(args):
+    config = load_config()
+    source = str(Path(args.repo).expanduser().resolve())
+    ensure_clean(source)
+    branch = config["workflow"]["branch_prefix"] + args.change
+
+    if args.mode == "worktree":
+        result = herdr("worktree", "create", "--cwd", source, "--branch", branch, "--no-focus")
+        workspace = result["workspace"]["workspace_id"]
+        root = result["root_pane"]["pane_id"]
+        worktree = result["worktree"]["path"]
+    else:
+        if run("git", "branch", "--list", branch, cwd=source):
+            raise SystemExit(f"branch already exists: {branch}")
+        run("git", "switch", "-c", branch, cwd=source)
+        result = herdr("workspace", "create", "--cwd", source, "--label", args.change)
+        workspace = result["workspace"]["workspace_id"]
+        root = result["root_pane"]["pane_id"]
+        worktree = source
+
+    herdr("workspace", "rename", workspace, args.change)
+    first_tab = herdr("tab", "list", "--workspace", workspace)["tabs"][0]["tab_id"]
+    herdr("tab", "rename", first_tab, "dashboard")
+    panes = {
+        "dashboard": root,
+        "planner": create_tab(workspace, "explore"),
+        "worker": create_tab(workspace, "apply"),
+        "verifier": create_tab(workspace, "verify"),
+        "git": create_tab(workspace, "git"),
+    }
+    models = config["models"]
+    thinking = config["thinking"]
+    worker = args.worker or models["worker_default"]
+    state = {
+        "changeId": args.change, "phase": "explore", "repository": source,
+        "worktree": worktree, "branch": branch, "workspace": workspace,
+        "task": args.task, "workerModel": worker, "verificationRound": 0,
+        "developerApproval": False, "panes": panes,
+        "createdAt": datetime.now(timezone.utc).isoformat(),
+    }
+    save_state(state)
+    request = Path(worktree) / ".herdr-workflow" / args.change / "request.md"
+    request.write_text(f"# {args.change}\n\n{args.task.strip()}\n")
+    if source != worktree:
+        source_request = Path(source) / ".herdr-workflow" / args.change / "request.md"
+        source_request.parent.mkdir(parents=True, exist_ok=True)
+        source_request.write_text(request.read_text())
+    for checkout in {source, worktree}:
+        exclude = Path(run("git", "rev-parse", "--git-path", "info/exclude", cwd=checkout))
+        if not exclude.is_absolute():
+            exclude = Path(checkout) / exclude
+        exclude.parent.mkdir(parents=True, exist_ok=True)
+        if not exclude.exists() or ".herdr-workflow/" not in exclude.read_text():
+            with exclude.open("a") as file:
+                file.write("\n.herdr-workflow/\n")
+    dashboard = shlex.join(["agent-dash", "--repo", worktree, "--change", args.change])
+    herdr("pane", "run", panes["dashboard"], dashboard)
+    start_role(state, "planner")
+    herdr("pane", "run", panes["git"], "lazygit")
+    print(json.dumps(state, indent=2))
+
+
+def start_role(state, role):
+    config = load_config()
+    models = config["models"]
+    thinking = config["thinking"]
+    model = state["workerModel"] if role == "worker" else models[role]
+    level = thinking["worker_default"] if role == "worker" else thinking[role]
+    pane = state["panes"][role]
+    herdr("pane", "run", pane, pi_command(role, model, level, state["changeId"]))
+    wait_settled(pane)
+    herdr("pane", "run", pane, role_prompt(role, state["changeId"]))
+
+
+def cmd_planner(args):
+    state = load_state(args.repo, args.change)
+    if state["phase"] != "explore":
+        raise SystemExit(f"planner restart invalid during phase {state['phase']}")
+    start_role(state, "planner")
+    print("planner started")
+
+
+def cmd_apply(args):
+    state = load_state(args.repo, args.change)
+    if state["phase"] not in {"proposed", "explore"}:
+        raise SystemExit(f"apply invalid during phase {state['phase']}")
+    start_role(state, "worker")
+    state["phase"] = "apply"
+    save_state(state)
+    print("worker started")
+
+
+def wait_settled(pane, timeout=30):
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        try:
+            status = herdr("agent", "get", pane)["agent"]["agent_status"]
+            if status in {"idle", "done"}:
+                return
+        except (KeyError, TypeError, SystemExit):
+            pass
+        time.sleep(0.2)
+    raise SystemExit(f"agent did not settle: {pane}")
+
+
+def cmd_verify(args):
+    state = load_state(args.repo, args.change)
+    if state["phase"] not in {"apply", "fix", "paused"}:
+        raise SystemExit(f"verify invalid during phase {state['phase']}")
+    if state["verificationRound"] >= load_config()["workflow"]["max_verification_rounds"]:
+        raise SystemExit("verification limit reached; reset explicitly before another round")
+    first_round = state["verificationRound"] == 0
+    if first_round:
+        try:
+            herdr("pane", "close", state["panes"]["planner"])
+        except SystemExit:
+            pass
+    state["verificationRound"] += 1
+    state["phase"] = "verify"
+    save_state(state)
+    if first_round:
+        start_role(state, "verifier")
+    else:
+        wait_settled(state["panes"]["verifier"])
+        herdr("pane", "run", state["panes"]["verifier"], f"Review round {state['verificationRound']}. Read current diff and OpenSpec artifacts; write compact report.")
+
+
+def cmd_close(args):
+    state = load_state(args.repo, args.change)
+    if state["phase"] != "completed":
+        raise SystemExit(f"close requires completed phase, found {state['phase']}")
+    state["phase"] = "closed"
+    save_state(state)
+    herdr("workspace", "close", state["workspace"])
+    print("workspace closed; branch and checkout kept")
+
+
+def cmd_archive(args):
+    state = load_state(args.repo, args.change)
+    if state["phase"] != "developer-review":
+        raise SystemExit(f"archive requires developer-review phase, found {state['phase']}")
+    for role in ("planner", "worker", "verifier"):
+        try:
+            herdr("pane", "close", state["panes"][role])
+        except SystemExit:
+            pass
+    pane = create_tab(state["workspace"], "archive")
+    state["panes"]["archive"] = pane
+    state["phase"] = "archive"
+    state["developerApproval"] = True
+    save_state(state)
+    config = load_config()
+    start_role(state, "archive")
+    print("archive agent started")
+
+
+def cmd_phase(args):
+    state = load_state(args.repo, args.change)
+    allowed = {
+        "explore": {"proposed"}, "apply": {"verify"}, "verify": {"fix", "developer-review", "paused"},
+        "fix": {"verify"}, "paused": {"fix", "verify"}, "archive": {"completed"},
+    }
+    if args.phase not in allowed.get(state["phase"], set()):
+        raise SystemExit(f"invalid transition: {state['phase']} -> {args.phase}")
+    if args.phase == "fix" and state["verificationRound"] >= load_config()["workflow"]["max_verification_rounds"]:
+        args.phase = "paused"
+    state["phase"] = args.phase
+    save_state(state)
+    print(args.phase)
+
+
+def cmd_message(args):
+    state = load_state(args.repo, args.change)
+    pane = state["panes"].get(args.target)
+    if not pane:
+        raise SystemExit(f"unknown target: {args.target}")
+    directory = Path(state["worktree"]) / ".herdr-workflow" / args.change / "messages"
+    directory.mkdir(parents=True, exist_ok=True)
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
+    artifact = directory / f"{stamp}-{args.sender}-to-{args.target}.md"
+    artifact.write_text(f"# {args.sender} → {args.target}\n\n{args.text}\n")
+    herdr("pane", "run", pane, f"Message from {args.sender}: {args.text} Full message: {artifact}")
+    print(artifact)
+
+
+def cmd_status(args):
+    print(json.dumps(load_state(args.repo, args.change), indent=2))
+
+
+def cmd_projects(_args):
+    config = load_config()["projects"]
+    root = Path(config["root"]).expanduser().resolve()
+    max_depth = int(config.get("max_depth", 3))
+    if not root.is_dir():
+        raise SystemExit(f"project discovery root not found: {root}")
+    projects = []
+    for current, directories, _files in os.walk(root):
+        path = Path(current)
+        depth = len(path.relative_to(root).parts)
+        directories[:] = [name for name in directories if not name.startswith(".") and name not in {"node_modules", "build", "dist", "target"}]
+        if (path / ".git").exists():
+            projects.append({"name": str(path.relative_to(root)), "path": str(path), "openspec": (path / "openspec" / "config.yaml").exists()})
+            directories.clear()
+        elif depth >= max_depth:
+            directories.clear()
+    print(json.dumps(sorted(projects, key=lambda item: item["name"].lower())))
+
+
+def cmd_config(_args):
+    print(json.dumps(load_config()))
+
+
+def parser():
+    root = argparse.ArgumentParser()
+    commands = root.add_subparsers(dest="command", required=True)
+    commands.add_parser("projects")
+    commands.add_parser("config")
+    start = commands.add_parser("start")
+    start.add_argument("--repo", required=True); start.add_argument("--change", required=True)
+    start.add_argument("--task", required=True); start.add_argument("--mode", choices=("worktree", "checkout"), required=True)
+    start.add_argument("--worker")
+    for name in ("planner", "apply", "verify", "archive", "close", "status"):
+        sub = commands.add_parser(name); sub.add_argument("--repo", required=True); sub.add_argument("--change", required=True)
+    phase = commands.add_parser("phase"); phase.add_argument("--repo", required=True); phase.add_argument("--change", required=True); phase.add_argument("phase")
+    message = commands.add_parser("message"); message.add_argument("--repo", required=True); message.add_argument("--change", required=True)
+    message.add_argument("--from", dest="sender", required=True); message.add_argument("--to", dest="target", required=True); message.add_argument("text")
+    return root
+
+
+def main():
+    args = parser().parse_args()
+    globals()[f"cmd_{args.command}"](args)
+
+
+if __name__ == "__main__":
+    main()

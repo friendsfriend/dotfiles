@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+root=$(mktemp -d)
+trap 'rm -rf "$root"' EXIT
+repo="$root/repo"
+mkdir -p "$repo/openspec" "$root/bin"
+printf 'schema: spec-driven\n' > "$repo/openspec/config.yaml"
+git -C "$repo" init -q
+git -C "$repo" config user.email test@example.com
+git -C "$repo" config user.name Test
+touch "$repo/README.md"
+git -C "$repo" add .
+git -C "$repo" commit -qm init
+python3 - "$PWD/pi/herdr-workflow.toml" "$root/config.toml" "$root" <<'PY'
+import sys
+text = open(sys.argv[1]).read().replace('root = "~/development"', f'root = "{sys.argv[3]}"')
+open(sys.argv[2], 'w').write(text)
+PY
+
+cat > "$root/bin/herdr" <<'MOCK'
+#!/usr/bin/env bash
+case "$1 $2" in
+  "workspace create") echo '{"result":{"workspace":{"workspace_id":"w1"},"root_pane":{"pane_id":"p1"}}}' ;;
+  "tab list") echo '{"result":{"tabs":[{"tab_id":"t1"}]}}' ;;
+  "tab create") label="${*: -1}"; echo "{\"result\":{\"root_pane\":{\"pane_id\":\"p-$label\"}}}" ;;
+  "agent get") echo '{"result":{"agent":{"agent_status":"idle"}}}' ;;
+  *) echo '{"result":{"type":"ok"}}' ;;
+esac
+MOCK
+chmod +x "$root/bin/herdr"
+env=(PATH="$root/bin:$PATH" HERDR_WORKFLOW_CONFIG="$root/config.toml")
+env "${env[@]}" pi/bin/herdr-workflow projects | python3 -c 'import json,sys; p=json.load(sys.stdin); assert p[0]["name"] == "repo"'
+env "${env[@]}" pi/bin/herdr-workflow start --repo "$repo" --change test-change --task test --mode checkout >/dev/null
+env "${env[@]}" pi/bin/herdr-workflow phase --repo "$repo" --change test-change proposed >/dev/null
+env "${env[@]}" pi/bin/herdr-workflow apply --repo "$repo" --change test-change >/dev/null
+env "${env[@]}" pi/bin/herdr-workflow verify --repo "$repo" --change test-change >/dev/null
+
+python3 - "$repo" <<'PY'
+import json, sys
+from pathlib import Path
+state = json.loads((Path(sys.argv[1]) / '.herdr-workflow/test-change/state.json').read_text())
+assert state['phase'] == 'verify'
+assert state['verificationRound'] == 1
+assert state['branch'] == 'feature/test-change'
+assert state['panes']['dashboard'] == 'p1'
+assert state['panes']['planner'] == 'p-explore'
+assert (Path(sys.argv[1]) / '.herdr-workflow/test-change/request.md').read_text() == '# test-change\n\ntest\n'
+PY
+
+env "${env[@]}" pi/bin/agent-dash --repo "$repo" --change test-change --json | python3 -c 'import json,sys; d=json.load(sys.stdin); assert d["state"]["phase"] == "verify"; assert d["tasks"] == []'
+pi/bin/agent-dash --profile test --json | python3 -c 'import json,sys; d=json.load(sys.stdin); assert d["state"]["phase"] == "proposed"; assert len(d["tasks"]) == 5'

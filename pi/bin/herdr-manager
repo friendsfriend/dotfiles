@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+[[ -n "${HERDR_ENV:-}" ]] || { echo "herdr-manager must run inside Herdr" >&2; exit 1; }
+cd "$HOME"
+
+read -r model thinking < <(python3 - <<'PY'
+import os, tomllib
+with open(os.path.expanduser("~/.pi/agent/herdr-workflow.toml"), "rb") as f:
+    config = tomllib.load(f)
+print(config["models"]["manager"], config["thinking"]["manager"])
+PY
+)
+
+exec env HERDR_ROLE=manager pi \
+  --name herdr-manager \
+  --model "$model" \
+  --thinking "$thinking" \
+  --no-builtin-tools \
+  --tools herdr,herdr_workflow \
+  --no-skills \
+  --skill "$HOME/.pi/agent/skills/herdr-manager/SKILL.md" \
+  --extension "$HOME/.pi/agent/extensions/herdr-workflow.ts" \
+  "/skill:herdr-manager Manage Herdr setup from home. Wait for explicit developer requests."

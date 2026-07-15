@@ -64,6 +64,12 @@ stow_pi_agent_assets() {
     link_pi_agent_asset_items "$HOME"/.pi/agent/extensions pi/extensions
     link_pi_agent_asset_items "$HOME"/.pi/agent/prompts pi/prompts
     link_pi_agent_asset_items "$HOME"/.pi/agent/skills pi/skills
+    link_pi_agent_asset_items "$HOME"/.pi/agent/bin pi/bin
+    stow_file "$HOME"/.pi/agent/herdr-workflow.toml "$HOME/dotfiles/pi/herdr-workflow.toml" "Herdr workflow config"
+}
+
+stow_herdr() {
+    stow_folder "$HOME"/.config/herdr/ herdr
 }
 
 stow_file() {
@@ -150,6 +156,7 @@ case "$DOTFILES_ENV" in
         stow_pi_agent_assets
         stow_folder "$HOME"/.config/voxtype/ voxtype
         stow_folder "$HOME"/.config/hunk/ hunk
+        stow_herdr
         link_voxtype_macos_config
         ;;
     work)
@@ -174,6 +181,7 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/.config/voxtype/ voxtype
         link_voxtype_macos_config
         stow_folder "$HOME"/.config/hunk/ hunk
+        stow_herdr
         ;;
     omarchy)
         stow_folder "$HOME"/.config/hypr/ hyprland
@@ -190,6 +198,7 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/.config/sesh/ sesh
         stow_folder "$HOME"/.config/hunk/ hunk
         stow_pi_agent_assets
+        stow_herdr
         hyprctl reload
 	;;
     *)

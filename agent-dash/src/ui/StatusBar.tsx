@@ -4,7 +4,7 @@ import { For } from 'solid-js';
 import { uiColors } from './colors';
 
 export type Keybind = { key: string; action: string };
-export function StatusBar(props: { prompt: string; message: string; approval: boolean; keybinds?: Keybind[] }) {
+export function StatusBar(props: { prompt: string; approval: boolean; keybinds?: Keybind[] }) {
   const keys = () => props.keybinds ?? [
     ...(props.approval ? [{ key: 'enter', action: 'approve' }] : []),
     { key: 'J/K', action: 'switch panel' },

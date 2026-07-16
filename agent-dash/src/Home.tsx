@@ -11,6 +11,11 @@ import { NewWorkflowModal } from './ui/NewWorkflowModal';
 import { Panel } from './ui/Panel';
 import { StatusBar } from './ui/StatusBar';
 import { uiColors } from './ui/colors';
+import { ThemePickerModal } from './ui/ThemePickerModal';
+import { applyTheme, saveThemeName, loadThemeName } from './theme-settings';
+import { getActiveThemeName, themeNames } from './ui/theme';
+import { invokeGlobalSelectionMouseUpHandler } from './selectionCopy';
+import { NotificationOverlay } from './ui/Notification';
 
 export function Home(props: { keymap: Keymap<any, KeyEvent> }) {
   const renderer = useRenderer();
@@ -31,6 +36,8 @@ export function Home(props: { keymap: Keymap<any, KeyEvent> }) {
   const [error, setError] = createSignal<{ title: string; message: string }>();
   const [help, setHelp] = createSignal(false);
   const [helpOffset, setHelpOffset] = createSignal(0);
+  const [themePicker, setThemePicker] = createSignal(false);
+  const [themeIndex, setThemeIndex] = createSignal(Math.max(0, themeNames.indexOf(loadThemeName())));
   const helpSections: HelpSection[] = [{ title: 'Navigation', items: [{ key: 'j/k or ↑/↓', description: 'Select workspace' }] }, { title: 'Actions', items: [{ key: 'Enter', description: 'Switch active workspace' }, { key: 'n', description: 'New workflow' }, { key: 's', description: 'Active/archived filter' }, { key: 'r', description: 'Refresh' }, { key: 'q', description: 'Quit' }, { key: '?', description: 'Open help' }] }];
   const helpMaxOffset = () => Math.max(0, helpSections.reduce((count, section) => count + section.items.length + 1, 0) - Math.max(5, Math.floor(dimensions().height * .78) - 5));
   const closeError = () => { setError(undefined); props.keymap.setData('modal.active', 'none'); };
@@ -47,7 +54,8 @@ export function Home(props: { keymap: Keymap<any, KeyEvent> }) {
   const handleKey = (key: KeyEvent) => {
     const name = key.name.toLowerCase();
     if (modal()) return;
-    if (name === '?') { setHelp(true); setHelpOffset(0); props.keymap.setData('modal.active', 'help'); }
+    if (name === 't' && key.shift) { setThemePicker(true); props.keymap.setData('modal.active', 'theme'); }
+    else if (name === '?') { setHelp(true); setHelpOffset(0); props.keymap.setData('modal.active', 'help'); }
     else if (name === 'q') renderer.destroy();
     else if (name === 'n') { setModal(true); props.keymap.setData('modal.active', 'new-workflow'); }
     else if (name === 'r') refresh();
@@ -64,6 +72,7 @@ export function Home(props: { keymap: Keymap<any, KeyEvent> }) {
       commands: [{ name: 'new-workflow.handle', run: ({ event }) => modalHandler()?.(event) ?? true }],
       bindings: modalKeys.map(key => ({ key, cmd: 'new-workflow.handle' })),
     });
+    const disposeTheme = props.keymap.registerLayer({ name: 'theme-home', priority: 1100, activeModal: 'theme', commands: [{ name: 'theme.handle', run: ({ event }) => { const key = event.name.toLowerCase(); if (key === 'escape') { setThemePicker(false); props.keymap.setData('modal.active', 'none'); } else if (key === 'j' || key === 'down') { const next = Math.min(themeNames.length - 1, themeIndex() + 1); setThemeIndex(next); applyTheme(themeNames[next]!); } else if (key === 'k' || key === 'up') { const next = Math.max(0, themeIndex() - 1); setThemeIndex(next); applyTheme(themeNames[next]!); } else if (key === 'enter' || key === 'return') { saveThemeName(themeNames[themeIndex()]!); setThemePicker(false); props.keymap.setData('modal.active', 'none'); } return true; } }], bindings: ['escape', 'enter', 'return', 'j', 'k', 'up', 'down'].map(key => ({ key, cmd: 'theme.handle' })) });
     const disposeHelp = props.keymap.registerLayer({ name: 'help', priority: 1100, activeModal: 'help', commands: [{ name: 'help.close', run: ({ event }) => { const key = event.name.toLowerCase(); if (key === 'escape') { setHelp(false); props.keymap.setData('modal.active', 'none'); } else if (key === 'j' || key === 'down') setHelpOffset(value => Math.min(helpMaxOffset(), value + 1)); else if (key === 'k' || key === 'up') setHelpOffset(value => Math.max(0, value - 1)); return true; } }], bindings: ['escape', 'j', 'k', 'up', 'down'].map(key => ({ key, cmd: 'help.close' })) });
     const disposeError = props.keymap.registerLayer({ name: 'error', priority: 1100, activeModal: 'error',
       commands: [{ name: 'error.close', run: () => { closeError(); return true; } }],
@@ -71,12 +80,12 @@ export function Home(props: { keymap: Keymap<any, KeyEvent> }) {
     });
     const disposeHome = props.keymap.registerLayer({ name: 'home', priority: 100, appView: 'home', activeModal: 'none',
       commands: [{ name: 'home.handle', run: ({ event }) => { handleKey(event); return true; } }],
-      bindings: ['q', 'n', 'r', 's', '?', 'j', 'k', 'up', 'down', 'enter', 'return'].map(key => ({ key, cmd: 'home.handle' })), 
+      bindings: ['q', 'n', 'r', 's', '?', 'shift+t', 'j', 'k', 'up', 'down', 'enter', 'return'].map(key => ({ key, cmd: 'home.handle' })), 
     });
-    onCleanup(() => { disposeModal(); disposeHelp(); disposeError(); disposeHome(); });
+    onCleanup(() => { disposeModal(); disposeTheme(); disposeHelp(); disposeError(); disposeHome(); });
   });
   return (
-    <box backgroundColor={uiColors.bgBase} style={{ width: '100%', height: '100%', flexDirection: 'column', padding: 1, gap: 1 }}>
+    <box backgroundColor={uiColors.bgBase} style={{ width: '100%', height: '100%', flexDirection: 'column', padding: 1, gap: 1 }} onMouseUp={() => invokeGlobalSelectionMouseUpHandler()}>
       <box style={{ height: 2, flexDirection: 'column' }}>
         <box style={{ width: '100%', flexDirection: 'row' }}>
           <text fg={uiColors.primary} attributes={TextAttributes.BOLD}>AGT DASHBOARD</text>
@@ -99,7 +108,9 @@ export function Home(props: { keymap: Keymap<any, KeyEvent> }) {
           <text fg={uiColors.textMuted}>Loading workspaces…</text>
         </Show>
       </Panel>
-      <StatusBar prompt={`${filter()} workspaces`} message={message()} approval={false} keybinds={[{ key: 'Enter', action: 'switch workspace' }, { key: 'n', action: 'new workflow' }, { key: 's', action: 'active/archived' }, { key: 'r', action: 'refresh' }, { key: '?', action: 'help' }, { key: 'q', action: 'quit' }]} />
+      <StatusBar prompt={`${filter()} workspaces`} approval={false} keybinds={[{ key: 'Enter', action: 'switch workspace' }, { key: 'n', action: 'new workflow' }, { key: 's', action: 'active/archived' }, { key: 'r', action: 'refresh' }, { key: '?', action: 'help' }, { key: 'Shift+T', action: 'theme' }, { key: 'q', action: 'quit' }]} />
+      <NotificationOverlay />
+      <Show when={themePicker()}><ThemePickerModal selected={themeIndex()} active={getActiveThemeName()} themes={themeNames} query="" filtering={false} /></Show>
       <Show when={modal()}><NewWorkflowModal projects={projects()} models={models()} onKeyReady={handler => setModalHandler(() => handler)} onCancel={() => { setModal(false); props.keymap.setData('modal.active', 'none'); setModalHandler(undefined); }} onComplete={async (input) => { setModal(false); props.keymap.setData('modal.active', 'none'); setModalHandler(undefined); if (!herdrAvailable()) { showHerdrUnavailable(); return; } setMessage('Starting workflow…'); try { setMessage(await startWorkflow(input)); refresh(); } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
         if (!notifyHerdrError(message)) showError(herdrAvailable() ? 'Workflow execution failed' : 'Herdr unavailable', message);

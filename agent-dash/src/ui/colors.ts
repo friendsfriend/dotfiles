@@ -1,25 +1,9 @@
-// Reused from ~/devenv/tui Catppuccin UI palette.
-export const colors = {
-  red: '#f38ba8', peach: '#fab387', yellow: '#f9e2af', green: '#a6e3a1',
-  teal: '#94e2d5', sky: '#89dceb', blue: '#89b4fa', lavender: '#b4befe',
-  text: '#cdd6f4', subtext1: '#bac2de', overlay2: '#9399b2', overlay0: '#6c7086',
-  surface1: '#45475a', surface0: '#313244', base: '#1e1e2e', mantle: '#181825', crust: '#11111b',
-} as const;
-
+import { themeColor } from './theme';
+// Dynamic getters: every render reads selected DevEnv theme.
+const color = (key: string, fallback: string) => ({ get value() { return themeColor(key, fallback); } });
+export const colors = { get red() { return themeColor('error', '#f38ba8'); }, get peach() { return themeColor('warning', '#fab387'); }, get yellow() { return themeColor('warning', '#f9e2af'); }, get green() { return themeColor('success', '#a6e3a1'); }, get teal() { return themeColor('info', '#94e2d5'); }, get sky() { return themeColor('info', '#89dceb'); }, get blue() { return themeColor('primary', '#89b4fa'); }, get lavender() { return themeColor('accent', '#b4befe'); }, get text() { return themeColor('text', '#cdd6f4'); }, get subtext1() { return themeColor('textMuted', '#bac2de'); }, get overlay2() { return themeColor('textMuted', '#9399b2'); }, get overlay0() { return themeColor('borderSubtle', '#6c7086'); }, get surface1() { return themeColor('backgroundElement', '#45475a'); }, get surface0() { return themeColor('backgroundPanel', '#313244'); }, get base() { return themeColor('background', '#1e1e2e'); }, get mantle() { return themeColor('backgroundPanel', '#181825'); }, get crust() { return themeColor('backgroundElement', '#11111b'); } } as const;
 export const uiColors = {
-  primary: colors.blue,
-  success: colors.green,
-  warning: colors.yellow,
-  error: colors.red,
-  info: colors.sky,
-  accent: colors.lavender,
-  textPrimary: colors.text,
-  textSecondary: colors.subtext1,
-  textMuted: colors.overlay2,
-  bgBase: colors.base,
-  bgMantle: colors.mantle,
-  bgCrust: colors.crust,
-  bgSurface0: colors.surface0,
-  bgSurface1: colors.surface1,
-  border: colors.surface1,
+  get primary() { return themeColor('primary', '#89b4fa'); }, get success() { return themeColor('success', '#a6e3a1'); }, get warning() { return themeColor('warning', '#f9e2af'); }, get error() { return themeColor('error', '#f38ba8'); }, get info() { return themeColor('info', '#89dceb'); }, get accent() { return themeColor('accent', '#b4befe'); },
+  get textPrimary() { return themeColor('text', '#cdd6f4'); }, get textSecondary() { return themeColor('textMuted', '#bac2de'); }, get textMuted() { return themeColor('textMuted', '#9399b2'); },
+  get bgBase() { return themeColor('background', '#1e1e2e'); }, get bgMantle() { return themeColor('backgroundPanel', '#181825'); }, get bgCrust() { return themeColor('backgroundElement', '#11111b'); }, get bgSurface0() { return themeColor('backgroundPanel', '#313244'); }, get bgSurface1() { return themeColor('backgroundElement', '#45475a'); }, get border() { return themeColor('border', '#45475a'); },
 } as const;

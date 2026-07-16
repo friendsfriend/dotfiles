@@ -1,0 +1,6 @@
+/** @jsxImportSource @opentui/solid */
+import { For } from 'solid-js';
+import { GenericModal } from './GenericModal';
+import { themeColorForTheme } from './theme';
+import { uiColors } from './colors';
+export function ThemePickerModal(props: { selected: number; active: string; themes: string[]; query: string; filtering: boolean }) { return <GenericModal title="Theme Picker" widthPercent={0.7} heightPercent={0.75} help={[{ key: 'j/k', action: 'Navigate' }, { key: 'Enter', action: 'Apply' }, { key: 'Esc', action: 'Close' }]} search={props.filtering ? props.query : undefined}><For each={props.themes}>{(name, index) => <box height={1} backgroundColor={index() === props.selected ? uiColors.bgSurface1 : undefined} flexDirection="row"><text fg={index() === props.selected ? uiColors.bgBase : uiColors.textPrimary}>{name === props.active ? '✓ ' : '  '}{name.padEnd(28)}</text><text fg={themeColorForTheme(name, 'primary', uiColors.primary)}>▬▬</text><text fg={themeColorForTheme(name, 'accent', uiColors.accent)}>▬▬</text><text fg={themeColorForTheme(name, 'success', uiColors.success)}>▬▬</text><text fg={themeColorForTheme(name, 'warning', uiColors.warning)}>▬▬</text><text fg={themeColorForTheme(name, 'error', uiColors.error)}>▬▬</text></box>}</For></GenericModal>; }

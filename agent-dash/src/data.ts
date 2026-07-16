@@ -12,6 +12,7 @@ export interface WorkflowState {
   verificationRound: number;
   createdAt?: string;
   ticketNumber?: string;
+  workerModel?: string;
   returnWorkspace?: string;
   verificationTier?: string;
   verificationRoles?: string[];
@@ -29,7 +30,7 @@ export interface WorkflowOverview {
   state: WorkflowState;
   workspaceOpen: boolean;
   tasks: [number, number];
-  agents: Array<{ role: string; status: string }>;
+  agents: Array<{ role: string; status: string; model?: string }>;
 }
 
 function openWorkspaceIds(): Set<string> | undefined {
@@ -58,7 +59,7 @@ export function listWorkflows(root = join(homedir(), 'development')): WorkflowOv
             const tasksFile = join(state.worktree, 'openspec', 'changes', state.changeId, 'tasks.md');
             const items = tasks(tasksFile);
             const workspaceOpen = openWorkspaces ? openWorkspaces.has(state.workspace) : state.phase !== 'closed';
-            found.push({ state, workspaceOpen, tasks: [items.filter(item => item.done).length, items.length], agents: Object.entries(state.panes).filter(([role]) => !['git', 'dashboard'].includes(role)).map(([role, pane]) => ({ role, status: statuses.get(pane) ?? (workspaceOpen ? 'not started' : 'closed') })) });
+            found.push({ state, workspaceOpen, tasks: [items.filter(item => item.done).length, items.length], agents: Object.entries(state.panes).filter(([role]) => !['git', 'dashboard'].includes(role)).map(([role, pane]) => ({ role, status: statuses.get(pane) ?? (workspaceOpen ? 'not started' : 'closed'), model: role === 'worker' ? state.workerModel : state.verificationModels?.[role] })) });
           } catch { /* ignore stale state */ }
         }
         continue;
@@ -78,13 +79,13 @@ export interface DashboardData {
   tasks: Array<{ done: boolean; text: string }>;
   review: string;
   reviewHistory: string[];
-  agents: Array<{ role: string; status: string }>;
+  agents: Array<{ role: string; status: string; model?: string }>;
   updated: string;
   health: { dirty: boolean; ahead: number; behind: number; branch: string };
   age: string;
   currentTask: string;
-  events: Array<{ at: string; event: string }>;
-  verifierTimeline: Array<{ role: string; status: string; durationSeconds?: number; model?: string; providerErrors: number; fallback: boolean }>;
+  events: Array<{ at: string; event: string; role?: string; model?: string; cost?: number; status?: number; tier?: string; roles?: string[]; reports?: string[]; fallback?: string }>;
+  verifierTimeline: Array<{ role: string; status: string; durationSeconds?: number; model?: string; cost?: number; providerErrors: number; fallback: boolean }>;
   telemetrySummary: Array<{ model: string; durationSeconds: number; errors: number; fallbacks: number; inputTokens: number; outputTokens: number; cost: number }>;
 }
 
@@ -124,11 +125,29 @@ function agentStatuses() {
   }
 }
 
+export function loadVerifierFindings(repo: string, change: string, role: string) {
+  const state = JSON.parse(read(join(repo, '.herdr-workflow', change, 'state.json'))) as WorkflowState;
+  const path = join(state.worktree, '.herdr-workflow', change, 'reviews', `round-${state.verificationRound}-${role}.findings.jsonl`);
+  if (!existsSync(path)) return undefined;
+  const events = read(path).split(/\r?\n/).filter(Boolean).flatMap(line => { try { return [JSON.parse(line) as Record<string, unknown>]; } catch { return []; } });
+  return { title: `${role} · round ${state.verificationRound}`, events: events as Array<{ type: string; verdict?: string; severity?: string; path?: string; line?: number; detail?: string; evidence?: string; changedCode?: string; fix?: string }> };
+}
+
 export function loadVerifierReport(repo: string, change: string, role: string) {
   const state = JSON.parse(read(join(repo, '.herdr-workflow', change, 'state.json'))) as WorkflowState;
-  const path = join(state.worktree, '.herdr-workflow', change, 'reviews', `round-${state.verificationRound}-${role}.md`);
-  if (!existsSync(path)) throw new Error(`No verdict report yet for ${role}.`);
-  return { title: `${role} · round ${state.verificationRound}`, content: read(path) };
+  const reviews = join(state.worktree, '.herdr-workflow', change, 'reviews');
+  const jsonl = join(reviews, `round-${state.verificationRound}-${role}.findings.jsonl`);
+  if (existsSync(jsonl)) {
+    const entries = read(jsonl).split(/\r?\n/).filter(Boolean).flatMap(line => { try { return [JSON.parse(line) as Record<string, unknown>]; } catch { return []; } });
+    const content = entries.map(entry => {
+      if (entry.type === 'verdict') return `# Verdict\n${String(entry.verdict ?? 'UNKNOWN')}`;
+      return [`# ${(entry.severity ?? 'info').toString().toUpperCase()} · ${entry.path ?? 'repository'}`, entry.line ? `Line ${entry.line}` : '', String(entry.detail ?? ''), entry.evidence ? `Evidence: ${entry.evidence}` : entry.changedCode ? `Changed code: ${entry.changedCode}` : '', entry.fix ? `Resolution: ${entry.fix}` : ''].filter(Boolean).join('\n');
+    }).join('\n\n') || '# No findings';
+    return { title: `${role} · round ${state.verificationRound}`, content };
+  }
+  const markdown = join(reviews, `round-${state.verificationRound}-${role}.md`);
+  if (!existsSync(markdown)) throw new Error(`No verdict result yet for ${role}.`);
+  return { title: `${role} · round ${state.verificationRound}`, content: read(markdown) };
 }
 
 export function loadDashboard(repo: string, change: string): DashboardData {
@@ -148,7 +167,7 @@ export function loadDashboard(repo: string, change: string): DashboardData {
     const started = state.verificationRoleStartedAt?.[role];
     const ended = [...roleEvents].reverse().find(event => event.event === 'verifier_result')?.at;
     const durationSeconds = started ? Math.max(0, Math.floor(((ended ? Date.parse(ended) : Date.now()) - Date.parse(started)) / 1000)) : undefined;
-    return { role, status: result?.verdict ?? (state.verificationTimeoutRoles?.includes(role) ? 'TIMEOUT' : statuses.get(state.panes[role] ?? '') ?? 'RUN'), durationSeconds, model: state.verificationModels?.[role], providerErrors: responseErrors, fallback: roleEvents.some(event => event.event === 'provider_launch_fallback') };
+    return { role, cost: roleEvents.filter(event => event.event === 'model_usage').reduce((sum, event) => sum + Number(event.cost ?? 0), 0), status: result?.verdict ?? (state.verificationTimeoutRoles?.includes(role) ? 'TIMEOUT' : statuses.get(state.panes[role] ?? '') ?? 'RUN'), durationSeconds, model: state.verificationModels?.[role], providerErrors: responseErrors, fallback: roleEvents.some(event => event.event === 'provider_launch_fallback') };
   });
   const summaryByModel = new Map<string, { model: string; durationSeconds: number; errors: number; fallbacks: number; inputTokens: number; outputTokens: number; cost: number }>();
   for (const event of telemetry) {
@@ -169,12 +188,12 @@ export function loadDashboard(repo: string, change: string): DashboardData {
     reviewHistory: reviewHistory(join(workflowRoot, 'reviews')),
     agents: Object.entries(state.panes)
       .filter(([role]) => !['git', 'dashboard'].includes(role))
-      .map(([role, pane]) => ({ role, status: statuses.get(pane) ?? (role === 'planner' && closedPlannerPhases.has(state.phase) ? 'closed' : 'not started') })),
+      .map(([role, pane]) => ({ role, status: statuses.get(pane) ?? (role === 'planner' && closedPlannerPhases.has(state.phase) ? 'closed' : 'not started'), model: role === 'worker' ? state.workerModel : state.verificationModels?.[role] })),
     updated: new Date().toLocaleTimeString(),
     health: { dirty: !!git(state.worktree, 'status', '--porcelain'), ahead: Number(git(state.worktree, 'rev-list', '--count', '@{upstream}..HEAD')) || 0, behind: Number(git(state.worktree, 'rev-list', '--count', 'HEAD..@{upstream}')) || 0, branch: git(state.worktree, 'branch', '--show-current') },
     age: state.createdAt ? `${Math.max(0, Math.floor((Date.now() - Date.parse(state.createdAt)) / 3600000))}h` : 'unknown',
     currentTask: state.phase === 'explore' ? 'Planner exploring change' : state.phase === 'apply' || state.phase === 'fix' ? (tasks(join(changeRoot, 'tasks.md')).find(task => !task.done)?.text ?? 'Worker completing tasks') : state.phase === 'verify' ? 'Verification in progress' : state.phase,
-    events: telemetry.slice(-5).map(event => ({ at: new Date(event.at).toLocaleTimeString(), event: String(event.event) })),
+    events: telemetry.slice(-20).map(event => ({ at: new Date(event.at).toLocaleTimeString(), event: String(event.event), role: event.role as string | undefined, model: event.model as string | undefined, cost: Number(event.cost ?? 0) || undefined, status: Number(event.status ?? 0) || undefined, tier: event.tier as string | undefined, roles: event.roles as string[] | undefined, reports: event.reports as string[] | undefined, fallback: event.fallback as string | undefined })), 
     verifierTimeline,
     telemetrySummary: [...summaryByModel.values()],
   };
@@ -218,7 +237,7 @@ export function testDashboard(phase = 'proposed'): DashboardData {
     health: { dirty: false, ahead: 0, behind: 0, branch: 'feature/demo-optional-realisation-date' },
     age: '2h',
     currentTask: applying ? 'Apply next implementation task' : 'Planner exploring change',
-    events: [{ at: '10:42', event: 'verification_started' }, { at: '10:40', event: 'worker_started' }],
+    events: [{ at: '10:42', event: 'verification_started', tier: 'standard', roles: ['security-verifier', 'quality-verifier'] }, { at: '10:40', event: 'pi_agent_start', role: 'worker', model: 'claude-sonnet' }],
     verifierTimeline: phase === 'verify' ? [{ role: 'security-verifier', status: 'PASS', durationSeconds: 42, model: 'claude-sonnet', providerErrors: 0, fallback: false }, { role: 'quality-verifier', status: 'PASS', durationSeconds: 78, model: 'claude-sonnet', providerErrors: 0, fallback: false }, { role: 'test-verifier', status: 'RUN', durationSeconds: 184, model: 'claude-sonnet', providerErrors: 0, fallback: false }] : [],
     telemetrySummary: [{ model: 'claude-sonnet', durationSeconds: 304, errors: 0, fallbacks: 0, inputTokens: 12300, outputTokens: 3400, cost: 0.12 }],
   };
@@ -255,6 +274,30 @@ export function notifyHerdrError(message: string) {
 export function focusWorkspace(workspace: string) {
   const result = Bun.spawnSync(['herdr', 'workspace', 'focus', workspace], { stdout: 'pipe', stderr: 'pipe' });
   if (result.exitCode !== 0) throw new Error((result.stderr.toString() || result.stdout.toString() || 'workspace focus failed').trim());
+}
+
+function openSpecRoot(state: WorkflowState) {
+  const changes = join(state.worktree, 'openspec', 'changes');
+  const active = join(changes, state.changeId);
+  if (existsSync(active)) return active;
+  const archive = join(changes, 'archive');
+  try { const entry = readdirSync(archive).find(name => name === state.changeId || name.endsWith(`-${state.changeId}`)); return entry ? join(archive, entry) : active; } catch { return active; }
+}
+export function openSpecArtifacts(state: WorkflowState) {
+  try { return Array.from(new Bun.Glob('**/*.md').scanSync({ cwd: openSpecRoot(state) })).sort(); } catch { return []; }
+}
+export function openSpecArtifact(state: WorkflowState, artifact: string) { return read(join(openSpecRoot(state), artifact)); }
+
+export function openFindingInEditor(state: WorkflowState, finding: { path?: string; line?: number }) {
+  if (!finding.path) throw new Error('Finding has no file path.');
+  const file = join(state.worktree, finding.path);
+  const tab = Bun.spawnSync(['herdr', 'tab', 'create', '--workspace', state.workspace, '--label', `finding:${finding.path.split('/').at(-1)}`, '--focus'], { stdout: 'pipe', stderr: 'pipe' });
+  if (tab.exitCode !== 0) throw new Error((tab.stderr.toString() || 'editor tab creation failed').trim());
+  const pane = JSON.parse(tab.stdout.toString()).result.root_pane.pane_id as string;
+  const editor = process.env.EDITOR || 'vi';
+  const command = `${editor} +${finding.line ?? 1} ${JSON.stringify(file)}`;
+  const run = Bun.spawnSync(['herdr', 'pane', 'run', pane, command], { stdout: 'pipe', stderr: 'pipe' });
+  if (run.exitCode !== 0) throw new Error((run.stderr.toString() || 'editor launch failed').trim());
 }
 
 export function focusAgent(state: WorkflowState, pane: string) {

@@ -7,6 +7,10 @@ import { setupKeymap } from './keymap-setup';
 import { resolve } from 'node:path';
 import { App } from './App';
 import { Home } from './Home';
+import { applyTheme, loadThemeName } from './theme-settings';
+import { setGlobalSelectionMouseUpHandler } from './selectionCopy';
+import { copyToClipboard } from './clipboard';
+import { notify } from './notifications';
 import { listWorkflows, loadDashboard, testDashboard } from './data';
 
 function argument(name: string) {
@@ -30,6 +34,7 @@ if (process.argv.includes('--json')) {
   process.exit(0);
 }
 
+applyTheme(loadThemeName());
 process.env.FORCE_COLOR = '3';
 const renderer = await createCliRenderer({ targetFps: 30, exitOnCtrlC: false, useKittyKeyboard: {}, exitSignals: [] });
 const cleanup = () => renderer.destroy();
@@ -40,6 +45,7 @@ function HomeShell() {
   return <Home keymap={keymap} />;
 }
 
+const clearSelectionCopy = setGlobalSelectionMouseUpHandler(() => { const text = renderer.getSelection()?.getSelectedText(); if (text) { if (copyToClipboard(text)) notify('Copied', 'success'); else notify('Copy failed', 'error'); renderer.clearSelection(); } });
 const keymap = createDefaultOpenTuiKeymap(renderer);
 const disposeKeymap = setupKeymap(keymap);
 keymap.setData('app.view', home ? 'home' : 'detail');
@@ -48,4 +54,5 @@ await render(() => <KeymapProvider keymap={keymap}>
   {home ? <HomeShell /> : <App repo={resolvedRepo} change={resolvedChange} profile={isTest ? 'test' : undefined} keymap={keymap} />}
 </KeymapProvider>, renderer);
 await new Promise<void>(resolveDone => renderer.once('destroy', resolveDone));
+clearSelectionCopy();
 disposeKeymap();

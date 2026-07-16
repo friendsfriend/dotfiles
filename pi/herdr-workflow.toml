@@ -33,4 +33,5 @@ root = "~/development"
 max_depth = 3
 
 [ui]
+theme = "catppuccin"
 selection_height = 10

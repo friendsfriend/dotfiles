@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-[[ -n "${HERDR_ENV:-}" ]] || { echo "herdr-manager must run inside Herdr" >&2; exit 1; }
-command -v agent-dash >/dev/null || { echo "agent-dash not installed; run: cd ~/dotfiles/agent-dash && bun run install:bin" >&2; exit 1; }
-exec agent-dash --home

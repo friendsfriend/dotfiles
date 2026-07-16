@@ -26,21 +26,9 @@ If add additional files to the dotfiles repo remember to run the stow script aga
 ./scripts/stow.sh
 ```
 
-### Pi agent assets and graphify
+### Agentic coding setup
 
-The Pi agent assets in `pi/` are linked by `scripts/stow.sh`. Repository navigation/history context is provided by graphify (`graphify-out/graph.json`) rather than the previous Pi repo graph or memory extensions. Existing on-disk memory data is not deleted by the install script, but it is no longer read by these dotfiles' Pi agent setup after the memory extension is removed. Run `/graphify . --update` after substantial dotfiles, OpenSpec, prompt, or skill changes to keep graph-backed navigation fresh.
-
-### Herdr OpenSpec workflow
-
-Run `./scripts/stow.sh`, launch `herdr` (also works inside tmux), then start personal manager:
-
-```bash
-herdr-manager
-```
-
-Run `/implementation` in manager to scan `~/development`, filter Git projects, and create a workspace. Wizard selectors show 10 rows with filtering and scrolling; adjust `[ui].selection_height` in `~/.pi/agent/herdr-workflow.toml`. Each feature-branch workspace gets a zero-token OpenTUI dashboard from `agent-dash/` that shows change, task, review, and agent status and owns apply, archive, and close approval gates, plus planner, worker, verifier, archive, and lazygit tabs. Discovery and models use same config; Herdr prefix is `Ctrl-g`. Workflow state stays ignored under `.herdr-workflow/<change-id>/`.
-
-Requires `pi install npm:@ogulcancelik/pi-herdr` once per machine.
+Pi, Herdr, OpenCode, OpenSpec, and agent dashboard assets live in `~/agentic-coding`. Install them with its `scripts/stow.sh`.
 
 If you want to use sketchybar with the zscaler plugin you have to run the following command
 

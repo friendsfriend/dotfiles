@@ -26,7 +26,6 @@ font-meslo-lg-nerd-font
 scooter
 go
 gh
-sst/tap/opencode
 tmux
 lazyssh
 serkanyersen/dotstate/dotstate

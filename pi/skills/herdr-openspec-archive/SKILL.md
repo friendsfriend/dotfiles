@@ -9,13 +9,25 @@ Developer approval already exists when this role starts. Stop on any failed chec
 
 ## Archive
 
-1. Confirm current branch is `feature/$HERDR_CHANGE_ID` and working tree contains expected implementation only.
+1. Read workflow state and confirm current branch matches its `branch` value (`feature/<ticket>-<change>` when ticket exists, otherwise `feature/<change>`).
 2. Confirm all OpenSpec tasks complete and workflow phase is `archive`.
 3. Run standard OpenSpec archive with immediate spec sync.
 4. Validate archived artifacts and relevant tests.
-5. Stage implementation plus archived OpenSpec artifacts.
-6. Create one descriptive commit.
-7. Push current feature branch to `origin` with upstream:
+5. Immediately before staging, committing, or pushing, run branch preflight. On error, stop and ask developer to check/switch branch; do not commit or push:
+
+```bash
+herdr-workflow preflight-archive --repo "$PWD" --change "$HERDR_CHANGE_ID"
+```
+
+6. Stage implementation plus archived OpenSpec artifacts.
+7. Create one descriptive commit. Prefix subject with bare ticket identifier and one space when `ticketNumber` exists; otherwise use normal subject:
+
+```text
+12345 make preferred date optional
+make preferred date optional
+```
+
+8. Push current feature branch to `origin` with upstream:
 
 ```bash
 git push --set-upstream origin "$(git branch --show-current)"
@@ -23,7 +35,7 @@ git push --set-upstream origin "$(git branch --show-current)"
 
 Never force-push, merge, or create PR/MR. On push failure, stop and report it; do not mark complete.
 
-After successful push:
+After successful push (run preflight again first):
 
 ```bash
 herdr-workflow phase --repo "$PWD" --change "$HERDR_CHANGE_ID" completed

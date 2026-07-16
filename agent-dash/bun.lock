@@ -6,6 +6,7 @@
       "name": "agent-dash",
       "dependencies": {
         "@opentui/core": "0.4.2",
+        "@opentui/keymap": "0.4.2",
         "@opentui/solid": "0.4.2",
         "solid-js": "^1.9.12",
       },
@@ -99,6 +100,8 @@
     "@opentui/core-win32-arm64": ["@opentui/core-win32-arm64@0.4.2", "https://repo.eon-cds.de/artifactory/api/npm/funke-npm-virtual/@opentui/core-win32-arm64/-/core-win32-arm64-0.4.2.tgz", { "os": "win32", "cpu": "arm64" }, "sha512-mfJZrJ0TNPFRZUzXNsxAPe1YdiWsy/vbTl93+yeXGHPI1B8Qnk9V5hpzSxxEyBGhlTHSfGNtgiO+VrrdRC3kZA=="],
 
     "@opentui/core-win32-x64": ["@opentui/core-win32-x64@0.4.2", "https://repo.eon-cds.de/artifactory/api/npm/funke-npm-virtual/@opentui/core-win32-x64/-/core-win32-x64-0.4.2.tgz", { "os": "win32", "cpu": "x64" }, "sha512-P2oguG3ng3OMjAdasFSA3GhHaQXtzDUsIRDGbzWFOimpZ/zMemidp+JQ0V8V6XwK6Utk5G0aQ03oBaRCoLyYDw=="],
+
+    "@opentui/keymap": ["@opentui/keymap@0.4.2", "https://repo.eon-cds.de/artifactory/api/npm/funke-npm-virtual/@opentui/keymap/-/keymap-0.4.2.tgz", { "dependencies": { "@opentui/core": "0.4.2" }, "peerDependencies": { "@opentui/react": "0.4.2", "@opentui/solid": "0.4.2", "react": ">=19.2.0", "solid-js": "1.9.12" }, "optionalPeers": ["@opentui/react", "@opentui/solid", "react", "solid-js"] }, "sha512-wxBEFfWgm3feqCRLckWg1JH4tbMJinpyK3yobkLTsWJ7PDsM+fPoFMyQ8ieKVdUL2eP6ELTmHvM1bHKShZ7SUQ=="],
 
     "@opentui/solid": ["@opentui/solid@0.4.2", "https://repo.eon-cds.de/artifactory/api/npm/funke-npm-virtual/@opentui/solid/-/solid-0.4.2.tgz", { "dependencies": { "@babel/core": "7.28.0", "@babel/preset-typescript": "7.27.1", "@opentui/core": "0.4.2", "babel-plugin-module-resolver": "5.0.2", "babel-preset-solid": "1.9.12", "entities": "7.0.1", "s-js": "^0.4.9" }, "peerDependencies": { "solid-js": "1.9.12" } }, "sha512-zuYXsnrlsMtnXrS7QCYBdPzMtUSonG2LqnJikBR2NjEE2O4zEKvJd48n3eB1igcxjv96tiotTXRNCylYS0SNdQ=="],
 

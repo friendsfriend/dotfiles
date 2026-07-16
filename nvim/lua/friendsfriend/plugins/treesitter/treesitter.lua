@@ -3,51 +3,40 @@ return {
 	dependencies = {
 		"nvim-treesitter/nvim-treesitter-textobjects",
 	},
-	event = { "BufReadPre", "BufNewFile" },
+	lazy = false,
 	build = ":TSUpdate",
 	config = function()
-		-- import nvim-treesitter plugin
-		local treesitter = require("nvim-treesitter.configs")
+		local treesitter = require("nvim-treesitter")
 
-		-- configure treesitter
-		---@diagnostic disable-next-line: missing-fields
-		treesitter.setup({ -- enable syntax highlighting
-			highlight = {
-				enable = true,
-			},
-			-- enable indentation
-			indent = { enable = true },
-			-- ensure these language parsers are installed
-			ensure_installed = {
-				"json",
-				"javascript",
-				"typescript",
-				"tsx",
-				"yaml",
-				"html",
-				"css",
-				"prisma",
-				"markdown",
-				"markdown_inline",
-				"bash",
-				"lua",
-				"vim",
-				"dockerfile",
-				"gitignore",
-				"vimdoc",
-				"c",
-				"kotlin",
-				"java",
-			},
-			incremental_selection = {
-				enable = true,
-				keymaps = {
-					init_selection = "<C-space>",
-					node_incremental = "<C-space>",
-					scope_incremental = false,
-					node_decremental = "<bs>",
-				},
-			},
+		treesitter.setup()
+		treesitter.install({
+			"json",
+			"javascript",
+			"typescript",
+			"tsx",
+			"yaml",
+			"html",
+			"css",
+			"prisma",
+			"markdown",
+			"markdown_inline",
+			"bash",
+			"lua",
+			"vim",
+			"dockerfile",
+			"gitignore",
+			"vimdoc",
+			"c",
+			"kotlin",
+			"java",
+		})
+
+		vim.api.nvim_create_autocmd("FileType", {
+			callback = function(args)
+				if pcall(vim.treesitter.start, args.buf) then
+					vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				end
+			end,
 		})
 
 		-- use bash parser for zsh files

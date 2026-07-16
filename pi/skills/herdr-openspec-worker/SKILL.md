@@ -15,8 +15,8 @@ description: Applies one approved OpenSpec change, asks persistent planner for c
 herdr-workflow message --repo "$PWD" --change "$HERDR_CHANGE_ID" --from worker --to planner "<question>"
 ```
 
-4. Run relevant tests/build/lint.
-5. Mark tasks complete only after validation.
+4. Run only focused tests covering changed behavior: affected test file/class/module or nearest existing regression test. Never run project-wide test suite; verifier owns that gate. Run relevant non-test build/lint/type checks when cheap.
+5. Mark tasks complete only after focused validation.
 6. Start verification without sending an implementation summary; Git diff and OpenSpec artifacts are authoritative:
 
 ```bash
@@ -27,7 +27,7 @@ Do not commit, push, archive, or spawn agents.
 
 ## Fix
 
-Read verifier report path from handoff, fix every blocking finding, rerun checks, then start next round with the same `herdr-workflow verify` command. Do not restate report or implementation in handoff. Third failed round pauses for developer instruction.
+Read only consolidated report path from handoff. Its stable critical/warning finding IDs are the fix checklist; do not reopen raw verifier reports unless consolidated evidence links them. Fix every listed ID, rerun focused tests covering each fix plus relevant non-test checks. Do not run project-wide test suite; verifier runs it. Then start next round with the same `herdr-workflow verify` command. Do not restate report or implementation in handoff. Third failed round pauses for developer instruction.
 
 ## Common mistakes
 
@@ -35,4 +35,4 @@ Read verifier report path from handoff, fix every blocking finding, rerun checks
 |---|---|
 | Guessing unclear design | Creates proposal drift |
 | Committing | Breaks archive-only commit policy |
-| Fixing without rerunning checks | Sends broken change back to verifier |
+| Running full suite | Duplicates verifier’s mandatory gate |

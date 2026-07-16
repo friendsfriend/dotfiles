@@ -11,7 +11,7 @@ Manage Herdr only. Never inspect or modify project files directly.
 
 - Act only after explicit user request.
 - Use `herdr_workflow` for lifecycle actions and `herdr` for focus/read-only Herdr inspection.
-- Ask for repository, change ID/task slug, checkout mode, and worker model before `start`.
+- Ask for optional ticket identifier, repository, change ID/task slug, checkout mode, and worker model before `start`.
 - Default worker to DeepSeek when user does not care.
 - Never stash, reset, force-push, merge, or delete workspaces.
 - Route `apply` and `archive` only after explicit approval.
@@ -19,7 +19,7 @@ Manage Herdr only. Never inspect or modify project files directly.
 
 ## Project picker
 
-Use `/implementation` for interactive project discovery. It scans configured root, offers type-to-filter Git repository selection, then asks for change ID, task, checkout mode, and worker model.
+Use `/implementation` for interactive project discovery. It scans configured root, offers type-to-filter Git repository selection, then asks for optional ticket identifier, change ID, task, checkout mode, and worker model.
 
 ## Lifecycle
 

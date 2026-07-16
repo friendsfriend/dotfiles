@@ -1,22 +1,9 @@
 return {
 	"nvim-treesitter/nvim-treesitter-textobjects",
-	lazy = true,
 	config = function()
-		---@diagnostic disable-next-line: missing-fields
-		require("nvim-treesitter.configs").setup({
-			textobjects = {
-				select = {
-					enable = true,
-					lookahead = true,
-				},
-				swap = {
-					enable = true,
-				},
-				move = {
-					enable = true,
-					set_jumps = true,
-				},
-			},
+		require("nvim-treesitter-textobjects").setup({
+			select = { lookahead = true },
+			move = { set_jumps = true },
 		})
 
 		local ts_select = require("nvim-treesitter-textobjects.select")

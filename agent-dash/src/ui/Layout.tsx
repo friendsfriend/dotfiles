@@ -6,7 +6,7 @@ export function Layout(props: { header: JSX.Element; content: JSX.Element; foote
     <box style={{ width: '100%', height: '100%', flexDirection: 'column' }}>
       <box style={{ width: '100%', height: 2 }}>{props.header}</box>
       <box style={{ width: '100%', flexGrow: 1, minHeight: 0 }}>{props.content}</box>
-      <box style={{ width: '100%', height: 3 }}>{props.footer}</box>
+      <box style={{ width: '100%', height: 1 }}>{props.footer}</box>
     </box>
   );
 }

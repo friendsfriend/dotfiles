@@ -1,9 +1,13 @@
 /** @jsxImportSource @opentui/solid */
 import { createCliRenderer } from '@opentui/core';
 import { render } from '@opentui/solid';
+import { createDefaultOpenTuiKeymap } from '@opentui/keymap/opentui';
+import { KeymapProvider } from '@opentui/keymap/solid';
+import { setupKeymap } from './keymap-setup';
 import { resolve } from 'node:path';
 import { App } from './App';
-import { loadDashboard, testDashboard } from './data';
+import { Home } from './Home';
+import { listWorkflows, loadDashboard, testDashboard } from './data';
 
 function argument(name: string) {
   const index = process.argv.indexOf(name);
@@ -11,17 +15,18 @@ function argument(name: string) {
 }
 
 const profile = argument('--profile');
+const home = process.argv.includes('--home');
 const isTest = profile === 'test';
 const repo = argument('--repo');
 const change = argument('--change');
-if (!isTest && (!repo || !change)) {
-  console.error('usage: agent-dash --repo PATH --change ID [--json]\n       agent-dash --profile test [--json]');
+if (!home && !isTest && (!repo || !change)) {
+  console.error('usage: agent-dash --home\n       agent-dash --repo PATH --change ID [--json]\n       agent-dash --profile test [--json]');
   process.exit(2);
 }
 const resolvedRepo = repo ? resolve(repo) : '/demo';
 const resolvedChange = change ?? 'demo-optional-realisation-date';
 if (process.argv.includes('--json')) {
-  console.log(JSON.stringify(isTest ? testDashboard() : loadDashboard(resolvedRepo, resolvedChange), null, 2));
+  console.log(JSON.stringify(home ? listWorkflows() : isTest ? testDashboard() : loadDashboard(resolvedRepo, resolvedChange), null, 2));
   process.exit(0);
 }
 
@@ -31,5 +36,16 @@ const cleanup = () => renderer.destroy();
 process.on('SIGINT', cleanup);
 process.on('SIGTERM', cleanup);
 process.on('SIGHUP', cleanup);
-await render(() => <App repo={resolvedRepo} change={resolvedChange} profile={isTest ? 'test' : undefined} />, renderer);
+function HomeShell() {
+  return <Home keymap={keymap} />;
+}
+
+const keymap = createDefaultOpenTuiKeymap(renderer);
+const disposeKeymap = setupKeymap(keymap);
+keymap.setData('app.view', home ? 'home' : 'detail');
+keymap.setData('modal.active', 'none');
+await render(() => <KeymapProvider keymap={keymap}>
+  {home ? <HomeShell /> : <App repo={resolvedRepo} change={resolvedChange} profile={isTest ? 'test' : undefined} keymap={keymap} />}
+</KeymapProvider>, renderer);
 await new Promise<void>(resolveDone => renderer.once('destroy', resolveDone));
+disposeKeymap();

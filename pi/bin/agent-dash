@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-exec bun "$HOME/dotfiles/agent-dash/src/index.tsx" "$@"

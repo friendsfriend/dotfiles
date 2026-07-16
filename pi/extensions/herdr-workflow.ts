@@ -83,6 +83,7 @@ export default function (pi: ExtensionAPI) {
           ctx.ui.notify(`${project.path} has no openspec/config.yaml`, "warning");
           return;
         }
+        const ticket = (await ctx.ui.input("Ticket identifier (optional)", "for example DAPC-123; leave empty to skip"))?.trim() ?? "";
         const change = (await ctx.ui.input("OpenSpec change ID", "lowercase-kebab-case"))?.trim();
         if (!change || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(change)) {
           if (change) ctx.ui.notify("Change ID must use lowercase kebab-case.", "error");
@@ -95,8 +96,10 @@ export default function (pi: ExtensionAPI) {
         const workers = [config.models.worker_default, config.models.worker_alternative];
         const worker = await pagedSelect(ctx, "Worker model", workers, height);
         if (!worker) return;
-        if (!await ctx.ui.confirm("Create implementation workspace?", `${project.name}\n${change}\n${mode}\n${worker}`)) return;
-        await execute(["start", "--repo", project.path, "--change", change, "--task", task, "--mode", mode, "--worker", worker]);
+        if (!await ctx.ui.confirm("Create implementation workspace?", `${project.name}\n${ticket ? `Ticket ${ticket}\n` : ""}${change}\n${mode}\n${worker}`)) return;
+        const startArgs = ["start", "--repo", project.path, "--change", change, "--task", task, "--mode", mode, "--worker", worker];
+        if (ticket) startArgs.push("--ticket", ticket);
+        await execute(startArgs);
         ctx.ui.notify(`Created ${change}`, "info");
       } catch (error) {
         ctx.ui.notify(error instanceof Error ? error.message : String(error), "error");
@@ -116,6 +119,7 @@ export default function (pi: ExtensionAPI) {
       repo: Type.String(),
       change: Type.String(),
       task: Type.Optional(Type.String()),
+      ticket: Type.Optional(Type.String()),
       mode: Type.Optional(Type.Union([Type.Literal("worktree"), Type.Literal("checkout")])),
       worker: Type.Optional(Type.String()),
       target: Type.Optional(Type.Union([Type.Literal("planner"), Type.Literal("worker"), Type.Literal("verifier"), Type.Literal("archive")])),
@@ -126,6 +130,7 @@ export default function (pi: ExtensionAPI) {
       if (params.action === "start") {
         if (!params.task || !params.mode) throw new Error("start requires task and mode");
         args.push("--task", params.task, "--mode", params.mode);
+        if (params.ticket) args.push("--ticket", params.ticket);
         if (params.worker) args.push("--worker", params.worker);
       } else if (params.action === "message") {
         if (!params.target || !params.text) throw new Error("message requires target and text");

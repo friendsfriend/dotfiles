@@ -1,7 +1,14 @@
+local parsers = {
+	"json", "javascript", "typescript", "tsx", "yaml", "html", "css", "prisma", "markdown", "markdown_inline",
+	"bash", "lua", "vim", "dockerfile", "gitignore", "vimdoc", "c", "kotlin", "java",
+}
+
 return {
 	"nvim-treesitter/nvim-treesitter",
+	branch = "main",
+	lazy = false,
 	dependencies = {
-		"nvim-treesitter/nvim-treesitter-textobjects",
+		{ "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
 	},
 	lazy = false,
 	build = ":TSUpdate",
@@ -39,7 +46,6 @@ return {
 			end,
 		})
 
-		-- use bash parser for zsh files
 		vim.treesitter.language.register("bash", "zsh")
 	end,
 }

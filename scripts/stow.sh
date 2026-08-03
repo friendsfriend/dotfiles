@@ -67,7 +67,7 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/.config/sketchybar/ sketchybar
         ln -sf ~/dotfiles/sketchybar/minimal/sketchybarrc "$HOME"/.config/sketchybar/sketchybarrc
         mkdir -p "$HOME"/.config/aerospace
-        ln -sf ~/dotfiles/aerospace/work/aerospace.toml "$HOME"/.config/aerospace/aerospace.toml
+        ln -sf ~/dotfiles/aerospace/minimal/aerospace.toml "$HOME"/.config/aerospace/aerospace.toml
         stow_folder "$HOME"/ p10k
         stow_folder "$HOME"/ tmux
         stow_folder "$HOME"/.config/sesh/ sesh

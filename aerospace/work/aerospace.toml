@@ -116,7 +116,7 @@ alt-left = 'focus left'
 alt-1 = ['workspace 1', 'layout accordion horizontal','exec-and-forget open "/Applications/Microsoft Teams.app"']
 alt-b = ['workspace B', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Brave Browser.app"']
 alt-m = ['workspace M', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Mattermost.app"']
-alt-i = ['workspace I', 'layout accordion horizontal', 'exec-and-forget open "~/Applications/Intellij IDEA Ultimate.app"']
+alt-i = ['workspace I', 'layout accordion horizontal', 'exec-and-forget open -a "IntelliJ IDEA"']
 alt-t = ['workspace T', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Ghostty.app"']
 alt-o = ['workspace O', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Microsoft Outlook.app"']
 alt-r = ['workspace R', 'layout accordion horizontal']
@@ -160,7 +160,7 @@ if.app-id = 'com.microsoft.teams2'
 run = "move-node-to-workspace 1"
 
 [[on-window-detected]]
-if.app-id = 'com.microsoft.outlook'
+if.app-id = 'com.microsoft.Outlook'
 if.window-title-regex-substring = 'Inbox'
 run = "move-node-to-workspace O"
 
@@ -169,11 +169,11 @@ if.app-id = 'Mattermost.Desktop'
 run = "move-node-to-workspace M"
 
 [[on-window-detected]]
-if.window-title-regex-substring = "Miro"
+if.app-id = 'com.electron.realtimeboard'
 run = ["move-node-to-workspace V"]
 
 [[on-window-detected]]
-if.window-title-regex-substring = "draw.io"
+if.app-id = 'com.jgraph.drawio.desktop'
 run = ["move-node-to-workspace D"]
 
 [workspace-to-monitor-force-assignment]

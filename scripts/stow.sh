@@ -64,6 +64,7 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/ zsh
         stow_folder "$HOME"/.config/nvim/ nvim
         stow_folder "$HOME"/.config/ghostty/ ghostty
+        stow_folder "$HOME"/.config/herdr/ herdr
         stow_folder "$HOME"/.config/sketchybar/ sketchybar
         ln -sf ~/dotfiles/sketchybar/minimal/sketchybarrc "$HOME"/.config/sketchybar/sketchybarrc
         mkdir -p "$HOME"/.config/aerospace
@@ -82,6 +83,7 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/ zsh
         stow_folder "$HOME"/.config/nvim/ nvim
         stow_folder "$HOME"/.config/ghostty/ ghostty
+        stow_folder "$HOME"/.config/herdr/ herdr
         stow_folder "$HOME"/.config/sketchybar/ sketchybar
         ln -sf ~/dotfiles/sketchybar/work/sketchybarrc "$HOME"/.config/sketchybar/sketchybarrc
         mkdir -p "$HOME"/.config/aerospace
@@ -106,6 +108,7 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/ zsh
         stow_folder "$HOME"/.config/nvim/ nvim
         stow_folder "$HOME"/.config/ghostty/ ghostty
+        stow_folder "$HOME"/.config/herdr/ herdr
         stow_folder "$HOME"/ p10k
         stow_folder "$HOME"/ tmux
         stow_folder "$HOME"/.config/sesh/ sesh

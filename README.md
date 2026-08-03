@@ -28,7 +28,7 @@ If add additional files to the dotfiles repo remember to run the stow script aga
 
 ### Agentic coding setup
 
-Pi, Herdr, OpenCode, OpenSpec, and agent dashboard assets live in `~/agentic-coding`. Install them with its `scripts/stow.sh`.
+Pi, OpenCode, OpenSpec, and agent dashboard assets live in `~/agentic-coding`. Install them with its `scripts/stow.sh`. The herdr terminal config lives in this repo under `herdr/`.
 
 If you want to use sketchybar with the zscaler plugin you have to run the following command
 

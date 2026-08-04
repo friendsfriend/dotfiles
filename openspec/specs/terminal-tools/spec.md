@@ -32,7 +32,7 @@ The terminal-tools capability SHALL include tmux and sesh configurations where s
 - **THEN** tmux SHALL use the repository `.tmux.conf` and sesh SHALL use the repository `sesh.toml`
 
 ### Requirement: Additional supporting tool assets
-The terminal-tools capability SHALL preserve supporting assets for p10k, WezTerm, Walker, Linux audio, and opencode.
+The terminal-tools capability SHALL preserve supporting assets for Starship, WezTerm, Walker, Linux audio, and opencode.
 
 #### Scenario: Supporting tool is linked or used
 - **WHEN** a setup flow or manual usage references one of these supporting areas

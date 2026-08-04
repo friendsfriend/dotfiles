@@ -69,7 +69,7 @@ case "$DOTFILES_ENV" in
         ln -sf ~/dotfiles/sketchybar/minimal/sketchybarrc "$HOME"/.config/sketchybar/sketchybarrc
         mkdir -p "$HOME"/.config/aerospace
         ln -sf ~/dotfiles/aerospace/minimal/aerospace.toml "$HOME"/.config/aerospace/aerospace.toml
-        stow_folder "$HOME"/ p10k
+        stow_folder "$HOME"/.config/ starship
         stow_folder "$HOME"/ tmux
         stow_folder "$HOME"/.config/sesh/ sesh
         stow_folder "$HOME"/.config/btop/ btop
@@ -88,7 +88,7 @@ case "$DOTFILES_ENV" in
         ln -sf ~/dotfiles/sketchybar/work/sketchybarrc "$HOME"/.config/sketchybar/sketchybarrc
         mkdir -p "$HOME"/.config/aerospace
         ln -sf ~/dotfiles/aerospace/work/aerospace.toml "$HOME"/.config/aerospace/aerospace.toml
-        stow_folder "$HOME"/ p10k
+        stow_folder "$HOME"/.config/ starship
         stow_folder "$HOME"/ tmux
         stow_folder "$HOME"/.config/sesh/ sesh
         cd ~/dotfiles/ideavim || exit
@@ -109,7 +109,7 @@ case "$DOTFILES_ENV" in
         stow_folder "$HOME"/.config/nvim/ nvim
         stow_folder "$HOME"/.config/ghostty/ ghostty
         stow_folder "$HOME"/.config/herdr/ herdr
-        stow_folder "$HOME"/ p10k
+        stow_folder "$HOME"/.config/ starship
         stow_folder "$HOME"/ tmux
         stow_folder "$HOME"/.config/sesh/ sesh
         stow_folder "$HOME"/.config/hunk/ hunk

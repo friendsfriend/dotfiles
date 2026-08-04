@@ -20,7 +20,7 @@ cairo
 btop
 presenterm
 yazi
-powerlevel10k
+starship
 mdcat
 font-meslo-lg-nerd-font
 scooter

@@ -17,7 +17,7 @@ cairo
 btop
 presenterm
 yazi
-zsh-theme-powerlevel10k-git
+starship
 mdcat
 font-meslo-lg-nerd-font
 scooter

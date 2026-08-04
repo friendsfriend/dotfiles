@@ -1,11 +1,4 @@
 #!/usr/bin/env zsh
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # Zinit plugin manager
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 [ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
@@ -17,12 +10,6 @@ if [ -d "/opt/homebrew/opt/ruby/bin" ]; then
   export PATH=/opt/homebrew/opt/ruby/bin:$PATH
   export PATH=`gem environment gemdir`/bin:$PATH
 fi
-
-# zsh theme
-zinit ice depth=1; zinit light romkatv/powerlevel10k
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-[[ ! -f ~/.p10k_ext.zsh ]] || source ~/.p10k_ext.zsh
 
 # zsh plugins
 zinit light zsh-users/zsh-syntax-highlighting
@@ -136,3 +123,9 @@ esac
 
 # Pi
 export PATH="/opt/homebrew/bin:$PATH"
+
+# Prompt
+ZLE_RPROMPT_INDENT=0
+if (( $+commands[starship] )); then
+  eval "$(starship init zsh)"
+fi

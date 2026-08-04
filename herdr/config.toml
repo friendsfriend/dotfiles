@@ -1,6 +1,7 @@
 onboarding = false
 
 [terminal]
+default_shell = "zsh"
 shell_mode = "auto"
 new_cwd = "follow"
 
@@ -35,7 +36,7 @@ cycle_pane_next = "cmd+p"
 [ui]
 confirm_close = true
 prompt_new_tab_name = true
-agent_panel_sort = "spaces"
+agent_panel_sort = "priority"
 show_agent_labels_on_pane_borders = true
 
 [ui.sidebar.agents]

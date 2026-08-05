@@ -1,0 +1,59 @@
+# ~/.config/iris/theme.toml
+# iris theme file - catppuccin mocha
+
+# overlay border color
+border = "#cba6f7"
+
+# accent color for selected marker and icon
+accent = "#94e2d5"
+
+# muted color for unselected icons
+muted = "#6c7086"
+
+# default text color
+text = "#cdd6f4"
+
+# text color when selected
+text_sel = "#f5e0dc"
+
+# footer shortcut key color
+key = "#cba6f7"
+
+# matched text color
+match = "#a6e3a1"
+
+# description text color
+desc = "#a6adc8"
+
+# description text color when selected
+desc_sel = "#cdd6f4"
+
+# selected row background
+sel_bg = "#45475a"
+
+# selected tag pill text color
+sel_text = "#1e1e2e"
+
+# scroll counter color
+scroll_info = "#cba6f7"
+
+# inline ghost text color
+ghost_text = "#6c7086"
+
+# "system" tag background color
+sys = "#313244"
+
+# "system" tag selected background color
+sys_sel = "#cba6f7"
+
+# "history" tag background color
+hist = "#181825"
+
+# "history" tag selected background color
+hist_sel = "#94e2d5"
+
+# "alias" tag background color
+alias = "#11111b"
+
+# "alias" tag selected background color (and alias word color)
+alias_sel = "#cba6f7"

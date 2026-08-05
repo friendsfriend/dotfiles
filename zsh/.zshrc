@@ -1,4 +1,20 @@
 #!/usr/bin/env zsh
+# XDG config home (iris + other tools)
+export XDG_CONFIG_HOME="$HOME/.config"
+export PATH="$HOME/.pi/agent/bin:$HOME/.local/bin:$PATH"
+
+# Herdr server may inherit stale IRIS_* from its launching shell. Keep valid
+# values in iris's child shell, where iris is the direct parent.
+if [ -n "$HERDR_ENV" ] && [ -n "$IRIS_PID" ] && [ "$PPID" != "$IRIS_PID" ]; then
+  unset IRIS_PID IRIS_IS_CHILD IRIS_FD
+fi
+
+# Run before other shell setup: iris replaces this shell, then its child zsh
+# loads the complete config once.
+if (( $+commands[iris] )); then
+  eval "$(iris init zsh)"
+fi
+
 # Zinit plugin manager
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 [ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
@@ -14,8 +30,6 @@ fi
 # zsh plugins
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-autosuggestions
-zinit light Aloxaf/fzf-tab
 
 # Load completions
 if type brew &>/dev/null; then
@@ -29,31 +43,11 @@ compinit
 zstyle ":completion:*" list-colors '${(s.:.)LS_COLORS}'
 zstyle ":completion:*" menu no
 
-# fzf-tab styling
-zstyle ":fzf-tab:complete:brew-(install|uninstall|search|info):*-argument-rest" fzf-preview 'brew info $word'
-zstyle ":fzf-tab:complete:*:*" fzf-preview 'bat --color=always $realpath 2>/dev/null || eza -1a --icons=always --color=always $realpath'
-zstyle ":fzf-tab:*" fzf-min-height 50
-
-# --- setup fzf theme ---
-export FZF_DEFAULT_OPTS=" \
---color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
---color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
---color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
---color=selected-bg:#45475a \
---color=border:#313244,label:#cdd6f4"
-
-# history setup
-HISTFILE=$HOME/.zhistory
+# Persistent history backend indexed by IRIS
+HISTFILE="$HOME/.zhistory"
+HISTSIZE=1000
 SAVEHIST=1000
-HISTSIZE=999
 setopt share_history
-setopt hist_expire_dups_first
-setopt hist_ignore_dups
-setopt hist_verify
-
-# completion using arrow keys (based on history)
-bindkey '^[[A' history-search-backward
-bindkey '^[[B' history-search-forward
 
 # ----- Bat (better cat) -----
 export BAT_THEME="Catppuccin Mocha"
@@ -73,9 +67,7 @@ alias top="btop"
 alias npm="pnpm"
 
 export EDITOR=nvim
-export TERM=ghostty
 
-export TERM=ghostty
 # Highlight man pages
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export MANROFFOPT="-c"
@@ -85,7 +77,6 @@ alias -g -- -h="-h 2>&1 | bat --language=help --style=plain"
 alias -g -- --help="--help 2>&1 | bat --language=help --style=plain"
 
 # ---- Shell Integrations ----
-eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
 
 if [ -f ~/.zshrc_local ]; then
@@ -107,8 +98,6 @@ function y() {
 autoload -z edit-command-line
 zle -N edit-command-line
 bindkey "^E" edit-command-line
-
-export PATH="$HOME/.pi/agent/bin:$HOME/.local/bin:$PATH"
 
 # bun completions
 [ -s "/Users/fabiankellner/.bun/_bun" ] && source "/Users/fabiankellner/.bun/_bun"

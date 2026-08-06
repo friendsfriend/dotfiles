@@ -73,7 +73,6 @@ minimal)
   stow_folder "$HOME"/ tmux
   stow_folder "$HOME"/.config/sesh/ sesh
   stow_folder "$HOME"/.config/btop/ btop
-  stow_folder "$HOME"/.config/iris/ iris
   stow_folder "$HOME"/.config/voxtype/ voxtype
   stow_folder "$HOME"/.config/hunk/ hunk
   link_voxtype_macos_config
@@ -81,7 +80,6 @@ minimal)
 work)
   stow_folder "$HOME"/.config/fastfetch/ fastfetch
   stow_folder "$HOME"/.config/btop/ btop
-  stow_folder "$HOME"/.config/iris/ iris
   stow_folder "$HOME"/ zsh
   stow_folder "$HOME"/.config/nvim/ nvim
   stow_folder "$HOME"/.config/ghostty/ ghostty
@@ -107,7 +105,6 @@ omarchy)
   stow_folder "$HOME"/.config/walker/ walker
   stow_folder "$HOME"/.config/fastfetch/ fastfetch
   stow_folder "$HOME"/.config/btop/ btop
-  stow_folder "$HOME"/.config/iris/ iris
   stow_folder "$HOME"/ zsh
   stow_folder "$HOME"/.config/nvim/ nvim
   stow_folder "$HOME"/.config/ghostty/ ghostty

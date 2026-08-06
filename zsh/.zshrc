@@ -72,10 +72,6 @@ alias cat="bat"
 alias find="fd"
 alias rm="rm -i"
 alias cd..="cd .."
-# ponytail: thefuck spawns python (~130ms) on every shell start even though
-# it's used rarely. Lazy-stub it: pay the cost only on first real use.
-fuck() { unfunction fuck fk 2>/dev/null; eval "$(thefuck --alias)"; eval "$(thefuck --alias fk)"; fuck "$@"; }
-fk() { unfunction fuck fk 2>/dev/null; eval "$(thefuck --alias)"; eval "$(thefuck --alias fk)"; fk "$@"; }
 alias cd="z"
 alias top="btop"
 alias npm="pnpm"
@@ -115,9 +111,6 @@ zle -N edit-command-line
 bindkey "^E" edit-command-line
 
 export PATH="$HOME/.pi/agent/bin:$HOME/.local/bin:$PATH"
-
-# bun completions
-[ -s "/Users/fabiankellner/.bun/_bun" ] && source "/Users/fabiankellner/.bun/_bun"
 
 # pnpm
 export PNPM_HOME="/Users/fabiankellner/Library/pnpm"

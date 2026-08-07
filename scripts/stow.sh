@@ -100,9 +100,6 @@ work)
   stow_folder "$HOME"/.config/hunk/ hunk
   ;;
 omarchy)
-  stow_folder "$HOME"/.config/hypr/ hyprland
-  stow_folder "$HOME"/.config/waybar/ waybar
-  stow_folder "$HOME"/.config/walker/ walker
   stow_folder "$HOME"/.config/fastfetch/ fastfetch
   stow_folder "$HOME"/.config/btop/ btop
   stow_folder "$HOME"/ zsh

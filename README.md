@@ -26,10 +26,6 @@ If add additional files to the dotfiles repo remember to run the stow script aga
 ./scripts/stow.sh
 ```
 
-### Agentic coding setup
-
-Pi, OpenCode, OpenSpec, and agent dashboard assets live in `~/agentic-coding`. Install them with its `scripts/stow.sh`. The herdr terminal config lives in this repo under `herdr/`.
-
 If you want to use sketchybar with the zscaler plugin you have to run the following command
 
 ```bash
@@ -38,44 +34,6 @@ sudo ./sketchybar/resources/setup-zscaler.sh
 
 You are set to go now.
 If you want to change your config or update the repository you can just edit them in your local repository and manage it with git.
-
-## Notes on Omarchy
-
-*Note on Omarchy with increased terminal font size: Adjust ~/.local/share/omarchy/default/hypr/apps/system.conf as follows*
-
-```bash
-# Find the existing line and adjust the size as needed
-windowrule = size (monitor_w*0.6) (monitor_h*0.8), match:tag floating-window
-```
-
-*Note on Steam in Omarchy: Adjust ~/.local/share/omarchy/default/hypr/apps/steam.conf as follows*
-
-```bash
-windowrule = opacity 1 1, match:class steam
-windowrule = size 1100 700, match:class steam, match:title Steam
-windowrule = size 460 800, match:class steam, match:title Friends List
-windowrule = idle_inhibit fullscreen, match:class steam
-```
-
-*Note on Omarchy Path of Exile (1 & 2) price checking*
-
-As all currently available price checker dont really work well with wayland / linux in general I came up with my own solution. 
-
-The basic idea is to use the omarchy web app functionality to spawn a window that price checks the item description in the clipboard. 
-
-How it works:
-
-1. Download and run Sidekick **Important: Use the linux web version** (https://github.com/Sidekick-Poe/Sidekick/releases)
-2. Copy an item in either Path of Exile or Path of Exile 2
-3. Use SUPER + D (defined in hyprland/bindings.conf). This will
-    * Switch to workspace 9 (I asume no one uses that one)
-    * Spawn omarchy web app for the item in the clipboard
-4. Use SUPER + D (defined in hyprland/bindings.conf). This will
-    * Kill the active app (only if you are in workspace 9)
-    * Switch to workspace 1 (I always run games in the first workspace)
-5. Happy price checking :)
-
-Note: If you run into issues with Sidekick missing .NET dependencies you have to install them via pacman. I asked ChatGPT and it returned all the packages nessesairy
 
 ## Local ZSH adaption
 

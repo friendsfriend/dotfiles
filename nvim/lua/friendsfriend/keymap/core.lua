@@ -38,3 +38,7 @@ end, { desc = "Quickfix List: Older" })
 keymap.set("n", "<leader>qn", function()
 	local _ = pcall(vim.cmd, "cnewer")
 end, { desc = "Quickfix List: Newer" })
+
+-- invert default paste-over behavior: p keeps clipboard, P overwrites it
+keymap.set("v", "p", '"_dP', { desc = "Paste without yanking replaced text" })
+keymap.set("v", "P", "p", { desc = "Paste and yank replaced text" })

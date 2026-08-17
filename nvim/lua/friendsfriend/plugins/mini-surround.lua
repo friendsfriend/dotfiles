@@ -33,4 +33,12 @@ return {
 		-- see `:h MiniSurround.config`.
 		search_method = "cover",
 	},
+	config = function(_, opts)
+		require("mini.surround").setup(opts)
+
+		-- "ys" as visual-mode add mapping makes "y" wait for possible "s" in
+		-- Visual mode, delaying/blocking plain yank. Move visual add to "S".
+		vim.keymap.del("x", "ys")
+		vim.keymap.set("x", "S", [[:<C-u>lua MiniSurround.add('visual')<CR>]], { silent = true })
+	end,
 }

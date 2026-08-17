@@ -34,4 +34,4 @@ window-padding-balance = true
 # Font 
 # --------------------------------
 font-family = MesloLGL Nerd Font
-font-size = 16
+font-size = 12

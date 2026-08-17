@@ -39,21 +39,6 @@ prompt_new_tab_name = true
 agent_panel_sort = "priority"
 show_agent_labels_on_pane_borders = true
 
-[ui.sidebar.agents]
-row_gap = 0
-rows = [
-  ["workspace"],
-  ["state_icon", { token = "tab", fg = "#cdd6f4", bold = true }],
-  ["agent"],
-]
-
-[ui.sidebar.spaces]
-row_gap = 0
-rows = [
-  [{ token = "$project", fg = "#89b4fa", bold = true }],
-  ["state_icon", "workspace"],
-  ["branch", "git_status"],
-]
 [ui.toast]
 delivery = "herdr"
 delay_seconds = 1

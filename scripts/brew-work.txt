@@ -33,3 +33,4 @@ serkanyersen/dotstate/dotstate
 kiki-ki/tap/qo
 gh
 pnpm
+peteonrails/voxtype/voxtype

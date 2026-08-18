@@ -30,3 +30,4 @@ tmux
 lazyssh
 serkanyersen/dotstate/dotstate
 pnpm
+peteonrails/voxtype/voxtype

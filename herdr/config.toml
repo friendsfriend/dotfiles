@@ -37,8 +37,9 @@ cycle_pane_next = "cmd+p"
 confirm_close = true
 prompt_new_tab_name = true
 agent_panel_sort = "priority"
-show_agent_labels_on_pane_borders = true
+show_agent_labels_on_pane_borders = false
 
+status_indicators = "symbols"
 [ui.toast]
 delivery = "herdr"
 delay_seconds = 1

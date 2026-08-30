@@ -1,4 +1,5 @@
-# Custom Theme
+# Colors
+# Use current Omarchy theme when available; keep Catppuccin as fallback elsewhere.
 theme = Catppuccin Mocha
 
 # Shell Configuration

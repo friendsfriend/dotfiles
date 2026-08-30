@@ -2,6 +2,8 @@ command = /bin/zsh
 
 config-file = keybinds
 config-file = options
+config-file = ?"~/.local/state/omarchy/current/theme/ghostty.conf"
+config-file = selection
 
 # Fix general slowness on hyprland (https://github.com/ghostty-org/ghostty/discussions/3224)
 async-backend = epoll

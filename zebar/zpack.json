@@ -2,7 +2,7 @@
   "$schema": "https://github.com/glzr-io/zebar/raw/v3.0.0/resources/zpack-schema.json",
   "name": "minimal",
   "version": "1.0.0",
-  "description": "Minimal bar matching the sketchybar minimal setup (Catppuccin Mocha).",
+  "description": "Minimal bar matching sketchybar with Catppuccin Mocha fallback.",
   "tags": ["topbar"],
   "widgets": [
     {

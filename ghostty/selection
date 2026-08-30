@@ -1,0 +1,3 @@
+# Keep selected text readable even when theme-generated selection colors match foreground.
+selection-foreground = cell-background
+selection-background = cell-foreground

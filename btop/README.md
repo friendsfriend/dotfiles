@@ -1,3 +1,3 @@
 # BTOP config
 
-Sets the colorscheme for btop and adjust some sensible defaults.
+Sets btop defaults. `current.theme` follows Omarchy's generated palette and falls back to Catppuccin Mocha.

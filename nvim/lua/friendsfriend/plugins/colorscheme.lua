@@ -10,8 +10,8 @@ if has_omarchy and vim.fn.filereadable(omarchy_colors) == 1 then
 end
 
 if has_omarchy and vim.fn.filereadable(omarchy_neovim) == 1 then
-	local omarchy_plugins = dofile(omarchy_neovim)
-	local aether = omarchy_plugins[1]
+	-- Omarchy's generated file also contains a LazyVim spec; this config is not LazyVim.
+	local aether = dofile(omarchy_neovim)[1]
 	local theme_colors = aether.opts and aether.opts.colors
 	aether.config = function(_, opts)
 		require("aether").setup(opts)
@@ -30,7 +30,7 @@ if has_omarchy and vim.fn.filereadable(omarchy_neovim) == 1 then
 		vim.cmd.colorscheme("aether")
 		set_selection_highlight()
 	end
-	return omarchy_plugins
+	return aether
 end
 
 -- Catppuccin Mocha fallback outside Omarchy.

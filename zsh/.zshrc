@@ -146,7 +146,6 @@ esac
 
 # Pi
 export PATH="/opt/homebrew/bin:$PATH"
-export PI_OFFLINE=1
 
 # Prompt
 ZLE_RPROMPT_INDENT=0

@@ -112,7 +112,6 @@ work)
   ;;
 omarchy)
   stow_folder "$HOME"/.config/fastfetch/ fastfetch
-  stow_folder "$HOME"/.config/btop/ btop
   stow_folder "$HOME"/ zsh
   stow_folder "$HOME"/.config/nvim/ nvim
   stow_folder "$HOME"/.config/ghostty/ ghostty

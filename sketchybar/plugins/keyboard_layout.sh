@@ -1,94 +1,69 @@
 #!/bin/sh
+# Cycle enabled keyboard layouts on click.
+# Fast path: cached keycd binary + defaults read. No swift JIT per render.
 
-# Get all enabled keyboard layouts (IDs and names)
-LAYOUTS=$(/usr/bin/swift - << 'EOF'
-import Carbon
+BIN="$HOME/.cache/sketchybar/keycd"
+SRC="$PLUGIN_DIR/keycd.swift"
 
-let filter = [kTISPropertyInputSourceIsEnabled: true, kTISPropertyInputSourceType: kTISTypeKeyboardLayout] as CFDictionary
-let sources = TISCreateInputSourceList(filter, false).takeRetainedValue() as! [TISInputSource]
-for source in sources {
-    let name = TISGetInputSourceProperty(source, kTISPropertyLocalizedName)
-    let id = TISGetInputSourceProperty(source, kTISPropertyInputSourceID)
-    if let namePtr = name, let idPtr = id {
-        let nameStr = Unmanaged<CFString>.fromOpaque(namePtr).takeUnretainedValue() as String
-        let idStr = Unmanaged<CFString>.fromOpaque(idPtr).takeUnretainedValue() as String
-        print("\(idStr)|\(nameStr)")
-    }
-}
-EOF
-)
+# Compile once (and again whenever the source changes). ~2s, paid once.
+if [ ! -x "$BIN" ] || [ "$SRC" -nt "$BIN" ]; then
+  mkdir -p "$(dirname "$BIN")"
+  /usr/bin/swiftc -O -o "$BIN" "$SRC" 2>/dev/null
+fi
+if [ ! -x "$BIN" ]; then
+  sketchybar --set "$NAME" label="?"
+  exit 1
+fi
 
-# Get current layout ID
-CURRENT_ID=$(/usr/bin/swift - << 'EOF'
-import Carbon
-let source = TISCopyCurrentKeyboardInputSource().takeRetainedValue()
-let id = TISGetInputSourceProperty(source, kTISPropertyInputSourceID)
-print(Unmanaged<CFString>.fromOpaque(id!).takeUnretainedValue() as String)
-EOF
-)
-
-# Get current layout name
-CURRENT_NAME=$(/usr/bin/swift - << 'EOF'
-import Carbon
-let source = TISCopyCurrentKeyboardInputSource().takeRetainedValue()
-let name = TISGetInputSourceProperty(source, kTISPropertyLocalizedName)
-print(Unmanaged<CFString>.fromOpaque(name!).takeUnretainedValue() as String)
-EOF
-)
-
-# Map system layout names to custom display labels
+# Map layout IDs to short display labels
 layout_display_name() {
   case "$1" in
     "com.apple.keylayout.German") echo "Mac" ;;
     "com.apple.keylayout.German-DIN-2137") echo "PC" ;;
     "com.apple.keylayout.USInternational-PC") echo "US" ;;
     "dev.kellner.keyboardlayout.us-intl-linux.us-international-linux") echo "US" ;;
-    *) echo "$2" ;; # fallback to the localized name
+    *) echo "?" ;;
   esac
 }
 
-# On click: cycle to next layout
+# Current layout straight from the plist (~7ms). TIS fallback if the key is gone.
+current_layout_id() {
+  ID=$(defaults read com.apple.HIToolbox AppleCurrentKeyboardLayoutInputSourceID 2>/dev/null)
+  [ -n "$ID" ] || ID=$("$BIN" current)
+  echo "$ID"
+}
+
 if [ "$SENDER" = "mouse.clicked" ]; then
+  # Reserve the label so the click feels instant
   sketchybar --set "$NAME" label="..."
 
-  LAYOUT_IDS=$(echo "$LAYOUTS" | cut -d'|' -f1)
-  LAYOUT_COUNT=$(echo "$LAYOUT_IDS" | wc -l | tr -d ' ')
+  LAYOUTS=$("$BIN" list)
+  CURRENT_ID=$(current_layout_id)
 
-  if [ "$LAYOUT_COUNT" -lt 2 ]; then
-    sketchybar --set "$NAME" label="$(layout_display_name "$CURRENT_ID" "$CURRENT_NAME")"
+  # Single pass: count layouts and locate the current one. No subprocesses.
+  INDEX=0
+  CURRENT_INDEX=-1
+  for ID in $LAYOUTS; do
+    [ "$ID" = "$CURRENT_ID" ] && CURRENT_INDEX=$INDEX
+    INDEX=$((INDEX + 1))
+  done
+  COUNT=$INDEX
+
+  if [ "$COUNT" -lt 2 ]; then
+    sketchybar --set "$NAME" label="$(layout_display_name "$CURRENT_ID")"
     exit 0
   fi
 
-  # Find index of current layout
-  CURRENT_INDEX=0
+  # Not found (stale plist) -> -1 + 1 = 0, i.e. fall back to the first layout
+  NEXT_INDEX=$(( (CURRENT_INDEX + 1) % COUNT ))
   INDEX=0
-  while IFS= read -r LINE; do
-    ID=$(echo "$LINE" | cut -d'|' -f1)
-    if [ "$ID" = "$CURRENT_ID" ]; then
-      CURRENT_INDEX=$INDEX
-    fi
+  for ID in $LAYOUTS; do
+    [ "$INDEX" -eq "$NEXT_INDEX" ] && NEXT_ID=$ID
     INDEX=$((INDEX + 1))
-  done <<< "$LAYOUTS"
+  done
 
-  # Pick the next layout (cycle)
-  NEXT_INDEX=$(( (CURRENT_INDEX + 1) % LAYOUT_COUNT ))
-
-  NEXT_ID=$(echo "$LAYOUTS" | sed -n "$((NEXT_INDEX + 1))p" | cut -d'|' -f1)
-  NEXT_NAME=$(echo "$LAYOUTS" | sed -n "$((NEXT_INDEX + 1))p" | cut -d'|' -f2)
-
-  # Switch to next layout via AppleScript
-  osascript -e "tell application \"System Events\" to set current keyboard layout to \"$NEXT_ID\"" 2>/dev/null || \
-  /usr/bin/swift - << SWIFTEOF
-import Carbon
-
-let filter = [kTISPropertyInputSourceIsEnabled: true, kTISPropertyInputSourceID: "$NEXT_ID" as CFString] as CFDictionary
-let sources = TISCreateInputSourceList(filter, false).takeRetainedValue() as! [TISInputSource]
-if let source = sources.first {
-    TISSelectInputSource(source)
-}
-SWIFTEOF
-
-  sketchybar --set "$NAME" label="$(layout_display_name "$NEXT_ID" "$NEXT_NAME")"
+  "$BIN" select "$NEXT_ID"
+  sketchybar --set "$NAME" label="$(layout_display_name "$NEXT_ID")"
 else
-  sketchybar --set "$NAME" label="$(layout_display_name "$CURRENT_ID" "$CURRENT_NAME")"
+  sketchybar --set "$NAME" label="$(layout_display_name "$(current_layout_id)")"
 fi

@@ -27,6 +27,30 @@ modifiers = []
 mode = "push_to_talk"
 ```
 
+## Autostart — why F9 silently does nothing
+
+The cask ships the CLI binary **only**. Nothing else starts the daemon: no
+LaunchAgent, no Login Item. Log out or reboot and the daemon is just gone, and
+F9 is dead — no error, no notification, no hint.
+
+`scripts/stow.sh::setup_voxtype_macos_app` runs `voxtype setup app-bundle` on
+macOS: creates `/Applications/Voxtype.app`, registers it as a Login Item and
+launches it. The daemon *is* the bundle process
+(`/Applications/Voxtype.app/Contents/MacOS/voxtype-bin daemon`, bundle id
+`io.voxtype.daemon`).
+
+It is guarded by `[[ -d /Applications/Voxtype.app ]]` and skipped when present,
+because re-running `app-bundle` re-signs the bundle and invalidates the TCC
+grants (next section). So re-run it by hand only after `brew upgrade voxtype`.
+
+When F9 is dead, check in this order:
+
+```bash
+pgrep -fl voxtype                  # empty -> daemon not running, re-run scripts/stow.sh
+voxtype status                     # should print idle / recording
+tail -20 ~/Library/Logs/voxtype/stdout.log   # look for the Accessibility WARN
+```
+
 ## macOS permissions (the actual gotcha)
 
 Voxtype needs two separate TCC grants, and macOS handles them very differently:
@@ -34,7 +58,12 @@ Voxtype needs two separate TCC grants, and macOS handles them very differently:
 | Permission | Used for | Auto-prompts? |
 |---|---|---|
 | **Input Monitoring** (`kTCCServiceListenEvent`) | capturing the F9 hotkey | Yes — native popup appears on first use |
-| **Accessibility** (`kTCCServiceAccessibility`) | typing the transcribed text via CGEvent | **No** — adhoc-signed CLI daemons don't trigger the system prompt; it silently stays `Unknown (None)` until manually granted |
+| **Accessibility** (`kTCCServiceAccessibility`) | capturing the F9 hotkey **and** typing the transcribed text via CGEvent | **No** — adhoc-signed CLI/app daemons don't trigger the system prompt; it silently stays `Unknown (None)` until manually granted |
+
+Hotkey capture is rdev/CGEventTap, so it needs Accessibility too, not just
+Input Monitoring — without it the daemon still logs `Listening for hotkey: F9`
+(right after a `Accessibility permission not granted` WARN) but never sees a
+keypress.
 
 Symptom when Accessibility is missing: everything *looks* like it works
 (logs show `Recording started` → `Transcribed: "..."` → `Text typed via CGEvent`)
@@ -43,7 +72,11 @@ but **no text appears anywhere**. No error, no crash — CGEvent (and the
 to clipboard copy.
 
 Fix: **System Settings → Privacy & Security → Accessibility** → add
-`/Applications/Voxtype.app` manually via `+`, ensure the toggle is on.
+`/Applications/Voxtype.app` (not the brew binary) manually via `+`, ensure the
+toggle is on. Grant **Input Monitoring** for the same app, and Microphone — it
+appears in the list after the first recording attempt. The daemon detects the
+grant and restarts itself (`Accessibility permission granted, restarting daemon
+to activate hotkey...`).
 
 ```bash
 open "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
@@ -91,5 +124,8 @@ log show --last 5m --predicate 'subsystem == "com.apple.TCC"' \
   `~/Library/Application Support/voxtype/config.toml` by
   `scripts/stow.sh::link_voxtype_macos_config` (that's where the app actually
   reads from on macOS).
+- `scripts/stow.sh::setup_voxtype_macos_app` installs `/Applications/Voxtype.app`
+  (Login Item, autostart) once, if missing. Runs for the `minimal` and `work`
+  profiles only.
 - Installed via `peteonrails/voxtype/voxtype` cask, listed in
   `scripts/brew-minimal.txt` / `scripts/brew-work.txt`.

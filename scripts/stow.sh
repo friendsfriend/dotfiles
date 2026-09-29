@@ -66,6 +66,31 @@ link_voxtype_macos_config() {
   ln -s "$source" "$target"
 }
 
+# Nothing else on macOS starts the daemon - the brew cask only ships the CLI
+# binary, so without this F9 silently does nothing after a login/reboot.
+# Voxtype.app is adhoc-signed and macOS ties the Accessibility/Input-Monitoring
+# grant to that signature, so re-running app-bundle invalidates the grant and
+# typing silently stops. Only install when missing; re-run by hand after
+# `brew upgrade voxtype` (then re-grant permissions in System Settings).
+setup_voxtype_macos_app() {
+  if [[ "$(uname -s)" != "Darwin" ]]; then
+    return 0
+  fi
+
+  if ! command -v voxtype >/dev/null 2>&1; then
+    echo "voxtype not installed. Skipping app bundle setup..."
+    return 0
+  fi
+
+  if [[ -d /Applications/Voxtype.app ]]; then
+    echo "Voxtype.app already installed. Skipping..."
+    return 0
+  fi
+
+  echo "Installing Voxtype.app (Login Item) so the daemon starts on login..."
+  voxtype setup app-bundle
+}
+
 # Stow links the folders in the repository to the specified config locations so that the system finds them
 
 cd ~/dotfiles || exit
@@ -87,6 +112,7 @@ minimal)
   stow_folder "$HOME"/.config/voxtype/ voxtype
   stow_folder "$HOME"/.config/hunk/ hunk
   link_voxtype_macos_config
+  setup_voxtype_macos_app
   ;;
 work)
   stow_folder "$HOME"/.config/fastfetch/ fastfetch
@@ -108,6 +134,7 @@ work)
   cd ~/dotfiles || exit
   stow_folder "$HOME"/.config/voxtype/ voxtype
   link_voxtype_macos_config
+  setup_voxtype_macos_app
   stow_folder "$HOME"/.config/hunk/ hunk
   ;;
 omarchy)

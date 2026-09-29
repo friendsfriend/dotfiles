@@ -12,6 +12,7 @@ state_file = "auto"
 
 [hotkey]
 # Hold F9 to record, release to transcribe (push-to-talk).
+enabled = true
 # macOS equivalent of omarchy's Hyprland bind: omarchy routes through the
 # compositor because Hyprland/Wayland is the only thing that sees key-up
 # events. AeroSpace only fires on key-down, so it can't do hold-to-record -
@@ -196,6 +197,11 @@ on_recording_stop = false
 
 # Show notification with transcribed text after transcription completes
 on_transcription = true
+
+[osd]
+# On-screen audio-level display. voxtype-osd is Linux-only, so on macOS the
+# daemon just logs a warning on every start unless this is off.
+enabled = false
 
 # [text]
 # Text processing options (word replacements, spoken punctuation)

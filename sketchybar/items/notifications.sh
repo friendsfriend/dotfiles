@@ -17,11 +17,3 @@ sketchybar --add item teams e \
                  click_script="open -a 'Microsoft Teams'" \
                  icon=":microsoft_teams:" \
            --subscribe teams system_woke
-
-sketchybar --add item mattermost e \
-           --set mattermost \
-                 display=1  \
-                 icon.font="sketchybar-app-font:Mono:15.0" \
-                 click_script="open -a 'Mattermost'" \
-                 icon=":mattermost:" \
-           --subscribe mattermost system_woke

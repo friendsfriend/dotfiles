@@ -126,9 +126,13 @@ translate = false
 
 [output]
 # Primary output mode: "type" or "clipboard"
-# - type: Simulates keyboard input at cursor position (requires ydotool)
-# - clipboard: Copies text to clipboard (requires wl-copy)
-mode = "type"
+# - type: Simulates keyboard input at cursor position
+# - clipboard: Copies text without pasting
+mode = "clipboard"
+
+# Clipboard output plus macOS paste keystroke. Voxtype 0.6.3's native
+# "paste" mode only knows Linux output drivers.
+post_output_command = "osascript -e 'tell application \"System Events\" to key code 9 using command down'"
 
 # Fall back to clipboard if typing fails
 fallback_to_clipboard = true

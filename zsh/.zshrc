@@ -122,7 +122,7 @@ esac
 
 # Pi
 export PATH="/opt/homebrew/bin:$PATH"
-export PI_OFFLINE=1
+unset PI_OFFLINE PI_SKIP_VERSION_CHECK
 
 # Prompt
 ZLE_RPROMPT_INDENT=0
@@ -133,3 +133,7 @@ fi
 
 # opencode
 export PATH=/Users/fabiankellner/.opencode/bin:$PATH
+
+# Trust the macOS keychain CA store. bun's bundled CA list rejects TLS-inspected
+# endpoints (e.g. opencode.ai) without this.
+export NODE_USE_SYSTEM_CA=1

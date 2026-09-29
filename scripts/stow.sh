@@ -23,6 +23,17 @@ stow_folder() {
   stow -t "$target" "$source"
 }
 
+link_btop_theme() {
+  local target="$HOME/.config/btop/themes/current.theme"
+  local source="$HOME/.config/btop/themes/catppuccin_mocha.theme"
+
+  if [[ "$DOTFILES_ENV" == "omarchy" ]]; then
+    source="$HOME/.local/state/omarchy/current/theme/btop.theme"
+  fi
+
+  ln -sfn "$source" "$target"
+}
+
 link_voxtype_macos_config() {
   if [[ "$(uname -s)" != "Darwin" ]]; then
     return 0
@@ -101,7 +112,6 @@ work)
   ;;
 omarchy)
   stow_folder "$HOME"/.config/fastfetch/ fastfetch
-  stow_folder "$HOME"/.config/btop/ btop
   stow_folder "$HOME"/ zsh
   stow_folder "$HOME"/.config/nvim/ nvim
   stow_folder "$HOME"/.config/ghostty/ ghostty
@@ -117,4 +127,6 @@ omarchy)
   exit 1
   ;;
 esac
+
+link_btop_theme
 cd ~/dotfiles/scripts || exit

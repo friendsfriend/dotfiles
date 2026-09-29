@@ -17,6 +17,9 @@ zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
 
+export DOTFILES_DIR="${DOTFILES_DIR:-${${(%):-%N}:A:h:h}}"
+source "$DOTFILES_DIR/scripts/theme-colors.sh"
+
 # Load completions
 if type brew &>/dev/null; then
   fpath=("$(brew --prefix)/share/zsh/site-functions" $fpath)
@@ -41,12 +44,33 @@ zstyle ":fzf-tab:complete:*:*" fzf-preview 'bat --color=always $realpath 2>/dev/
 zstyle ":fzf-tab:*" fzf-min-height 50
 
 # --- setup fzf theme ---
+# ANSI names follow terminal palette: Omarchy on Linux, Catppuccin fallback elsewhere.
 export FZF_DEFAULT_OPTS=" \
---color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
---color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
---color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
---color=selected-bg:#45475a \
---color=border:#313244,label:#cdd6f4"
+--color=bg:-1,bg+:black,spinner:magenta,hl:red \
+--color=fg:-1,header:red,info:blue,pointer:magenta \
+--color=marker:cyan,fg+:-1,prompt:blue,hl+:red \
+--color=selected-bg:bright-black \
+--color=border:bright-black,label:-1"
+
+# Hunk only accepts static hex themes; regenerate its user config per invocation.
+hunk() {
+  if ! theme_is_omarchy; then
+    command hunk "$@"
+    return
+  fi
+
+  local config_home="${XDG_CACHE_HOME:-$HOME/.cache}/dotfiles-hunk"
+  local config_file="$config_home/hunk/config.toml"
+  mkdir -p "${config_file:h}"
+
+  {
+    sed 's/^theme = .*/theme = "omarchy"/' "$DOTFILES_DIR/hunk/config.toml"
+    printf '\n[themes.omarchy]\nbase = "catppuccin-mocha"\nlabel = "Omarchy"\naccent = "%s"\npanel = "%s"\nnoteBorder = "%s"\n\n[themes.omarchy.syntax_scopes]\n' "$(theme_color accent)" "$(theme_color background)" "$(theme_color accent)"
+    printf '"comment" = "%s"\n"punctuation.definition.comment" = "%s"\n"keyword" = "%s"\n"keyword.operator" = "%s"\n"entity.name.function" = "%s"\n"string" = "%s"\n"constant.numeric" = "%s"\n"entity.name.type" = "%s"\n' "$(theme_color muted)" "$(theme_color muted)" "$(theme_color blue)" "$(theme_color cyan)" "$(theme_color green)" "$(theme_color green)" "$(theme_color yellow)" "$(theme_color yellow)"
+  } > "$config_file"
+
+  XDG_CONFIG_HOME="$config_home" command hunk "$@"
+}
 
 # history setup
 HISTFILE=$HOME/.zhistory
@@ -62,7 +86,7 @@ bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
 
 # ----- Bat (better cat) -----
-export BAT_THEME="Catppuccin Mocha"
+export BAT_THEME="ansi"
 
 # ---- Alias -----------------
 alias ls="eza -1a --icons=always --color=always"

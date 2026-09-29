@@ -24,10 +24,9 @@ opt.cursorline = true -- highlight the current cursor line
 
 -- appearance
 
--- turn on termguicolors for nightfly colorscheme to work
--- (have to use iterm2 or any other true color terminal)
+-- Keep truecolor enabled; colorscheme.lua selects Omarchy light/dark mode.
 opt.termguicolors = true
-opt.background = "dark" -- colorschemes that can be light or dark will be made dark
+opt.background = "dark" -- Catppuccin Mocha fallback
 opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 
 -- backspace

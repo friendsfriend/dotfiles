@@ -34,10 +34,10 @@ gaps:
 
 window_effects:
   focused_window:
-    # Replicates JankyBorders: active_color=0xffe1e3e4, width=5.0
+    # Catppuccin Mocha fallback: active border uses text color.
     border:
       enabled: true
-      color: '#e1e3e4'
+      color: '#cdd6f4'
     hide_title_bar:
       enabled: false
     corner_style:
@@ -47,10 +47,10 @@ window_effects:
       enabled: false
       opacity: '100%'
   other_windows:
-    # Replicates JankyBorders: inactive_color=0xff494d64
+    # Catppuccin Mocha fallback: inactive border uses selection color.
     border:
       enabled: true
-      color: '#494d64'
+      color: '#45475a'
     hide_title_bar:
       enabled: false
     corner_style:

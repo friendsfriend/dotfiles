@@ -25,16 +25,8 @@ return {
 					wilder.lua_fzy_highlighter(), -- Requires fzy-lua-native
 				},
 				highlights = {
-					default = wilder.make_hl(
-						"WilderPopupMenu",
-						"Pmenu",
-						{ { a = 1 }, { a = 1 }, { background = "#1E212B" } } -- Adjust background color
-					),
-					accent = wilder.make_hl(
-						"WilderAccent",
-						"Pmenu",
-						{ { a = 1 }, { a = 1 }, { foreground = "#58FFD6", background = "#1e1e2e" } }
-					),
+					default = wilder.make_hl("WilderPopupMenu", "Pmenu"),
+					accent = wilder.make_hl("WilderAccent", "PmenuSel"),
 				},
 				-- 'single', 'double', 'rounded' or 'solid'
 				-- can also be a list of 8 characters, see :h wilder#popupmenu_border_theme() for more details

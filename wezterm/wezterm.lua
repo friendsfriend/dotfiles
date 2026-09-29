@@ -4,8 +4,94 @@ local act = wezterm.action
 
 -- ── Appearance ────────────────────────────────────────────────────────────────
 
--- Mirrors ghostty: theme = Catppuccin Mocha
-config.color_scheme = 'Catppuccin Mocha'
+-- Use current Omarchy colors when available; fall back to Catppuccin Mocha.
+local fallback_colors = {
+  background = '#1e1e2e',
+  foreground = '#cdd6f4',
+  bright_foreground = '#cdd6f4',
+  cursor = '#cdd6f4',
+  accent = '#89b4fa',
+  muted = '#585b70',
+  red = '#f38ba8',
+  green = '#a6e3a1',
+  yellow = '#f9e2af',
+  blue = '#89b4fa',
+  magenta = '#f5c2e7',
+  cyan = '#94e2d5',
+  bright_red = '#f38ba8',
+  bright_green = '#a6e3a1',
+  bright_yellow = '#f9e2af',
+  bright_blue = '#89b4fa',
+  bright_magenta = '#f5c2e7',
+  bright_cyan = '#94e2d5',
+}
+
+local function load_omarchy_colors()
+  if package.config:sub(1, 1) == '\\' then return nil end
+
+  local home = os.getenv('HOME')
+  if not home then return nil end
+
+  local theme_file = home .. '/.local/state/omarchy/current/theme/colors.toml'
+  local file = io.open(theme_file, 'r')
+  if not file then return nil end
+  file:close()
+
+  local probe = io.popen('command -v omarchy-theme-color 2>/dev/null')
+  if not probe then return nil end
+  local available = probe:read('*l')
+  probe:close()
+  if not available or available == '' then return nil end
+
+  local colors = {}
+  local command = string.format('omarchy-theme-color --file %q --all 2>/dev/null', theme_file)
+  local output = io.popen(command)
+  if not output then return nil end
+  for line in output:lines() do
+    local key, value = line:match('^([%w_]+)\t(#[%x]+)$')
+    if key and value then colors[key] = value end
+  end
+  output:close()
+  return colors.background and colors.foreground and colors or nil
+end
+
+local omarchy_colors = load_omarchy_colors()
+if omarchy_colors then
+  local colors = fallback_colors
+  for key, value in pairs(omarchy_colors) do colors[key] = value end
+
+  config.colors = {
+    background = colors.background,
+    foreground = colors.foreground,
+    cursor_bg = colors.cursor,
+    cursor_fg = colors.background,
+    -- Invert theme foreground/background for readable selection.
+    selection_bg = colors.foreground,
+    selection_fg = colors.background,
+    ansi = {
+      colors.background,
+      colors.red,
+      colors.green,
+      colors.yellow,
+      colors.blue,
+      colors.magenta,
+      colors.cyan,
+      colors.foreground,
+    },
+    brights = {
+      colors.muted,
+      colors.bright_red,
+      colors.bright_green,
+      colors.bright_yellow,
+      colors.bright_blue,
+      colors.bright_magenta,
+      colors.bright_cyan,
+      colors.bright_foreground,
+    },
+  }
+else
+  config.color_scheme = 'Catppuccin Mocha'
+end
 
 -- Mirrors ghostty: font-family = MesloLGL Nerd Font / font-size = 16
 config.font = wezterm.font('MesloLGL Nerd Font')
@@ -29,7 +115,9 @@ config.enable_tab_bar = false
 -- Use PowerShell 7 (pwsh) if available, otherwise fall back to Windows PowerShell 5.1.
 -- Automatically picks up pwsh once installed without needing to change this config.
 local function get_powershell()
-  local handle = io.popen('where pwsh 2>nul')
+  local is_windows = package.config:sub(1, 1) == '\\'
+  local command = is_windows and 'where pwsh 2>NUL' or 'command -v pwsh 2>/dev/null'
+  local handle = io.popen(command)
   if handle then
     local result = handle:read('*l')
     handle:close()
@@ -37,7 +125,7 @@ local function get_powershell()
       return { 'pwsh', '-NoLogo' }
     end
   end
-  return { 'powershell.exe', '-NoLogo' }
+  return is_windows and { 'powershell.exe', '-NoLogo' } or nil
 end
 
 config.default_prog = get_powershell()

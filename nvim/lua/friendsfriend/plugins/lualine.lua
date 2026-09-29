@@ -3,7 +3,6 @@ return {
 	"nvim-lualine/lualine.nvim",
 	dependencies = {
 		"nvim-tree/nvim-web-devicons",
-		"catppuccin/nvim",
 	},
 	config = function()
 		local lualine = require("lualine")
@@ -92,7 +91,6 @@ return {
 					{
 						lazy_status.updates,
 						cond = lazy_status.has_updates,
-						color = { fg = "#ff9e64" },
 					},
 					{ "fileformat" },
 					{ "filetype" },

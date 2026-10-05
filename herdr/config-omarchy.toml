@@ -1,0 +1,76 @@
+onboarding = false
+
+[terminal]
+default_shell = "zsh"
+shell_mode = "auto"
+new_cwd = "follow"
+
+[worktrees]
+directory = "~/.herdr/worktrees"
+
+[keys]
+prefix = "ctrl+g"
+goto = "prefix+shift+g"
+edit_scrollback = "prefix+shift+e"
+
+# tmux-style direct chords (alt on omarchy/Linux, cmd on macOS)
+previous_tab = "alt+h"
+next_tab = "alt+l"
+previous_workspace = "alt+k"
+next_workspace = "alt+j"
+new_tab = "alt+t"
+close_tab = "alt+w"
+new_workspace = "alt+shift+t"
+zoom = "alt+z"
+rename_tab = "alt+r"
+copy_mode = "alt+y"
+rename_workspace = "alt+shift+r"
+close_workspace = "alt+shift+w"
+workspace_picker = "alt+s"
+focus_pane_left = "alt+shift+h"
+focus_pane_down = "alt+shift+j"
+focus_pane_up = "alt+shift+k"
+focus_pane_right = "alt+shift+l"
+cycle_pane_next = "alt+p"
+
+[ui]
+confirm_close = true
+prompt_new_tab_name = true
+agent_panel_sort = "priority"
+show_agent_labels_on_pane_borders = false
+
+status_indicators = "symbols"
+[ui.toast]
+delivery = "herdr"
+delay_seconds = 1
+
+[session]
+resume_agents_on_restore = true
+
+[experimental]
+kitty_graphics = true
+allow_nested = false
+pane_history = false
+
+[ui.sound]
+enabled = false
+
+[[keys.command]]
+key = "prefix+g"
+type = "popup"
+command = "lazygit"
+width = "80%"
+height = "80%"
+
+[[keys.command]]
+key = "prefix+e"
+type = "popup"
+command = "nvim"
+width = "80%"
+height = "80%"
+
+[[keys.command]]
+key = "prefix+m"
+type = "plugin_action"
+command = "shadowfax.ferry.open"
+description = "Move panes or tabs, or merge workspaces with Ferry"

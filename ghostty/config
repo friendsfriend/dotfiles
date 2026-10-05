@@ -1,6 +1,9 @@
 command = /bin/zsh
 
-config-file = keybinds
+# keybinds is included by absolute path so stow can swap the symlink in
+# ~/.config/ghostty per platform (omarchy points it at keybinds-omarchy).
+# A relative include resolves against the real repo path and would ignore it.
+config-file = ?"~/.config/ghostty/keybinds"
 config-file = options
 config-file = ?"~/.local/state/omarchy/current/theme/ghostty.conf"
 config-file = selection

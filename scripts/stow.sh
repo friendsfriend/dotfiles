@@ -142,7 +142,10 @@ omarchy)
   stow_folder "$HOME"/ zsh
   stow_folder "$HOME"/.config/nvim/ nvim
   stow_folder "$HOME"/.config/ghostty/ ghostty
+  # omarchy uses Alt chords instead of the macOS cmd/super passthroughs
+  ln -sf ~/dotfiles/ghostty/keybinds-omarchy "$HOME"/.config/ghostty/keybinds
   stow_folder "$HOME"/.config/herdr/ herdr
+  ln -sf ~/dotfiles/herdr/config-omarchy.toml "$HOME"/.config/herdr/config.toml
   stow_folder "$HOME"/.config/starship starship
   stow_folder "$HOME"/ tmux
   stow_folder "$HOME"/.config/sesh/ sesh

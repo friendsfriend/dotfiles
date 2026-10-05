@@ -1,0 +1,30 @@
+# ------------------------------------
+# omarchy / Linux keybinds
+# ------------------------------------
+# Alt chords are consumed by the multiplexer, not by Ghostty: tmux binds M-*
+# itself and herdr binds alt+* (see herdr/config-omarchy.toml). Ghostty must
+# not intercept them, so only Ghostty-level bindings live in this file.
+
+# (ctrl+alt+t for ghostty)
+keybind = global:ctrl+alt+t=new_window
+
+# Free Alt+1..9 for the tmux window-switch binds. Ghostty maps them to its own
+# tabs by default. Both the physical (digit_N) and the character (N) form are
+# listed because Ghostty treats them as separate triggers.
+keybind = alt+digit_1=unbind
+keybind = alt+1=unbind
+keybind = alt+digit_2=unbind
+keybind = alt+2=unbind
+keybind = alt+digit_3=unbind
+keybind = alt+3=unbind
+keybind = alt+digit_4=unbind
+keybind = alt+4=unbind
+keybind = alt+digit_5=unbind
+keybind = alt+5=unbind
+keybind = alt+digit_6=unbind
+keybind = alt+6=unbind
+keybind = alt+digit_7=unbind
+keybind = alt+7=unbind
+keybind = alt+digit_8=unbind
+keybind = alt+8=unbind
+keybind = alt+9=unbind

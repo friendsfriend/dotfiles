@@ -112,14 +112,25 @@ alt-w = "close --quit-if-last-window"
 alt-right = 'focus right'
 alt-left = 'focus left'
 
+# Vim-style focus movement: h = left, l = right
+alt-h = 'focus left'
+alt-l = 'focus right'
+
+# Toggle the focused workspace between tiling and accordion layout
+# See: https://nikitabobko.github.io/AeroSpace/commands#layout
+alt-shift-l = 'exec-and-forget layout=$(/opt/homebrew/bin/aerospace list-workspaces --focused --format "%{workspace-root-container-layout}"); case "$layout" in *accordion*) /opt/homebrew/bin/aerospace layout tiles ;; *) /opt/homebrew/bin/aerospace layout accordion ;; esac'
+
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
-alt-1 = ['workspace 1', 'layout accordion horizontal']
-alt-2 = ['workspace 2', 'layout accordion horizontal']
-alt-3 = ['workspace 3', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Google Chrome.app"']
-alt-4 = ['workspace 4', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Ghostty.app"']
-alt-5 = ['workspace 5', 'layout accordion horizontal']
-alt-6 = ['workspace 6', 'layout accordion horizontal']
-alt-7 = ['workspace 7', 'layout accordion horizontal']
+# 'layout horizontal' only forces the root orientation. It deliberately does NOT set
+# the layout (tiles|accordion), so the per-workspace layout chosen with alt-shift-l sticks
+# across workspace switches.
+alt-1 = ['workspace 1', 'layout horizontal']
+alt-2 = ['workspace 2', 'layout horizontal']
+alt-3 = ['workspace 3', 'layout horizontal', 'exec-and-forget open "/Applications/Google Chrome.app"']
+alt-4 = ['workspace 4', 'layout horizontal', 'exec-and-forget open "/Applications/Ghostty.app"']
+alt-5 = ['workspace 5', 'layout horizontal']
+alt-6 = ['workspace 6', 'layout horizontal']
+alt-7 = ['workspace 7', 'layout horizontal']
 
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace

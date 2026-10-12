@@ -112,17 +112,28 @@ alt-w = "close --quit-if-last-window"
 alt-right = 'focus right'
 alt-left = 'focus left'
 
+# Vim-style focus movement: h = left, l = right
+alt-h = 'focus left'
+alt-l = 'focus right'
+
+# Toggle the focused workspace between tiling and accordion layout
+# See: https://nikitabobko.github.io/AeroSpace/commands#layout
+alt-shift-l = 'exec-and-forget layout=$(/opt/homebrew/bin/aerospace list-workspaces --focused --format "%{workspace-root-container-layout}"); case "$layout" in *accordion*) /opt/homebrew/bin/aerospace layout tiles ;; *) /opt/homebrew/bin/aerospace layout accordion ;; esac'
+
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
-alt-1 = ['workspace 1', 'layout accordion horizontal','exec-and-forget open "/Applications/Microsoft Teams.app"']
-alt-b = ['workspace B', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Brave Browser.app"']
-alt-m = ['workspace M', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Mattermost.app"']
-alt-i = ['workspace I', 'layout accordion horizontal', 'exec-and-forget open -a "IntelliJ IDEA"']
-alt-t = ['workspace T', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Ghostty.app"']
-alt-o = ['workspace O', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Microsoft Outlook.app"']
-alt-r = ['workspace R', 'layout accordion horizontal']
-alt-e = ['workspace E', 'layout accordion horizontal']
-alt-d = ['workspace D', 'layout accordion horizontal', 'exec-and-forget open "/Applications/draw.io.app"']
-alt-v = ['workspace V', 'layout accordion horizontal', 'exec-and-forget open "/Applications/Miro.app"']
+# 'layout horizontal' only forces the root orientation. It deliberately does NOT set
+# the layout (tiles|accordion), so the per-workspace layout chosen with alt-shift-l sticks
+# across workspace switches.
+alt-1 = ['workspace 1', 'layout horizontal','exec-and-forget open "/Applications/Microsoft Teams.app"']
+alt-b = ['workspace B', 'layout horizontal', 'exec-and-forget open "/Applications/Brave Browser.app"']
+alt-m = ['workspace M', 'layout horizontal', 'exec-and-forget open "/Applications/Mattermost.app"']
+alt-i = ['workspace I', 'layout horizontal', 'exec-and-forget open -a "IntelliJ IDEA"']
+alt-t = ['workspace T', 'layout horizontal', 'exec-and-forget open "/Applications/Ghostty.app"']
+alt-o = ['workspace O', 'layout horizontal', 'exec-and-forget open "/Applications/Microsoft Outlook.app"']
+alt-r = ['workspace R', 'layout horizontal']
+alt-e = ['workspace E', 'layout horizontal']
+alt-d = ['workspace D', 'layout horizontal', 'exec-and-forget open "/Applications/draw.io.app"']
+alt-v = ['workspace V', 'layout horizontal', 'exec-and-forget open "/Applications/Miro.app"']
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 alt-shift-1 = 'move-node-to-workspace 1'

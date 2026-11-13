@@ -6,7 +6,7 @@ sketchybar --add item outlook e \
                  update_freq=5 \
                  script="$PLUGIN_DIR/notifications.sh" \
                  icon.font="sketchybar-app-font:Mono:15.0" \
-                 click_script="open -a 'Mail'" \
+                 click_script="open -a 'Microsoft Outlook'" \
                  icon=":mail:" \
            --subscribe outlook system_woke
 

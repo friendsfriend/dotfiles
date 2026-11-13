@@ -22,7 +22,7 @@ end run
 APPLESCRIPT
 }
 
-LABEL=$(get_status_label "Mail")
+LABEL=$(get_status_label "Microsoft Outlook")
 if [[ -z "$LABEL" ]]; then
     LABEL=" "
 fi

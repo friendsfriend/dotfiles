@@ -1,2 +1,0 @@
-%admin ALL=(ALL) NOPASSWD:/opt/scripts/zscaler-kill.sh
-%admin ALL=(ALL) NOPASSWD:/bin/launchctl list

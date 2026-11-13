@@ -61,7 +61,6 @@ source "$ITEM_DIR"/next_meeting.sh
 source "$ITEM_DIR"/clock.sh
 source "$ITEM_DIR"/battery.sh
 source "$ITEM_DIR"/keyboard_layout.sh
-source "$ITEM_DIR"/zscaler.sh
 source "$ITEM_DIR"/packages.sh
 source "$ITEM_DIR"/notifications.sh
 
